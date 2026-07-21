@@ -1,0 +1,3 @@
+// Reserved for future 3D scene components (React Three Fiber, @react-three/drei)
+// Phase 2: sun/moon/star scene, robot 3D model
+export {}

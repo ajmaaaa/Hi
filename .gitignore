@@ -1,0 +1,20 @@
+# Dependencies
+node_modules/
+
+# Next.js Build Output
+.next/
+out/
+
+# TypeScript Cache
+tsconfig.tsbuildinfo
+
+# Environment Variables (Sangat penting jika nanti ada API Key/Secret)
+.env
+.env.local
+.env.development.local
+.env.production.local
+
+# System/IDE Files
+.DS_Store
+.vscode/
+.idea/
