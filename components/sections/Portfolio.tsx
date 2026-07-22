@@ -327,8 +327,8 @@ export default function Portfolio() {
         </motion.div>
       </div>
 
-      {/* 4. Bottom spacer to perfectly balance the 144px layout offset on top */}
-      <div className="h-[144px] flex-shrink-0" />
+      {/* 4. Bottom spacer to perfectly balance the 216px layout offset on top */}
+      <div className="h-[216px] flex-shrink-0" />
     </section>
   )
 }
