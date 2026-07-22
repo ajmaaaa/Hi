@@ -17,11 +17,11 @@ const CERTS = [
 ]
 const N = CERTS.length
 
-const CENTER_W  = 830
-const CENTER_H  = 500
-const SIDE_W    = 716
-const SIDE_H    = 400
-const OFFSET    = 820 // spacing for peeking cards
+const CENTER_W  = 940
+const CENTER_H  = 550
+const SIDE_W    = 810
+const SIDE_H    = 440
+const OFFSET    = 880 // spacing for peeking cards
 
 // Horizontal coordinates based on card widths anchoring at left: 50%
 const LEFT_X  = -(SIDE_W / 2) - OFFSET
@@ -127,8 +127,8 @@ export default function Certifications() {
           CERTIFICATIONS
         </motion.h2>
 
-        {/* Stage — matching TechStack & Portfolio stage height (540px) for identical heading spacing */}
-        <div className="relative flex items-center justify-center w-full flex-shrink-0" style={{ height: `${CENTER_H + 40}px` }}>
+        {/* Stage — height matches center card height (550px) for centered vertical layout */}
+        <div className="relative flex items-center justify-center w-full flex-shrink-0" style={{ height: `${CENTER_H}px` }}>
           {CERTS.map((cert, i) => {
             const slotIdx = (i - active + N) % N
             const prevSlotIdx = (i - prevActive + N) % N
@@ -167,7 +167,7 @@ export default function Certifications() {
                 }}
                 animate={{
                   x:       xValue,
-                  y:       (CENTER_H + 40 - slot.height) / 2, // Centered vertically on 540px stage
+                  y:       (CENTER_H - slot.height) / 2, // Centered vertically on 550px stage
                   width:   slot.width,
                   height:  slot.height,
                   opacity: slot.opacity,
