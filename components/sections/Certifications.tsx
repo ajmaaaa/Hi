@@ -11,7 +11,7 @@ import { motion } from 'framer-motion'
  *
  * Layout:
  *   - mb-8 on H2 heading to reduce visual gap and pull heading closer to the cards.
- *   - Pure items-center justify-center flex-col centering for precise vertical card alignment.
+ *   - Reduced padding: py-12 instead of py-24 to prevent overflow/clipping on laptop screens.
  */
 
 const CERTS = [
