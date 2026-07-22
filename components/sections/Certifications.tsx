@@ -21,7 +21,7 @@ const CENTER_W  = 940
 const CENTER_H  = 550
 const SIDE_W    = 810
 const SIDE_H    = 440
-const OFFSET    = 880 // spacing for peeking cards
+const OFFSET    = 930 // spacing for peeking cards with comfortable gap
 
 // Horizontal coordinates based on card widths anchoring at left: 50%
 const LEFT_X  = -(SIDE_W / 2) - OFFSET
