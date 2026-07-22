@@ -296,28 +296,36 @@ export default function Portfolio() {
   return (
     <section
       id="portfolio"
-      className="relative z-30 min-h-screen flex flex-col items-center justify-center bg-white py-12 overflow-hidden"
+      className="relative z-30 min-h-screen flex flex-col justify-between items-center bg-white py-0 overflow-hidden"
     >
-      <motion.h2
-        className="font-[family-name:var(--font-fredericka)] text-4xl tracking-[8px] text-shadow-heading uppercase text-center mb-8"
-        initial={{ opacity: 0, y: 20 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true }}
-        transition={{ duration: 0.6 }}
-      >
-        PORTFOLIO
-      </motion.h2>
+      {/* Top spacer to balance layout centering */}
+      <div className="h-12 flex-shrink-0" />
 
-      {/* Reverted wrapper to match natural 540px height for natural visual balance */}
-      <motion.div
-        className="flex justify-center"
-        initial={{ opacity: 0, y: 30 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true, margin: '-80px' }}
-        transition={{ duration: 0.7 }}
-      >
-        <ProjectCards />
-      </motion.div>
+      {/* Main centered container */}
+      <div className="flex-1 flex flex-col justify-center items-center w-full">
+        <motion.h2
+          className="font-[family-name:var(--font-fredericka)] text-4xl tracking-[8px] text-shadow-heading uppercase text-center mb-8"
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.6 }}
+        >
+          PORTFOLIO
+        </motion.h2>
+
+        <motion.div
+          className="flex justify-center"
+          initial={{ opacity: 0, y: 30 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: '-80px' }}
+          transition={{ duration: 0.7 }}
+        >
+          <ProjectCards />
+        </motion.div>
+      </div>
+
+      {/* Bottom spacer for perfect vertical balance */}
+      <div className="h-12 flex-shrink-0" />
     </section>
   )
 }
