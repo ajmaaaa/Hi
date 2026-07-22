@@ -187,7 +187,7 @@ export default function TechStack() {
   return (
     <section
       id="techstack"
-      className="relative z-10 min-h-screen flex flex-col justify-center items-center bg-white py-0 pt-[72px] overflow-hidden"
+      className="relative z-10 min-h-screen flex flex-col justify-center items-center bg-white py-0 overflow-hidden"
     >
       {/* Main container - centered vertically in the viewport */}
       <div className="relative z-10 w-full max-w-[1536px] mx-auto px-8 lg:px-6 py-6 flex flex-col items-center justify-center">

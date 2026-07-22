@@ -45,7 +45,7 @@ export default function HeroPortfolio() {
   return (
     <section
       id="hero"
-      className="relative min-h-screen flex flex-col justify-center items-center overflow-hidden bg-white py-0 pt-[72px]"
+      className="relative min-h-screen flex flex-col justify-center items-center overflow-hidden bg-white py-0"
     >
       {/* Main content - centered vertically in viewport */}
       <div className="relative z-10 w-full max-w-[1536px] mx-auto px-8 lg:px-6 py-6">
