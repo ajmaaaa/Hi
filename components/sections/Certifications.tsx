@@ -9,7 +9,9 @@ import { motion } from 'framer-motion'
  *   Left peek card:  w-[923]  h-[516]  — smaller, centered vertically
  *   Right peek card: w-[923]  h-[516]  — smaller, centered vertically
  *
- * Benchmark section styling (Centered vertially using min-h-screen & justify-center).
+ * Layout:
+ *   - Structured linearly with static padding top (pt-32) to guarantee matching Y-coordinate heading alignment across sections.
+ *   - The card stage is placed at a consistent distance (mt-16) below the heading.
  */
 
 const CERTS = [
@@ -115,20 +117,23 @@ export default function Certifications() {
   return (
     <section
       id="certifications"
-      className="relative z-10 min-h-screen flex flex-col items-center justify-center bg-white py-24 overflow-hidden"
+      className="relative z-10 min-h-screen flex flex-col bg-white pt-32 pb-24 overflow-hidden"
     >
-      <motion.h2
-        className="font-[family-name:var(--font-fredericka)] text-4xl tracking-[8px] text-shadow-heading uppercase text-center mb-16"
-        initial={{ opacity: 0, y: 20 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true }}
-        transition={{ duration: 0.6 }}
-      >
-        CERTIFICATIONS
-      </motion.h2>
+      {/* 1. Header Area — Positioned with pt-32 to align Y coordinate exactly with Portfolio & TechStack */}
+      <div className="w-full text-center flex-shrink-0">
+        <motion.h2
+          className="font-[family-name:var(--font-fredericka)] text-4xl tracking-[8px] text-shadow-heading uppercase"
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.6 }}
+        >
+          CERTIFICATIONS
+        </motion.h2>
+      </div>
 
-      {/* Stage — height = center card height */}
-      <div className="relative w-full" style={{ height: CENTER_H }}>
+      {/* 2. Stage Area — Consistent spacing mt-16 below heading, centered horizontally */}
+      <div className="w-full mt-16 relative flex items-center justify-center flex-shrink-0" style={{ height: CENTER_H }}>
         {CERTS.map((cert, i) => {
           const slotIdx = (i - active + N) % N
           const prevSlotIdx = (i - prevActive + N) % N
