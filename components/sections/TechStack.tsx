@@ -192,8 +192,8 @@ export default function TechStack() {
       {/* 1. Top Navbar offset spacer (height of navbar) */}
       <div className="h-[72px] flex-shrink-0" />
 
-      {/* 2. Header Area (height: 120px) — Asymmetric padding: pt-10 (40px) to navbar, pb-14 (56px) to cards */}
-      <div className="w-full flex-shrink-0 pt-10 pb-14 flex items-center justify-center">
+      {/* 2. Header Area — Asymmetric spacing: pt-16 (64px) to navbar, pb-10 (40px) to cards (pushing heading down) */}
+      <div className="w-full flex-shrink-0 pt-16 pb-10 flex items-center justify-center">
         <motion.h2
           className="font-[family-name:var(--font-fredericka)] text-4xl tracking-[8px] text-shadow-heading uppercase text-center"
           initial={{ opacity: 0, y: 20 }}
@@ -289,8 +289,8 @@ export default function TechStack() {
         </div>
       </div>
 
-      {/* 4. Bottom spacer to perfectly balance the 120px layout offset on top */}
-      <div className="h-[120px] flex-shrink-0" />
+      {/* 4. Bottom spacer to perfectly balance the 128px layout offset on top */}
+      <div className="h-[128px] flex-shrink-0" />
     </section>
   )
 }
