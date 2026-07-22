@@ -266,9 +266,9 @@ export default function Portfolio() {
   return (
     <section
       id="portfolio"
-      className="relative z-30 min-h-screen flex flex-col bg-white pt-32 pb-24 overflow-hidden"
+      className="relative z-30 min-h-screen flex flex-col bg-white pt-20 pb-24 overflow-hidden"
     >
-      {/* 1. Header Area — Positioned with pt-32 to match Certifications Y coordinate exactly */}
+      {/* 1. Header Area — pt-20 (80px) padding top to match Certifications Y coordinate exactly */}
       <div className="w-full text-center flex-shrink-0">
         <m2.h2
           className="font-[family-name:var(--font-fredericka)] text-4xl tracking-[8px] text-shadow-heading uppercase"
