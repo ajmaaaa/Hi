@@ -192,8 +192,8 @@ export default function TechStack() {
       {/* 1. Top Navbar offset spacer (height of navbar) */}
       <div className="h-[72px] flex-shrink-0" />
 
-      {/* 2. Title Header Area (height: 144px) — perfectly centering the title text (72px top / 72px bottom) */}
-      <div className="h-[144px] flex-shrink-0 flex items-center justify-center w-full">
+      {/* 2. Header Area (height: 120px) — Asymmetric padding: pt-10 (40px) to navbar, pb-14 (56px) to cards */}
+      <div className="w-full flex-shrink-0 pt-10 pb-14 flex items-center justify-center">
         <motion.h2
           className="font-[family-name:var(--font-fredericka)] text-4xl tracking-[8px] text-shadow-heading uppercase text-center"
           initial={{ opacity: 0, y: 20 }}
@@ -205,7 +205,7 @@ export default function TechStack() {
         </motion.h2>
       </div>
 
-      {/* 3. Card Stage Area — fills the remaining vertical space and centers the card stack vertically */}
+      {/* 3. Card Stage Area — fills the remaining space and centers the card stack vertically */}
       <div className="flex-1 flex items-center justify-center w-full">
         {/* Card stage — overflow-hidden removed to prevent card shadows from getting clipped at bottom/sides */}
         <div
@@ -289,8 +289,8 @@ export default function TechStack() {
         </div>
       </div>
 
-      {/* 4. Bottom spacer to perfectly balance the 216px layout offset on top */}
-      <div className="h-[216px] flex-shrink-0" />
+      {/* 4. Bottom spacer to perfectly balance the 120px layout offset on top */}
+      <div className="h-[120px] flex-shrink-0" />
     </section>
   )
 }
