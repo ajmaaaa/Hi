@@ -214,7 +214,7 @@ export default function TechStack() {
             <motion.div
               key={card.id}
               className={[
-                'absolute rounded-[16px] border border-black/10 bg-white flex flex-col items-center p-6 select-none overflow-hidden transition-shadow duration-300',
+                'absolute rounded-[18px] border border-black/10 bg-white flex flex-col items-center p-6 select-none overflow-hidden transition-shadow duration-300',
                 !isCenter ? 'cursor-pointer hover:border-black/20' : '',
               ].join(' ')}
               style={{
