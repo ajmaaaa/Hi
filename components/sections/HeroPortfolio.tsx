@@ -50,7 +50,7 @@ export default function HeroPortfolio() {
       className="relative min-h-screen flex flex-col justify-between overflow-hidden bg-white"
     >
       {/* Spacer to balance navbar height */}
-      <div className="h-20 flex-shrink-0" />
+      <div className="h-[152px] flex-shrink-0" />
 
       {/* Main content - aligned with the wide max-w-[1536px] navbar layout */}
       <div className="relative z-10 flex-1 flex items-center justify-center max-w-[1536px] mx-auto w-full px-8 lg:px-6 py-6">
@@ -162,7 +162,7 @@ export default function HeroPortfolio() {
       </div>
 
       {/* Bottom spacer to balance the top navbar spacer for perfect vertical centering */}
-      <div className="h-20 flex-shrink-0" />
+      <div className="h-[80px] flex-shrink-0" />
     </section>
   )
 }
