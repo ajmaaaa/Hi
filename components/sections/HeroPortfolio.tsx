@@ -62,14 +62,14 @@ export default function HeroPortfolio() {
               variants={fadeInUp}
               className="font-[family-name:var(--font-fredericka)] text-2xl tracking-[8px] text-shadow-heading uppercase"
             >
-              PORTFOLIO
+              HI, I AM MEYKY
             </motion.span>
 
             <motion.h1
               variants={fadeInUp}
               className="font-[family-name:var(--font-fredericka)] text-5xl lg:text-6xl leading-tight tracking-[6px] text-shadow-heading uppercase"
             >
-              MEYKY<br />AJMARIADI
+              CREATIVE<br />DEVELOPER
             </motion.h1>
 
             <motion.p
