@@ -13,7 +13,7 @@ import Button from '@/components/ui/Button'
      Mid   (slot 1): y=20   — middle
      Front (slot 2): y=40   — lowest on screen, visually in FRONT
    
-   Click: front rolls downward (y: 540px) lurus tanpa miring,
+   Click: front rolls downward (y: 580px) lurus tanpa miring,
    then slips behind the stack and opens back up at the top slot (0).
  ────────────────────────────────────────────── */
 
@@ -144,40 +144,42 @@ function ProjectCards() {
         const isMidToFront     = prevSlotIdx === 1 && slotIdx === 2
         const isBackToMid      = prevSlotIdx === 0 && slotIdx === 1
 
-        // Choreographed vertical movement keyframes to match AboutMe behavior
+        // Precise timeline segmentations: hold mid/back cards static for first 55% of duration
         let yValue: number | number[] = slot.y
         let scaleValue: number | number[] = slot.scale
         let customTimes: number[] | undefined = undefined
+        let easeConfig: any = 'easeInOut'
 
         if (isSwingingToBack) {
-          // Swing card: rolls downwards (Y: 540) for first 50%, then goes up behind to slot 0 (Y: 0)
-          yValue = [PEEK, 540, 0]
+          // Front swings deep down (Y: 580) to fully clear tumpukan card
+          yValue = [PEEK, 580, 0]
           scaleValue = [1.00, 0.97, 0.94]
-          customTimes = [0, 0.5, 1.0]
+          customTimes = [0, 0.55, 1.0]
+          easeConfig = ['easeIn', 'easeOut']
         } else if (isMidToFront) {
-          // Mid -> Front: Wait at position Mid (PEEK/2) for first 50%, then slide to Front (PEEK) at 50%-100%
+          // Mid -> Front: Wait at position Mid (PEEK/2) for 55% of time, then slide forward
           yValue = [PEEK / 2, PEEK / 2, PEEK]
           scaleValue = [0.97, 0.97, 1.00]
-          customTimes = [0, 0.5, 1.0]
+          customTimes = [0, 0.55, 1.0]
+          easeConfig = ['linear', 'easeInOut']
         } else if (isBackToMid) {
-          // Back -> Mid: Wait at position Back (0) for first 50%, then slide to Mid (PEEK/2) at 50%-100%
+          // Back -> Mid: Wait at position Back (0) for 55% of time, then slide forward
           yValue = [0, 0, PEEK / 2]
           scaleValue = [0.94, 0.94, 0.97]
-          customTimes = [0, 0.5, 1.0]
+          customTimes = [0, 0.55, 1.0]
+          easeConfig = ['linear', 'easeInOut']
         }
 
         // Animate zIndex keyframes natively with precise step timings to prevent early clipping
         let zIndexValue: number[] = [10, 10, 10, 10]
-        const zIndexTimes: number[] = [0, 0.49, 0.50, 1.0]
+        const zIndexTimes: number[] = [0, 0.54, 0.55, 1.0]
 
         if (isSwingingToBack) {
-          // Swing card: Keep at zIndex 40 (highest front) for first 49%, then swap instantly to 10 (back) at 50%
+          // Keep at zIndex 40 (highest front) for first 54%, then swap instantly to 10 (back) at 55%
           zIndexValue = [40, 40, 10, 10]
         } else if (isBackToMid) {
-          // Back -> Mid: Keep at 10 for first 49%, swap to 20 at 50%
           zIndexValue = [10, 10, 20, 20]
         } else if (isMidToFront) {
-          // Mid -> Front: Keep at 20 for first 49%, swap to 30 at 50%
           zIndexValue = [20, 20, 30, 30]
         } else {
           // Static fallback mapping
@@ -207,11 +209,15 @@ function ProjectCards() {
             }}
             transition={{
               y: {
-                ...TWEEN_SWING,
+                type: 'tween',
+                ease: easeConfig,
+                duration: 0.6,
                 ...(customTimes ? { times: customTimes } : {})
               },
               scale: {
-                ...TWEEN_SWING,
+                type: 'tween',
+                ease: easeConfig,
+                duration: 0.6,
                 ...(customTimes ? { times: customTimes } : {})
               },
               zIndex: {
