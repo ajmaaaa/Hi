@@ -9,10 +9,9 @@ import { motion } from 'framer-motion'
  *   Left peek card:  w-[923]  h-[516]  — smaller, centered vertically
  *   Right peek card: w-[923]  h-[516]  — smaller, centered vertically
  *
- * Original benchmark styling:
- *   - Uses pure min-h-screen, flex-col, items-center, justify-center.
- *   - Heading has a simple mb-16 margin.
- *   - The stage height is CENTER_H (618px) directly below it.
+ * Layout:
+ *   - mb-8 on H2 heading to reduce visual gap and pull heading closer to the cards.
+ *   - Pure items-center justify-center flex-col centering for precise vertical card alignment.
  */
 
 const CERTS = [
@@ -118,10 +117,10 @@ export default function Certifications() {
   return (
     <section
       id="certifications"
-      className="relative z-10 min-h-screen flex flex-col items-center justify-center bg-white py-24 overflow-hidden"
+      className="relative z-10 min-h-screen flex flex-col items-center justify-center bg-white py-12 overflow-hidden"
     >
       <motion.h2
-        className="font-[family-name:var(--font-fredericka)] text-4xl tracking-[8px] text-shadow-heading uppercase text-center mb-16"
+        className="font-[family-name:var(--font-fredericka)] text-4xl tracking-[8px] text-shadow-heading uppercase text-center mb-8"
         initial={{ opacity: 0, y: 20 }}
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true }}
@@ -130,8 +129,8 @@ export default function Certifications() {
         CERTIFICATIONS
       </motion.h2>
 
-      {/* Stage — height = center card height (618px) */}
-      <div className="relative w-full" style={{ height: CENTER_H }}>
+      {/* Stage — height = center card height */}
+      <div className="relative w-full flex-shrink-0" style={{ height: CENTER_H }}>
         {CERTS.map((cert, i) => {
           const slotIdx = (i - active + N) % N
           const prevSlotIdx = (i - prevActive + N) % N
