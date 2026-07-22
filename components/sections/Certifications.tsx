@@ -159,6 +159,7 @@ export default function Certifications() {
                 ].join(' ')}
                 style={{
                   left: '50%',
+                  top: '50%',
                   zIndex: slot.zIndex,
                   // Ultra-clean minimal shadows: tight vertical Y-offset and low opacity for sleek premium UI
                   boxShadow: slot.isCenter
@@ -167,7 +168,7 @@ export default function Certifications() {
                 }}
                 animate={{
                   x:       xValue,
-                  y:       (CENTER_H - slot.height) / 2, // Centered vertically on 550px stage
+                  y:       '-50%',
                   width:   slot.width,
                   height:  slot.height,
                   opacity: slot.opacity,
