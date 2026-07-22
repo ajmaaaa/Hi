@@ -11,7 +11,7 @@ import { motion } from 'framer-motion'
  *
  * Layout:
  *   - mb-8 on H2 heading to reduce visual gap and pull heading closer to the cards.
- *   - Reduced padding: py-12 instead of py-24 to prevent overflow/clipping on laptop screens.
+ *   - Symmetric vertical spacers (h-12) and flex-1 alignment for absolute viewport centering.
  */
 
 const CERTS = [
@@ -117,95 +117,104 @@ export default function Certifications() {
   return (
     <section
       id="certifications"
-      className="relative z-10 min-h-screen flex flex-col items-center justify-center bg-white py-12 overflow-hidden"
+      className="relative z-10 min-h-screen flex flex-col justify-between items-center bg-white py-0 overflow-hidden"
     >
-      <motion.h2
-        className="font-[family-name:var(--font-fredericka)] text-4xl tracking-[8px] text-shadow-heading uppercase text-center mb-8"
-        initial={{ opacity: 0, y: 20 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true }}
-        transition={{ duration: 0.6 }}
-      >
-        CERTIFICATIONS
-      </motion.h2>
+      {/* Top spacer to balance layout centering */}
+      <div className="h-12 flex-shrink-0" />
 
-      {/* Stage — height = center card height */}
-      <div className="relative w-full flex-shrink-0" style={{ height: CENTER_H }}>
-        {CERTS.map((cert, i) => {
-          const slotIdx = (i - active + N) % N
-          const prevSlotIdx = (i - prevActive + N) % N
-          const slot = getSlotProps(slotIdx)
+      {/* Main centered container */}
+      <div className="flex-1 flex flex-col justify-center items-center w-full">
+        <motion.h2
+          className="font-[family-name:var(--font-fredericka)] text-4xl tracking-[8px] text-shadow-heading uppercase text-center mb-8"
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.6 }}
+        >
+          CERTIFICATIONS
+        </motion.h2>
 
-          // Detect wrapping directions
-          const isJumpingLeftToRight = prevSlotIdx === 2 && slotIdx === 1 // Left -> Right
-          const isJumpingRightToLeft = prevSlotIdx === 1 && slotIdx === 2 // Right -> Left
-          const isJumping = isJumpingLeftToRight || isJumpingRightToLeft
+        {/* Stage — height = center card height */}
+        <div className="relative w-full flex-shrink-0" style={{ height: CENTER_H }}>
+          {CERTS.map((cert, i) => {
+            const slotIdx = (i - active + N) % N
+            const prevSlotIdx = (i - prevActive + N) % N
+            const slot = getSlotProps(slotIdx)
 
-          let xValue: number | number[] = slot.x
-          let customTimes: number[] | undefined = undefined
+            // Detect wrapping directions
+            const isJumpingLeftToRight = prevSlotIdx === 2 && slotIdx === 1 // Left -> Right
+            const isJumpingRightToLeft = prevSlotIdx === 1 && slotIdx === 2 // Right -> Left
+            const isJumping = isJumpingLeftToRight || isJumpingRightToLeft
 
-          if (isJumpingLeftToRight) {
-            xValue = [LEFT_X, LEFT_X - 300, RIGHT_X, RIGHT_X]
-            customTimes = [0, 0.49, 0.50, 1.0]
-          } else if (isJumpingRightToLeft) {
-            xValue = [RIGHT_X, RIGHT_X + 300, LEFT_X, LEFT_X]
-            customTimes = [0, 0.49, 0.50, 1.0]
-          }
+            let xValue: number | number[] = slot.x
+            let customTimes: number[] | undefined = undefined
 
-          return (
-            <motion.div
-              key={cert.id}
-              className={[
-                'absolute rounded-[18px] border border-black/10 bg-white',
-                !slot.isCenter ? 'cursor-pointer' : '',
-              ].join(' ')}
-              style={{
-                left: '50%',
-                zIndex: slot.zIndex,
-                // Ultra-clean minimal shadows: tight vertical Y-offset and low opacity for sleek premium UI
-                boxShadow: slot.isCenter
-                  ? '0px 8px 24px rgba(0, 0, 0, 0.08)'
-                  : '0px 4px 12px rgba(0, 0, 0, 0.04)',
-              }}
-              animate={{
-                x:       xValue,
-                y:       (CENTER_H - slot.height) / 2, // Centered vertically on stage
-                width:   slot.width,
-                height:  slot.height,
-                opacity: slot.opacity,
-              }}
-              transition={{
-                type: 'tween',
-                ease: 'easeInOut',
-                duration: 0.6,
-                x: isJumping
-                  ? { type: 'tween', duration: 0, times: customTimes }
-                  : { type: 'tween', ease: 'easeInOut', duration: 0.6 }
-              }}
-              onClick={() => {
-                if (slotIdx === 2) triggerPrev()
-                if (slotIdx === 1) triggerNext()
-              }}
-            >
-              <div className="w-full h-full flex flex-col items-center justify-center gap-8 p-10 text-center">
-                <div className="w-32 h-32 bg-zinc-200 rounded-[10px] flex items-center justify-center">
-                  <span className="font-[family-name:var(--font-imfell)] text-sm text-black/40 tracking-widest uppercase">
-                    {cert.id}
-                  </span>
+            if (isJumpingLeftToRight) {
+              xValue = [LEFT_X, LEFT_X - 300, RIGHT_X, RIGHT_X]
+              customTimes = [0, 0.49, 0.50, 1.0]
+            } else if (isJumpingRightToLeft) {
+              xValue = [RIGHT_X, RIGHT_X + 300, LEFT_X, LEFT_X]
+              customTimes = [0, 0.49, 0.50, 1.0]
+            }
+
+            return (
+              <motion.div
+                key={cert.id}
+                className={[
+                  'absolute rounded-[18px] border border-black/10 bg-white',
+                  !slot.isCenter ? 'cursor-pointer' : '',
+                ].join(' ')}
+                style={{
+                  left: '50%',
+                  zIndex: slot.zIndex,
+                  // Ultra-clean minimal shadows: tight vertical Y-offset and low opacity for sleek premium UI
+                  boxShadow: slot.isCenter
+                    ? '0px 8px 24px rgba(0, 0, 0, 0.08)'
+                    : '0px 4px 12px rgba(0, 0, 0, 0.04)',
+                }}
+                animate={{
+                  x:       xValue,
+                  y:       (CENTER_H - slot.height) / 2, // Centered vertically on stage
+                  width:   slot.width,
+                  height:  slot.height,
+                  opacity: slot.opacity,
+                }}
+                transition={{
+                  type: 'tween',
+                  ease: 'easeInOut',
+                  duration: 0.6,
+                  x: isJumping
+                    ? { type: 'tween', duration: 0, times: customTimes }
+                    : { type: 'tween', ease: 'easeInOut', duration: 0.6 }
+                }}
+                onClick={() => {
+                  if (slotIdx === 2) triggerPrev()
+                  if (slotIdx === 1) triggerNext()
+                }}
+              >
+                <div className="w-full h-full flex flex-col items-center justify-center gap-8 p-10 text-center">
+                  <div className="w-32 h-32 bg-zinc-200 rounded-[10px] flex items-center justify-center">
+                    <span className="font-[family-name:var(--font-imfell)] text-sm text-black/40 tracking-widest uppercase">
+                      {cert.id}
+                    </span>
+                  </div>
+                  <div className="flex flex-col gap-2">
+                    <p className="font-[family-name:var(--font-fredericka)] text-2xl tracking-[4px] uppercase text-black/80">
+                      {cert.title}
+                    </p>
+                    <p className="font-[family-name:var(--font-libertinus)] text-base text-black/55">
+                      {cert.issuer}
+                    </p>
+                  </div>
                 </div>
-                <div className="flex flex-col gap-2">
-                  <p className="font-[family-name:var(--font-fredericka)] text-2xl tracking-[4px] uppercase text-black/80">
-                    {cert.title}
-                  </p>
-                  <p className="font-[family-name:var(--font-libertinus)] text-base text-black/55">
-                    {cert.issuer}
-                  </p>
-                </div>
-              </div>
-            </motion.div>
-          )
-        })}
+              </motion.div>
+            )
+          })}
+        </div>
       </div>
+
+      {/* Bottom spacer for perfect vertical balance */}
+      <div className="h-12 flex-shrink-0" />
     </section>
   )
 }
