@@ -9,9 +9,10 @@ import { motion } from 'framer-motion'
  *   Left peek card:  w-[923]  h-[516]  — smaller, centered vertically
  *   Right peek card: w-[923]  h-[516]  — smaller, centered vertically
  *
- * Layout:
- *   - Shifted up: pt-20 (80px) padding top to match the spacer height of AboutMe.
- *   - The card stage is placed at mt-16 below the heading.
+ * Original benchmark styling:
+ *   - Uses pure min-h-screen, flex-col, items-center, justify-center.
+ *   - Heading has a simple mb-16 margin.
+ *   - The stage height is CENTER_H (618px) directly below it.
  */
 
 const CERTS = [
@@ -117,23 +118,20 @@ export default function Certifications() {
   return (
     <section
       id="certifications"
-      className="relative z-10 min-h-screen flex flex-col bg-white pt-20 pb-24 overflow-hidden"
+      className="relative z-10 min-h-screen flex flex-col items-center justify-center bg-white py-24 overflow-hidden"
     >
-      {/* 1. Header Area — pt-20 (80px) padding top to match AboutMe spacer height exactly */}
-      <div className="w-full text-center flex-shrink-0">
-        <motion.h2
-          className="font-[family-name:var(--font-fredericka)] text-4xl tracking-[8px] text-shadow-heading uppercase"
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.6 }}
-        >
-          CERTIFICATIONS
-        </motion.h2>
-      </div>
+      <motion.h2
+        className="font-[family-name:var(--font-fredericka)] text-4xl tracking-[8px] text-shadow-heading uppercase text-center mb-16"
+        initial={{ opacity: 0, y: 20 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true }}
+        transition={{ duration: 0.6 }}
+      >
+        CERTIFICATIONS
+      </motion.h2>
 
-      {/* 2. Stage Area — Consistent spacing mt-16 below heading, centered horizontally */}
-      <div className="w-full mt-16 relative flex items-center justify-center flex-shrink-0" style={{ height: CENTER_H }}>
+      {/* Stage — height = center card height (618px) */}
+      <div className="relative w-full" style={{ height: CENTER_H }}>
         {CERTS.map((cert, i) => {
           const slotIdx = (i - active + N) % N
           const prevSlotIdx = (i - prevActive + N) % N
