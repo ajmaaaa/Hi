@@ -298,13 +298,13 @@ export default function Portfolio() {
       id="portfolio"
       className="relative z-30 min-h-screen flex flex-col justify-between items-center bg-white py-0 overflow-hidden"
     >
-      {/* Top spacer to balance layout centering */}
-      <div className="h-12 flex-shrink-0" />
+      {/* 1. Top Navbar offset spacer (height of navbar) */}
+      <div className="h-[72px] flex-shrink-0" />
 
-      {/* Main centered container */}
-      <div className="flex-1 flex flex-col justify-center items-center w-full">
+      {/* 2. Title Header Area (height: 144px) — perfectly centering the title text (72px top / 72px bottom) */}
+      <div className="h-[144px] flex-shrink-0 flex items-center justify-center w-full">
         <motion.h2
-          className="font-[family-name:var(--font-fredericka)] text-4xl tracking-[8px] text-shadow-heading uppercase text-center mb-8"
+          className="font-[family-name:var(--font-fredericka)] text-4xl tracking-[8px] text-shadow-heading uppercase text-center"
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
@@ -312,7 +312,10 @@ export default function Portfolio() {
         >
           PORTFOLIO
         </motion.h2>
+      </div>
 
+      {/* 3. Card Stage Area — fills the remaining vertical space and centers the card stack vertically */}
+      <div className="flex-1 flex items-center justify-center w-full">
         <motion.div
           className="flex justify-center"
           initial={{ opacity: 0, y: 30 }}
@@ -324,8 +327,8 @@ export default function Portfolio() {
         </motion.div>
       </div>
 
-      {/* Bottom spacer for perfect vertical balance */}
-      <div className="h-12 flex-shrink-0" />
+      {/* 4. Bottom spacer to perfectly balance the 144px layout offset on top */}
+      <div className="h-[144px] flex-shrink-0" />
     </section>
   )
 }
