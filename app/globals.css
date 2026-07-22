@@ -13,12 +13,13 @@
 
 html {
   scroll-behavior: smooth;
-  scroll-padding-top: 100px;
+  scroll-padding-top: 72px; /* height of fixed Navbar */
 }
 
 body {
   background-color: #ffffff;
   color: #000000;
+  overflow-x: hidden; /* prevent horizontal scroll from large cert cards */
 }
 
 /* Figma text-shadow utility */
