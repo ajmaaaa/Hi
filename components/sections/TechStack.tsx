@@ -241,7 +241,7 @@ export default function TechStack() {
                 <span className="font-[family-name:var(--font-imfell)] text-[10px] tracking-[4.5px] uppercase text-black/35 font-medium">
                   {card.subtitle}
                 </span>
-                <h3 className="font-[family-name:var(--font-fredericka)] text-xl lg:text-2xl tracking-[3px] text-shadow-heading uppercase text-black font-semibold">
+                <h3 className="font-[family-name:var(--font-fredericka)] text-xl lg:text-2xl tracking-[3px] text-shadow-heading uppercase text-black/80 font-semibold">
                   {card.title}
                 </h3>
               </div>
