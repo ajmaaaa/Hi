@@ -162,10 +162,10 @@ export default function Certifications() {
               style={{
                 left: '50%',
                 zIndex: slot.zIndex,
-                // Reduced Y-offset of card shadows to prevent long drop-down shadows, centering the glow naturally
+                // Ultra-clean minimal shadows: tight vertical Y-offset and low opacity for sleek premium UI
                 boxShadow: slot.isCenter
-                  ? '0px 12px 40px rgba(0, 0, 0, 0.12)'
-                  : '0px 6px 20px rgba(0, 0, 0, 0.06)',
+                  ? '0px 8px 24px rgba(0, 0, 0, 0.08)'
+                  : '0px 4px 12px rgba(0, 0, 0, 0.04)',
               }}
               animate={{
                 x:       xValue,
