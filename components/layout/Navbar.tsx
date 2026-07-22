@@ -4,7 +4,7 @@ import { scrollToId } from '@/lib/scrollTo'
 
 const NAV_ITEMS = [
   { label: 'About', id: 'about' },
-  { label: 'Portfolio', id: 'portfolio' },
+  { label: 'P&E', id: 'portfolio' },
   { label: 'Tech Stack', id: 'techstack' },
   { label: 'Certifications', id: 'certifications' },
   { label: 'Contact', id: 'contact' },
