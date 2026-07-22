@@ -156,7 +156,7 @@ export default function Certifications() {
             <motion.div
               key={cert.id}
               className={[
-                'absolute rounded-[10px] border border-black/10 bg-white',
+                'absolute rounded-[18px] border border-black/10 bg-white',
                 !slot.isCenter ? 'cursor-pointer' : '',
               ].join(' ')}
               style={{
