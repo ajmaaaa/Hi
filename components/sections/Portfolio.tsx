@@ -218,8 +218,9 @@ function ProjectCards() {
                   {proj.category}
                 </span>
 
+                {/* Fixed faux bold: use font-normal to keep original sketch transparency */}
                 <h4
-                  className="font-[family-name:var(--font-fredericka)] text-3xl tracking-[5px] uppercase text-black/80 leading-snug"
+                  className="font-[family-name:var(--font-fredericka)] text-3xl tracking-[5px] uppercase text-black/80 font-normal leading-snug"
                   style={{ whiteSpace: 'pre-line' }}
                 >
                   {proj.title}
