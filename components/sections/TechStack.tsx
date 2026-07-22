@@ -188,7 +188,7 @@ export default function TechStack() {
       className="relative z-10 min-h-screen flex flex-col items-center justify-center bg-white py-24 overflow-hidden"
     >
       <motion.h2
-        className="font-[family-name:var(--font-fredericka)] text-4xl tracking-[8px] text-shadow-heading uppercase text-center mb-16"
+        className="font-[family-name:var(--font-fredericka)] text-4xl tracking-[8px] text-shadow-heading uppercase text-center mb-8"
         initial={{ opacity: 0, y: 20 }}
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true }}
@@ -198,7 +198,7 @@ export default function TechStack() {
       </motion.h2>
 
       {/* Stage Wrapper - Height matching Certifications 618px container (cards centered inside) */}
-      <div className="w-full flex items-center justify-center" style={{ height: 618 }}>
+      <div className="w-full flex items-center justify-center flex-shrink-0" style={{ height: 618 }}>
         <div className="w-full">
           {/* Card stage */}
           <div
