@@ -53,9 +53,9 @@ const PEEK   = 40  // how many px the back cards peek above the front card
 
 // slot 0 = back (top of stack, peeks at top), slot 2 = front (bottom of stack, in front)
 const SLOTS = [
-  { y: 0,          scale: 0.94, opacity: 1.00, zIndex: 10 }, // back  — peeks at top
-  { y: PEEK / 2,   scale: 0.97, opacity: 1.00, zIndex: 20 }, // mid
-  { y: PEEK,       scale: 1.00, opacity: 1.00, zIndex: 30 }, // front — full size
+  { y: 0,          scale: 0.94, opacity: 1.00 }, // back  — peeks at top
+  { y: PEEK / 2,   scale: 0.97, opacity: 1.00 }, // mid
+  { y: PEEK,       scale: 1.00, opacity: 1.00 }, // front — full size
 ]
 
 const TWEEN_SWING = {
@@ -153,22 +153,24 @@ function ProjectCards() {
           customTimes = [0, 0.5, 1.0]
         }
 
-        // Animate zIndex natively inside Framer Motion keyframes to avoid React state re-render lags
-        let zIndexValue: number | number[] = slot.zIndex
-        let zIndexTimes: number[] | undefined = undefined
+        // Animate zIndex keyframes natively with precise step timings to prevent early clipping
+        let zIndexValue: number[] = [10, 10, 10, 10]
+        const zIndexTimes: number[] = [0, 0.49, 0.50, 1.0]
 
         if (isSwingingToBack) {
-          // Keep zIndex high (30) while swinging down, then drop to back (10) when sliding into place
-          zIndexValue = [30, 30, 10]
-          zIndexTimes = [0, 0.5, 1.0]
+          // Swing card: Keep at zIndex 40 (highest front) for first 49%, then swap instantly to 10 (back) at 50%
+          zIndexValue = [40, 40, 10, 10]
         } else if (prevSlotIdx === 0 && slotIdx === 1) {
-          // Mid card moving forward: slide from 10 to 20 smoothly
-          zIndexValue = [10, 20]
-          zIndexTimes = [0, 1.0]
+          // Back -> Mid: Keep at 10 for first 49%, swap to 20 at 50%
+          zIndexValue = [10, 10, 20, 20]
         } else if (prevSlotIdx === 1 && slotIdx === 2) {
-          // Front card moving forward: slide from 20 to 30 smoothly
-          zIndexValue = [20, 30]
-          zIndexTimes = [0, 1.0]
+          // Mid -> Front: Keep at 20 for first 49%, swap to 30 at 50%
+          zIndexValue = [20, 20, 30, 30]
+        } else {
+          // Static fallback mapping
+          if (slotIdx === 0) zIndexValue = [10, 10, 10, 10]
+          if (slotIdx === 1) zIndexValue = [20, 20, 20, 20]
+          if (slotIdx === 2) zIndexValue = [30, 30, 30, 30]
         }
 
         return (
@@ -203,7 +205,7 @@ function ProjectCards() {
                 type: 'tween',
                 ease: 'linear',
                 duration: 0.6,
-                ...(zIndexTimes ? { times: zIndexTimes } : {})
+                times: zIndexTimes,
               },
               opacity: TWEEN_SWING,
             }}
