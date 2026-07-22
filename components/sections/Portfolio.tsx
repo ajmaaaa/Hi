@@ -58,11 +58,11 @@ const SLOTS = [
   { y: PEEK,       scale: 1.00, opacity: 1.00, zIndex: 30 }, // front — full size
 ]
 
-// Slowed down to 3.0 seconds duration for visual inspection/debugging
+// Normalized back to 0.6 seconds duration for fast responsive UX
 const TWEEN_SWING = {
   type: 'tween' as const,
   ease: 'easeInOut' as const,
-  duration: 3.0, 
+  duration: 0.6, 
 }
 
 /* ── Phone frame ── */
@@ -137,19 +137,19 @@ function ProjectCards() {
     setPrevOrder(order)
     setOrder([frontCardId, backCardId, midCardId]) // front → back, back → mid, mid → front
 
-    // 3. Swap layers at exactly 55% of the animation progress (1650ms of 3.0s)
+    // 3. Swap layers at exactly 55% of the animation progress (330ms of 0.6s)
     setTimeout(() => {
       setCardZIndexes({
         [frontCardId]: 10, // swing card slips behind
         [midCardId]: 30,   // mid card takes front position
         [backCardId]: 20,  // back card takes mid position
       })
-    }, 1650)
+    }, 330)
 
-    // 4. Unlock clicks after animation finishes (3000ms slowed)
+    // 4. Unlock clicks after animation finishes (600ms normalized)
     setTimeout(() => {
       setIsAnimating(false)
-    }, 3000)
+    }, 600)
   }
 
   return (
@@ -216,19 +216,19 @@ function ProjectCards() {
               y: {
                 type: 'tween',
                 ease: easeConfig,
-                duration: 3.0, // Slowed
+                duration: 0.6, // Normalized
                 ...(customTimes ? { times: customTimes } : {})
               },
               scale: {
                 type: 'tween',
                 ease: easeConfig,
-                duration: 3.0, // Slowed
+                duration: 0.6, // Normalized
                 ...(customTimes ? { times: customTimes } : {})
               },
               opacity: {
                 type: 'tween',
                 ease: 'easeInOut',
-                duration: 3.0, // Slowed
+                duration: 0.6, // Normalized
               },
             }}
           >
