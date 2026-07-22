@@ -1,135 +1,212 @@
 'use client'
 
-import { useState, useRef } from 'react'
-import { motion, useAnimation, PanInfo } from 'framer-motion'
-import { snapSpring } from '@/lib/animationVariants'
+import { useState, useEffect, useCallback } from 'react'
+import { motion } from 'framer-motion'
 
-interface CertCard { id: string }
+/**
+ * Desktop 4 Figma (1440×1024):
+ *   Center card:     w-[1027] h-[618]  — front, full size
+ *   Left peek card:  w-[923]  h-[516]  — smaller, centered vertically
+ *   Right peek card: w-[923]  h-[516]  — smaller, centered vertically
+ *
+ * Infinite loop carousel with linear outbound flow & dynamic sizing:
+ *   Side cards are visually smaller than the center card. Wrapping cards slide
+ *   smoothly outbound before teleporting instantly on X in the background,
+ *   while width, height and vertical position adjust smoothly.
+ */
 
-const CERT_CARDS: CertCard[] = [
-  { id: 'cert-1' },
-  { id: 'cert-2' },
-  { id: 'cert-3' },
+const CERTS = [
+  { id: 'cert-0', title: 'Certificate 1', issuer: 'Organization Name' },
+  { id: 'cert-1', title: 'Certificate 2', issuer: 'Organization Name' },
+  { id: 'cert-2', title: 'Certificate 3', issuer: 'Organization Name' },
 ]
+const N = CERTS.length
 
-function PeekSidesCertStack() {
-  const [order, setOrder] = useState<string[]>(CERT_CARDS.map((c) => c.id))
-  const controls = useAnimation()
-  const isDragging = useRef(false)
+const CENTER_W  = 1027
+const CENTER_H  = 618
+const SIDE_W    = 923
+const SIDE_H    = 516
+const OFFSET    = 1020 // spacing for peeking cards
 
-  function sendFrontToBack() {
-    setOrder((prev) => [...prev.slice(1), prev[0]])
-  }
+// Horizontal coordinates based on card widths anchoring at left: 50%
+const LEFT_X  = -(SIDE_W / 2) - OFFSET
+const RIGHT_X = -(SIDE_W / 2) + OFFSET
+const CENT_X  = -(CENTER_W / 2)
 
-  async function handleDragEnd(
-    _: MouseEvent | TouchEvent | PointerEvent,
-    info: PanInfo
-  ) {
-    const { offset, velocity } = info
-    const passed = Math.abs(offset.x) > 100 || Math.abs(velocity.x) > 500
-
-    if (passed) {
-      const dir = offset.x > 0 ? 1 : -1
-      await controls.start({
-        x: dir * 800,
-        opacity: 0,
-        transition: { duration: 0.3, ease: 'easeOut' },
-      })
-      sendFrontToBack()
-      controls.set({ x: 0, opacity: 1 })
-    } else {
-      controls.start({ x: 0, transition: snapSpring })
+function getSlotProps(offset: number) {
+  // offset: 0=center, 1=right, 2=left
+  if (offset === 0) {
+    return {
+      x:       CENT_X,
+      width:   CENTER_W,
+      height:  CENTER_H,
+      opacity: 1,
+      zIndex:  20,
+      isCenter: true,
+      isLeft:   false,
+      isRight:  false,
     }
-    isDragging.current = false
+  } else if (offset === 1) {
+    return {
+      x:       RIGHT_X,
+      width:   SIDE_W,
+      height:  SIDE_H,
+      opacity: 0.90,
+      zIndex:  10,
+      isCenter: false,
+      isLeft:   false,
+      isRight:  true,
+    }
+  } else {
+    return {
+      x:       LEFT_X,
+      width:   SIDE_W,
+      height:  SIDE_H,
+      opacity: 0.90,
+      zIndex:  10,
+      isCenter: false,
+      isLeft:   true,
+      isRight:  false,
+    }
   }
-
-  function getCardX(index: number): string | number {
-    if (index === 0) return '0%'
-    if (index === 1) return '-58%'
-    if (index === 2) return '58%'
-    return '0%'
-  }
-
-  return (
-    <div
-      className="relative w-full flex items-center justify-center overflow-hidden"
-      style={{ height: '420px' }}
-    >
-      <div
-        className="relative w-full max-w-[1100px] flex items-center justify-center overflow-hidden"
-        style={{ height: '420px' }}
-      >
-        {order.map((id, idx) => {
-          const isFront = idx === 0
-          if (idx > 2) return null
-
-          return (
-            <motion.div
-              key={id}
-              style={{ zIndex: 30 - idx * 10, position: 'absolute' }}
-              initial={false}
-            >
-              <motion.div
-                animate={isFront ? controls : { x: getCardX(idx), scale: idx === 0 ? 1 : 0.95, opacity: 1 }}
-                transition={{ type: 'spring', stiffness: 260, damping: 24 }}
-                drag={isFront ? 'x' : false}
-                dragConstraints={{ left: 0, right: 0 }}
-                dragElastic={0.7}
-                onDragStart={() => { isDragging.current = true }}
-                onDragEnd={handleDragEnd}
-                onTap={() => { if (isFront && !isDragging.current) sendFrontToBack() }}
-                className={`rounded-[10px] border border-black/10 bg-white ${isFront ? 'cursor-grab active:cursor-grabbing' : 'cursor-pointer'}`}
-                style={{
-                  width: '720px',
-                  height: '380px',
-                  boxShadow: '0px 4px 4px 0px rgba(0,0,0,0.25)',
-                  x: isFront ? undefined : getCardX(idx),
-                }}
-                whileTap={isFront ? { scale: 0.99 } : {}}
-              >
-                <div className="w-full h-full flex items-center justify-center">
-                  <div className="w-24 h-24 bg-zinc-200 rounded-[10px] flex items-center justify-center">
-                    <span className="font-[family-name:var(--font-imfell)] text-xs text-black/40 tracking-widest">CERT</span>
-                  </div>
-                </div>
-              </motion.div>
-            </motion.div>
-          )
-        })}
-      </div>
-    </div>
-  )
 }
 
 export default function Certifications() {
+  const [active, setActive] = useState(0)
+  const [prevActive, setPrevActive] = useState(0)
+  const [isAnimating, setIsAnimating] = useState(false)
+
+  const goNext = useCallback(() => {
+    setPrevActive(active)
+    setActive((i) => (i + 1) % N)
+  }, [active])
+
+  const goPrev = useCallback(() => {
+    setPrevActive(active)
+    setActive((i) => (i - 1 + N) % N)
+  }, [active])
+
+  // Snappy normal speed click lock (600ms)
+  const triggerNext = useCallback(() => {
+    if (isAnimating) return
+    setIsAnimating(true)
+    goNext()
+    setTimeout(() => setIsAnimating(false), 600)
+  }, [goNext, isAnimating])
+
+  const triggerPrev = useCallback(() => {
+    if (isAnimating) return
+    setIsAnimating(true)
+    goPrev()
+    setTimeout(() => setIsAnimating(false), 600)
+  }, [goPrev, isAnimating])
+
+  useEffect(() => {
+    function onKey(e: KeyboardEvent) {
+      const el = document.getElementById('certifications')
+      if (!el) return
+      const { top, bottom } = el.getBoundingClientRect()
+      if (top < window.innerHeight * 0.9 && bottom > window.innerHeight * 0.1) {
+        if (e.key === 'ArrowRight') { e.preventDefault(); triggerNext() }
+        if (e.key === 'ArrowLeft')  { e.preventDefault(); triggerPrev() }
+      }
+    }
+    window.addEventListener('keydown', onKey)
+    return () => window.removeEventListener('keydown', onKey)
+  }, [triggerNext, triggerPrev])
+
   return (
     <section
       id="certifications"
-      className="min-h-screen flex flex-col items-center justify-center bg-white py-24"
+      className="relative z-10 min-h-screen flex flex-col items-center justify-center bg-white py-24 overflow-hidden"
     >
-      <div className="w-full max-w-[1440px] mx-auto px-0">
-        <motion.h2
-          className="font-[family-name:var(--font-fredericka)] text-4xl tracking-[8px] text-shadow-heading uppercase text-center mb-16"
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.6 }}
-        >
-          CERTIFICATIONS
-        </motion.h2>
+      <motion.h2
+        className="font-[family-name:var(--font-fredericka)] text-4xl tracking-[8px] text-shadow-heading uppercase text-center mb-16"
+        initial={{ opacity: 0, y: 20 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true }}
+        transition={{ duration: 0.6 }}
+      >
+        CERTIFICATIONS
+      </motion.h2>
 
-        <motion.div
-          initial={{ opacity: 0 }}
-          whileInView={{ opacity: 1 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.8 }}
-        >
-          <PeekSidesCertStack />
-        </motion.div>
+      {/* Stage — height = center card height */}
+      <div className="relative w-full" style={{ height: CENTER_H }}>
+        {CERTS.map((cert, i) => {
+          const slotIdx = (i - active + N) % N
+          const prevSlotIdx = (i - prevActive + N) % N
+          const slot = getSlotProps(slotIdx)
 
-        <p className="font-[family-name:var(--font-imfell)] text-xs text-center text-black/40 tracking-widest mt-8 uppercase">
-          Tap or swipe to browse
-        </p>
+          // Detect wrapping directions
+          const isJumpingLeftToRight = prevSlotIdx === 2 && slotIdx === 1 // Left -> Right
+          const isJumpingRightToLeft = prevSlotIdx === 1 && slotIdx === 2 // Right -> Left
+          const isJumping = isJumpingLeftToRight || isJumpingRightToLeft
+
+          let xValue: number | number[] = slot.x
+          let customTimes: number[] | undefined = undefined
+
+          if (isJumpingLeftToRight) {
+            // Slide outbound to the left (LEFT_X - 300) before teleporting instantly at 50% to the right (RIGHT_X)
+            xValue = [LEFT_X, LEFT_X - 300, RIGHT_X, RIGHT_X]
+            customTimes = [0, 0.49, 0.50, 1.0]
+          } else if (isJumpingRightToLeft) {
+            // Slide outbound to the right (RIGHT_X + 300) before teleporting instantly at 50% to the left (LEFT_X)
+            xValue = [RIGHT_X, RIGHT_X + 300, LEFT_X, LEFT_X]
+            customTimes = [0, 0.49, 0.50, 1.0]
+          }
+
+          return (
+            <motion.div
+              key={cert.id}
+              className={[
+                'absolute rounded-[10px] border border-black/10 bg-white',
+                !slot.isCenter ? 'cursor-pointer' : '',
+              ].join(' ')}
+              style={{
+                left: '50%',
+                zIndex: slot.zIndex,
+                boxShadow: slot.isCenter
+                  ? '2px 4px 24px rgba(0,0,0,0.15)'
+                  : '0px 4px 8px rgba(0,0,0,0.08)',
+              }}
+              animate={{
+                x:       xValue,
+                y:       (CENTER_H - slot.height) / 2, // Centered vertically on stage
+                width:   slot.width,
+                height:  slot.height,
+                opacity: slot.opacity,
+              }}
+              transition={{
+                type: 'tween',
+                ease: 'easeInOut',
+                duration: 0.6,
+                x: isJumping
+                  ? { type: 'tween', duration: 0, times: customTimes }
+                  : { type: 'tween', ease: 'easeInOut', duration: 0.6 }
+              }}
+              onClick={() => {
+                if (slotIdx === 2) triggerPrev()
+                if (slotIdx === 1) triggerNext()
+              }}
+            >
+              <div className="w-full h-full flex flex-col items-center justify-center gap-8 p-10 text-center">
+                <div className="w-32 h-32 bg-zinc-200 rounded-[10px] flex items-center justify-center">
+                  <span className="font-[family-name:var(--font-imfell)] text-sm text-black/40 tracking-widest uppercase">
+                    {cert.id}
+                  </span>
+                </div>
+                <div className="flex flex-col gap-2">
+                  <p className="font-[family-name:var(--font-fredericka)] text-2xl tracking-[4px] uppercase text-black">
+                    {cert.title}
+                  </p>
+                  <p className="font-[family-name:var(--font-libertinus)] text-base text-black/55">
+                    {cert.issuer}
+                  </p>
+                </div>
+              </div>
+            </motion.div>
+          )
+        })}
       </div>
     </section>
   )
