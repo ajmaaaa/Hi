@@ -6,7 +6,8 @@ import { motion } from 'framer-motion'
  * Editorial-Minimalist Asymmetric Contact Section:
  *   - Perfectly aligned grid container (max-w-[1536px] px-8 lg:px-6) matching Hero and About Me.
  *   - Left column aligned exactly at lg:pl-[83px] (perfectly aligned with logo "Y" and other sections).
- *   - Natural height flow (no min-h-screen) combining Contact and Footer in one cohesive proportional block.
+ *   - min-h-screen layout (full screen background cover) with tight bottom margins to eliminate spacing gaps.
+ *   - Main content vertically centered via flex-1 flex items-center.
  *   - Moderate heading sizes to prevent overbearing layout proportions.
  *   - Clearer border divider lines for high-visibility.
  *   - Fixed, clean standard WhatsApp SVG icon.
@@ -49,10 +50,10 @@ export default function Contact() {
   return (
     <section
       id="contact"
-      className="relative bg-[#070707] flex flex-col justify-between overflow-hidden text-white z-30 pt-24 pb-8"
+      className="relative min-h-screen bg-[#070707] flex flex-col justify-between overflow-hidden text-white z-30 pt-20 pb-4"
     >
-      {/* Main container - integrated with natural flow layout */}
-      <div className="relative z-10 w-full max-w-[1536px] mx-auto px-8 lg:px-6 py-6 mb-16">
+      {/* Main container - centered vertically in the remaining space */}
+      <div className="relative z-10 w-full max-w-[1536px] mx-auto px-8 lg:px-6 flex-1 flex items-center py-6">
         <div className="flex flex-col lg:flex-row items-start justify-between w-full gap-16">
           
           {/* Left Column — Title, Bio & Metadata (aligned at pl-[83px]) */}
@@ -186,9 +187,9 @@ export default function Contact() {
         </div>
       </div>
 
-      {/* Footer Area — Flowing naturally at the bottom, tight and proportional */}
-      <div className="w-full flex-shrink-0 pb-8">
-        <div className="w-full max-w-[1536px] mx-auto flex flex-col sm:flex-row items-center justify-between gap-4 pt-6 border-t border-white/20 px-8 lg:px-[107px]">
+      {/* Footer Area — Positioned naturally at the bottom, with extremely tight padding */}
+      <div className="w-full flex-shrink-0 pb-2">
+        <div className="w-full max-w-[1536px] mx-auto flex flex-col sm:flex-row items-center justify-between gap-4 pt-4 border-t border-white/20 px-8 lg:px-[107px]">
           <p className="font-[family-name:var(--font-imfell)] text-[10px] text-white/45 tracking-[4px] uppercase">
             © 2026 Meyky Ajmariadi
           </p>
