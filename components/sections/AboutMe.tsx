@@ -89,7 +89,7 @@ export default function AboutMe() {
 
           {/* Left — text */}
           <motion.div
-            className="flex flex-col gap-6 max-w-[600px] lg:pl-[83px] lg:-translate-y-8"
+            className="flex flex-col gap-6 max-w-[600px] lg:pl-[83px]"
             variants={staggerContainer}
             initial="hidden"
             whileInView="visible"
@@ -114,7 +114,7 @@ export default function AboutMe() {
 
           {/* Right — card stack, clickable */}
           <motion.div
-            className="lg:mr-[260px] lg:-translate-y-6"
+            className="lg:mr-[260px]"
             initial={{ opacity: 0, x: 40 }}
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true, margin: '-100px' }}
