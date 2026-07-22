@@ -266,7 +266,7 @@ export default function Portfolio() {
   return (
     <section
       id="portfolio"
-      className="relative z-30 min-h-screen flex flex-col items-center justify-center bg-white py-24 overflow-hidden"
+      className="relative z-30 min-h-screen flex flex-col items-center justify-center bg-white py-12 overflow-hidden"
     >
       <m2.h2
         className="font-[family-name:var(--font-fredericka)] text-4xl tracking-[8px] text-shadow-heading uppercase text-center mb-8"
