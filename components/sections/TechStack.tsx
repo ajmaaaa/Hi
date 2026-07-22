@@ -199,9 +199,9 @@ export default function TechStack() {
         TECH STACK
       </motion.h2>
 
-      {/* Card stage — Reverted to natural 540px height for natural visual balance */}
+      {/* Card stage — overflow-hidden removed to prevent card shadows from getting clipped at bottom/sides */}
       <div
-        className="relative flex items-center justify-center overflow-hidden w-full"
+        className="relative flex items-center justify-center w-full"
         style={{ height: `${CENTER_H + 40}px` }}
       >
         {TECH_CARDS.map((card, cardIdx) => {
@@ -218,9 +218,10 @@ export default function TechStack() {
                 !isCenter ? 'cursor-pointer hover:border-black/20' : '',
               ].join(' ')}
               style={{
+                // Enhanced shadow definitions for better depth visibility on white backgrounds
                 boxShadow: isCenter
-                  ? '0px 20px 48px rgba(0,0,0,0.12)'
-                  : '0px 4px 16px rgba(0,0,0,0.06)',
+                  ? '0px 25px 50px -12px rgba(0, 0, 0, 0.15)'
+                  : '0px 10px 25px -5px rgba(0, 0, 0, 0.08)',
               }}
               animate={{
                 x: slot.x,
