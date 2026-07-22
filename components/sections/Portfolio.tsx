@@ -53,9 +53,9 @@ const PEEK   = 40  // how many px the back cards peek above the front card
 
 // slot 0 = back (top of stack, peeks at top), slot 2 = front (bottom of stack, in front)
 const SLOTS = [
-  { y: 0,          scale: 0.94, opacity: 1.00 }, // back  — peeks at top
-  { y: PEEK / 2,   scale: 0.97, opacity: 1.00 }, // mid
-  { y: PEEK,       scale: 1.00, opacity: 1.00 }, // front — full size
+  { y: 0,          scale: 0.94, opacity: 1.00, zIndex: 10 }, // back  — peeks at top
+  { y: PEEK / 2,   scale: 0.97, opacity: 1.00, zIndex: 20 }, // mid
+  { y: PEEK,       scale: 1.00, opacity: 1.00, zIndex: 30 }, // front — full size
 ]
 
 const TWEEN_SWING = {
@@ -141,15 +141,28 @@ function ProjectCards() {
         const isFront = slotIdx === 2
 
         const isSwingingToBack = prevSlotIdx === 2 && slotIdx === 0
+        const isMidToFront     = prevSlotIdx === 1 && slotIdx === 2
+        const isBackToMid      = prevSlotIdx === 0 && slotIdx === 1
 
-        // Vertical swing keyframes logic: swing out DOWNWARDS, hold, and return
+        // Choreographed vertical movement keyframes to match AboutMe behavior
         let yValue: number | number[] = slot.y
         let scaleValue: number | number[] = slot.scale
         let customTimes: number[] | undefined = undefined
 
         if (isSwingingToBack) {
+          // Swing card: rolls downwards (Y: 540) for first 50%, then goes up behind to slot 0 (Y: 0)
           yValue = [PEEK, 540, 0]
           scaleValue = [1.00, 0.97, 0.94]
+          customTimes = [0, 0.5, 1.0]
+        } else if (isMidToFront) {
+          // Mid -> Front: Wait at position Mid (PEEK/2) for first 50%, then slide to Front (PEEK) at 50%-100%
+          yValue = [PEEK / 2, PEEK / 2, PEEK]
+          scaleValue = [0.97, 0.97, 1.00]
+          customTimes = [0, 0.5, 1.0]
+        } else if (isBackToMid) {
+          // Back -> Mid: Wait at position Back (0) for first 50%, then slide to Mid (PEEK/2) at 50%-100%
+          yValue = [0, 0, PEEK / 2]
+          scaleValue = [0.94, 0.94, 0.97]
           customTimes = [0, 0.5, 1.0]
         }
 
@@ -160,10 +173,10 @@ function ProjectCards() {
         if (isSwingingToBack) {
           // Swing card: Keep at zIndex 40 (highest front) for first 49%, then swap instantly to 10 (back) at 50%
           zIndexValue = [40, 40, 10, 10]
-        } else if (prevSlotIdx === 0 && slotIdx === 1) {
+        } else if (isBackToMid) {
           // Back -> Mid: Keep at 10 for first 49%, swap to 20 at 50%
           zIndexValue = [10, 10, 20, 20]
-        } else if (prevSlotIdx === 1 && slotIdx === 2) {
+        } else if (isMidToFront) {
           // Mid -> Front: Keep at 20 for first 49%, swap to 30 at 50%
           zIndexValue = [20, 20, 30, 30]
         } else {
