@@ -154,7 +154,7 @@ export default function AboutMe() {
                 return (
                   <motion.div
                     key={cardIdx}
-                    className="absolute w-56 h-80 rounded-[10px] border border-black/10 bg-white"
+                    className="absolute w-56 h-80 rounded-[18px] border border-black/10 bg-white"
                     animate={{
                       left: leftValue,
                       top: topValue,
