@@ -111,6 +111,13 @@ function ProjectCards() {
   const [prevOrder, setPrevOrder] = useState([0, 1, 2])
   const [isAnimating, setIsAnimating] = useState(false)
 
+  // React state-based z-index management to ensure physical DOM layer locking during slide animations
+  const [cardZIndexes, setCardZIndexes] = useState<{ [key: number]: number }>({
+    0: 10,
+    1: 20,
+    2: 30,
+  })
+
   function cycle() {
     if (isAnimating) return
     setIsAnimating(true)
@@ -119,11 +126,27 @@ function ProjectCards() {
     const midCardId = order[1]
     const frontCardId = order[2]
 
-    // Shift order positions in a single React state batch
+    // 1. Immediately lock z-indexes on click: swing card goes to top front (40), mid stays mid (20), back stays back (10)
+    setCardZIndexes({
+      [frontCardId]: 40,
+      [midCardId]: 20,
+      [backCardId]: 10,
+    })
+
+    // 2. Shift order positions in a single React state batch
     setPrevOrder(order)
     setOrder([frontCardId, backCardId, midCardId]) // front → back, back → mid, mid → front
 
-    // Unlock clicks after animation finishes (3000ms slowed)
+    // 3. Swap layers at exactly 55% of the animation progress (1650ms of 3.0s)
+    setTimeout(() => {
+      setCardZIndexes({
+        [frontCardId]: 10, // swing card slips behind
+        [midCardId]: 30,   // mid card takes front position
+        [backCardId]: 20,  // back card takes mid position
+      })
+    }, 1650)
+
+    // 4. Unlock clicks after animation finishes (3000ms slowed)
     setTimeout(() => {
       setIsAnimating(false)
     }, 3000)
@@ -171,21 +194,6 @@ function ProjectCards() {
           easeConfig = ['linear', 'easeInOut']
         }
 
-        // Animate zIndex keyframes with equal length values & times arrays to ensure Framer Motion executes them correctly
-        let zIndexValue: number[] = [slot.zIndex, slot.zIndex, slot.zIndex, slot.zIndex]
-        const zIndexTimes: number[] = [0, 0.54, 0.55, 1.0]
-
-        if (isSwingingToBack) {
-          // Swing card: Keep at zIndex 40 (highest front) for first 54%, then swap instantly to 10 (back) at 55%
-          zIndexValue = [40, 40, 10, 10]
-        } else if (isBackToMid) {
-          // Back -> Mid: Keep at 10 for first 54%, swap to 20 at 55%
-          zIndexValue = [10, 10, 20, 20]
-        } else if (isMidToFront) {
-          // Mid -> Front: Keep at 20 for first 54%, swap to 30 at 55%
-          zIndexValue = [20, 20, 30, 30]
-        }
-
         return (
           <motion.div
             key={proj.id}
@@ -195,7 +203,7 @@ function ProjectCards() {
               top:    0,
               width:  CARD_W,
               height: CARD_H,
-              // Fixed shadow definition for performance (prevents browser shadow re-rendering lag during movement)
+              zIndex: cardZIndexes[proj.id], // State-driven z-index to guarantee absolute DOM layout locking
               boxShadow: '0px 8px 24px rgba(0, 0, 0, 0.06)',
               willChange: 'transform',
             }}
@@ -203,7 +211,6 @@ function ProjectCards() {
               y:       yValue,
               scale:   scaleValue,
               opacity: slot.opacity,
-              zIndex:  zIndexValue,
             }}
             transition={{
               y: {
@@ -217,12 +224,6 @@ function ProjectCards() {
                 ease: easeConfig,
                 duration: 3.0, // Slowed
                 ...(customTimes ? { times: customTimes } : {})
-              },
-              zIndex: {
-                type: 'tween',
-                ease: 'linear',
-                duration: 3.0, // Slowed
-                times: zIndexTimes,
               },
               opacity: {
                 type: 'tween',
