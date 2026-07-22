@@ -5,9 +5,9 @@ import { motion } from 'framer-motion'
 
 /**
  * Desktop 4 Figma (1440×1024):
- *   Center card:     w-[1027] h-[618]  — front, full size
- *   Left peek card:  w-[923]  h-[516]  — smaller, centered vertically
- *   Right peek card: w-[923]  h-[516]  — smaller, centered vertically
+ *   Center card:     w-[830]  h-[500]  — front, full size (scaled proportionally from 1027x618 for viewport safety)
+ *   Left peek card:  w-[716]  h-[400]  — smaller, centered vertically (scaled from 923x516)
+ *   Right peek card: w-[716]  h-[400]  — smaller, centered vertically (scaled from 923x516)
  *
  * Layout:
  *   - mb-8 on H2 heading to reduce visual gap and pull heading closer to the cards.
@@ -21,11 +21,11 @@ const CERTS = [
 ]
 const N = CERTS.length
 
-const CENTER_W  = 1027
-const CENTER_H  = 618
-const SIDE_W    = 923
-const SIDE_H    = 516
-const OFFSET    = 1020 // spacing for peeking cards
+const CENTER_W  = 830
+const CENTER_H  = 500
+const SIDE_W    = 716
+const SIDE_H    = 400
+const OFFSET    = 820 // spacing for peeking cards
 
 // Horizontal coordinates based on card widths anchoring at left: 50%
 const LEFT_X  = -(SIDE_W / 2) - OFFSET
