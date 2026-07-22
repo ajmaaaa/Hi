@@ -266,23 +266,20 @@ export default function Portfolio() {
   return (
     <section
       id="portfolio"
-      className="relative z-30 min-h-screen flex flex-col bg-white pt-20 pb-24 overflow-hidden"
+      className="relative z-30 min-h-screen flex flex-col items-center justify-center bg-white py-24 overflow-hidden"
     >
-      {/* 1. Header Area — pt-20 (80px) padding top to match Certifications Y coordinate exactly */}
-      <div className="w-full text-center flex-shrink-0">
-        <m2.h2
-          className="font-[family-name:var(--font-fredericka)] text-4xl tracking-[8px] text-shadow-heading uppercase"
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.6 }}
-        >
-          PORTFOLIO
-        </m2.h2>
-      </div>
+      <m2.h2
+        className="font-[family-name:var(--font-fredericka)] text-4xl tracking-[8px] text-shadow-heading uppercase text-center mb-16"
+        initial={{ opacity: 0, y: 20 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true }}
+        transition={{ duration: 0.6 }}
+      >
+        PORTFOLIO
+      </m2.h2>
 
-      {/* 2. Stage Area — Consistent spacing mt-16 below heading, centered horizontally */}
-      <div className="w-full mt-16 relative flex items-center justify-center flex-shrink-0" style={{ height: `${CARD_H + PEEK}px` }}>
+      {/* Height matching Certifications 618px container (cards centered inside) */}
+      <div className="w-full flex items-center justify-center" style={{ height: 618 }}>
         <m2.div
           className="flex justify-center"
           initial={{ opacity: 0, y: 30 }}
