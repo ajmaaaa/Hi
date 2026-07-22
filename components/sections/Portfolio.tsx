@@ -269,7 +269,7 @@ export default function Portfolio() {
       className="relative z-30 min-h-screen flex flex-col items-center justify-center bg-white py-24 overflow-hidden"
     >
       <m2.h2
-        className="font-[family-name:var(--font-fredericka)] text-4xl tracking-[8px] text-shadow-heading uppercase text-center mb-16"
+        className="font-[family-name:var(--font-fredericka)] text-4xl tracking-[8px] text-shadow-heading uppercase text-center mb-8"
         initial={{ opacity: 0, y: 20 }}
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true }}
@@ -279,7 +279,7 @@ export default function Portfolio() {
       </m2.h2>
 
       {/* Height matching Certifications 618px container (cards centered inside) */}
-      <div className="w-full flex items-center justify-center" style={{ height: 618 }}>
+      <div className="w-full flex items-center justify-center flex-shrink-0" style={{ height: 618 }}>
         <m2.div
           className="flex justify-center"
           initial={{ opacity: 0, y: 30 }}
