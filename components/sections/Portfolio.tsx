@@ -219,7 +219,7 @@ function ProjectCards() {
                 </span>
 
                 <h4
-                  className="font-[family-name:var(--font-fredericka)] text-3xl tracking-[5px] uppercase text-black leading-snug"
+                  className="font-[family-name:var(--font-fredericka)] text-3xl tracking-[5px] uppercase text-black/80 leading-snug"
                   style={{ whiteSpace: 'pre-line' }}
                 >
                   {proj.title}
