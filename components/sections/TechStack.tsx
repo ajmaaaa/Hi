@@ -185,23 +185,20 @@ export default function TechStack() {
   return (
     <section
       id="techstack"
-      className="relative z-10 min-h-screen flex flex-col bg-white overflow-hidden pb-12"
+      className="relative z-10 min-h-screen flex flex-col items-center justify-center bg-white py-24 overflow-hidden"
     >
-      {/* 1. Header Area — Placed statically at the top (pt-28) to match exactly with Certifications */}
-      <div className="w-full text-center pt-28 flex-shrink-0">
-        <motion.h2
-          className="font-[family-name:var(--font-fredericka)] text-4xl tracking-[8px] text-shadow-heading uppercase"
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.6 }}
-        >
-          TECH STACK
-        </motion.h2>
-      </div>
+      <motion.h2
+        className="font-[family-name:var(--font-fredericka)] text-4xl tracking-[8px] text-shadow-heading uppercase text-center mb-16"
+        initial={{ opacity: 0, y: 20 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true }}
+        transition={{ duration: 0.6 }}
+      >
+        TECH STACK
+      </motion.h2>
 
-      {/* 2. Stage Area — Takes all remaining vertical space and centers the cards vertically */}
-      <div className="relative z-10 flex-1 flex items-center justify-center max-w-[1440px] mx-auto w-full px-8 lg:px-12 py-6 min-h-0">
+      {/* Stage Wrapper - Height matching Certifications 618px container (cards centered inside) */}
+      <div className="w-full flex items-center justify-center" style={{ height: 618 }}>
         <div className="w-full">
           {/* Card stage */}
           <div
