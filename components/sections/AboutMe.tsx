@@ -168,10 +168,10 @@ export default function AboutMe() {
                     style={{
                       zIndex: cardZIndexes[cardIdx], // Controlled by delayed React state
                       boxShadow: isFront
-                        ? '0px 8px 24px rgba(0,0,0,0.16)'
-                        : '0px 4px 4px rgba(0,0,0,0.10)',
+                        ? '0px 8px 24px rgba(0,0,0,0.08)'
+                        : '0px 4px 12px rgba(0,0,0,0.04)',
                     }}
-                    whileHover={isFront ? { y: -6, boxShadow: '0px 14px 28px rgba(0,0,0,0.18)' } : undefined}
+                    whileHover={isFront ? { y: -6, boxShadow: '0px 12px 28px rgba(0,0,0,0.12)' } : undefined}
                   />
                 )
               })}
