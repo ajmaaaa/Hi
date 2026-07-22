@@ -296,26 +296,20 @@ export default function Portfolio() {
   return (
     <section
       id="portfolio"
-      className="relative z-30 min-h-screen flex flex-col justify-between items-center bg-white py-0 overflow-hidden"
+      className="relative z-30 min-h-screen flex flex-col justify-center items-center bg-white py-0 overflow-hidden"
     >
-      {/* 1. Top Navbar offset spacer (height of navbar) */}
-      <div className="h-[72px] flex-shrink-0" />
-
-      {/* 2. Header Area — Asymmetric spacing: pt-16 (64px) to navbar, pb-10 (40px) to cards (pushing heading down) */}
-      <div className="w-full flex-shrink-0 pt-16 pb-10 flex items-center justify-center">
+      {/* Main container - centered vertically in the viewport */}
+      <div className="relative z-10 w-full max-w-[1536px] mx-auto px-8 lg:px-6 py-6 flex flex-col items-center justify-center">
         <motion.h2
-          className="font-[family-name:var(--font-fredericka)] text-4xl tracking-[8px] text-shadow-heading uppercase text-center"
+          className="font-[family-name:var(--font-fredericka)] text-4xl tracking-[8px] text-shadow-heading uppercase text-center mb-10"
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.6 }}
         >
-          PORTFOLIO
+          PROJECTS & EXPERIENCES
         </motion.h2>
-      </div>
 
-      {/* 3. Card Stage Area — fills the remaining space and centers the card stack vertically */}
-      <div className="flex-1 flex items-center justify-center w-full">
         <motion.div
           className="flex justify-center"
           initial={{ opacity: 0, y: 30 }}
@@ -326,9 +320,6 @@ export default function Portfolio() {
           <ProjectCards />
         </motion.div>
       </div>
-
-      {/* 4. Bottom spacer to perfectly balance the 128px layout offset on top */}
-      <div className="h-[128px] flex-shrink-0" />
     </section>
   )
 }
