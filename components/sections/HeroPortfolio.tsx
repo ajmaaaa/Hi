@@ -72,16 +72,6 @@ export default function HeroPortfolio() {
               CREATIVE<br />DEVELOPER
             </motion.h1>
 
-            <motion.p
-              variants={fadeInUp}
-              className="font-[family-name:var(--font-libertinus)] text-xl text-black leading-relaxed text-shadow-heading"
-            >
-              Mahasiswa teknik informatika yang ingin mencapai tujuan nya. Dia
-              tak ingin kalah dari kemalasannya. Ia ingin menjadi orang yang
-              berbeda dengan orang biasa. Menurutnya berbeda tersebut adalah
-              sebuah pencapaian baginya
-            </motion.p>
-
             <motion.div variants={fadeInUp} className="flex gap-4 flex-wrap">
               <Button variant="solid" id="btn-hire-me">Hire Me</Button>
               <Button variant="outline" id="btn-download-cv" href="/cv.pdf">Download CV</Button>
