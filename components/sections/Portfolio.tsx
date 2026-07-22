@@ -278,18 +278,16 @@ export default function Portfolio() {
         PORTFOLIO
       </m2.h2>
 
-      {/* Height matching Certifications 618px container (cards centered inside) */}
-      <div className="w-full flex items-center justify-center flex-shrink-0" style={{ height: 618 }}>
-        <m2.div
-          className="flex justify-center"
-          initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: '-80px' }}
-          transition={{ duration: 0.7 }}
-        >
-          <ProjectCards />
-        </m2.div>
-      </div>
+      {/* Reverted wrapper to match natural 540px height for natural visual balance */}
+      <m2.div
+        className="flex justify-center"
+        initial={{ opacity: 0, y: 30 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true, margin: '-80px' }}
+        transition={{ duration: 0.7 }}
+      >
+        <ProjectCards />
+      </m2.div>
     </section>
   )
 }
