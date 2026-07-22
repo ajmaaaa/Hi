@@ -241,7 +241,8 @@ export default function TechStack() {
                 <span className="font-[family-name:var(--font-imfell)] text-[10px] tracking-[4.5px] uppercase text-black/35 font-medium">
                   {card.subtitle}
                 </span>
-                <h3 className="font-[family-name:var(--font-fredericka)] text-xl lg:text-2xl tracking-[3px] text-shadow-heading uppercase text-black/80 font-semibold">
+                {/* Fixed faux bold and text shadow: use font-normal and remove text-shadow-heading to keep original sketch transparency */}
+                <h3 className="font-[family-name:var(--font-fredericka)] text-xl lg:text-2xl tracking-[3px] uppercase text-black/80 font-normal">
                   {card.title}
                 </h3>
               </div>
