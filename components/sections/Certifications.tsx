@@ -10,8 +10,8 @@ import { motion } from 'framer-motion'
  *   Right peek card: w-[923]  h-[516]  — smaller, centered vertically
  *
  * Layout:
- *   - Structured linearly with static padding top (pt-32) to guarantee matching Y-coordinate heading alignment across sections.
- *   - The card stage is placed at a consistent distance (mt-16) below the heading.
+ *   - Shifted up: pt-20 (80px) padding top to match the spacer height of AboutMe.
+ *   - The card stage is placed at mt-16 below the heading.
  */
 
 const CERTS = [
@@ -117,9 +117,9 @@ export default function Certifications() {
   return (
     <section
       id="certifications"
-      className="relative z-10 min-h-screen flex flex-col bg-white pt-32 pb-24 overflow-hidden"
+      className="relative z-10 min-h-screen flex flex-col bg-white pt-20 pb-24 overflow-hidden"
     >
-      {/* 1. Header Area — Positioned with pt-32 to align Y coordinate exactly with Portfolio & TechStack */}
+      {/* 1. Header Area — pt-20 (80px) padding top to match AboutMe spacer height exactly */}
       <div className="w-full text-center flex-shrink-0">
         <motion.h2
           className="font-[family-name:var(--font-fredericka)] text-4xl tracking-[8px] text-shadow-heading uppercase"
