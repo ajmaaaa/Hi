@@ -53,9 +53,9 @@ const PEEK   = 40  // how many px the back cards peek above the front card
 
 // slot 0 = back (top of stack, peeks at top), slot 2 = front (bottom of stack, in front)
 const SLOTS = [
-  { y: 0,          scale: 0.94, opacity: 1.00 }, // back  — peeks at top
-  { y: PEEK / 2,   scale: 0.97, opacity: 1.00 }, // mid
-  { y: PEEK,       scale: 1.00, opacity: 1.00 }, // front — full size
+  { y: 0,          scale: 0.94, opacity: 1.00, zIndex: 10 }, // back  — peeks at top
+  { y: PEEK / 2,   scale: 0.97, opacity: 1.00, zIndex: 20 }, // mid
+  { y: PEEK,       scale: 1.00, opacity: 1.00, zIndex: 30 }, // front — full size
 ]
 
 const TWEEN_SWING = {
@@ -110,13 +110,6 @@ function ProjectCards() {
   const [prevOrder, setPrevOrder] = useState([0, 1, 2])
   const [isAnimating, setIsAnimating] = useState(false)
 
-  // Track discrete z-indexes dynamically to prevent Framer Motion rendering order teleport bugs
-  const [cardZIndexes, setCardZIndexes] = useState<{ [key: number]: number }>({
-    0: 10, // card 0 starts at Back
-    1: 20, // card 1 starts at Mid
-    2: 30, // card 2 starts at Front
-  })
-
   function cycle() {
     if (isAnimating) return
     setIsAnimating(true)
@@ -125,27 +118,11 @@ function ProjectCards() {
     const midCardId = order[1]
     const frontCardId = order[2]
 
-    // 1. Hold z-indexes: swinging card is on top (40) while escaping, others stay back
-    setCardZIndexes({
-      [frontCardId]: 40,
-      [midCardId]: 20,
-      [backCardId]: 10,
-    })
-
-    // 2. Shift order positions
+    // Shift order positions in a single React state batch
     setPrevOrder(order)
     setOrder([frontCardId, backCardId, midCardId]) // front → back, back → mid, mid → front
 
-    // 3. Delay the z-index shift until the swing card has fully cleared downward at 300ms (50% duration)
-    setTimeout(() => {
-      setCardZIndexes({
-        [frontCardId]: 10, // swing card now lands behind
-        [midCardId]: 30,   // mid card takes front position
-        [backCardId]: 20,  // back card takes mid position
-      })
-    }, 300)
-
-    // 4. Unlock clicks after animation finishes (600ms)
+    // Unlock clicks after animation finishes (600ms)
     setTimeout(() => {
       setIsAnimating(false)
     }, 600)
@@ -176,6 +153,24 @@ function ProjectCards() {
           customTimes = [0, 0.5, 1.0]
         }
 
+        // Animate zIndex natively inside Framer Motion keyframes to avoid React state re-render lags
+        let zIndexValue: number | number[] = slot.zIndex
+        let zIndexTimes: number[] | undefined = undefined
+
+        if (isSwingingToBack) {
+          // Keep zIndex high (30) while swinging down, then drop to back (10) when sliding into place
+          zIndexValue = [30, 30, 10]
+          zIndexTimes = [0, 0.5, 1.0]
+        } else if (prevSlotIdx === 0 && slotIdx === 1) {
+          // Mid card moving forward: slide from 10 to 20 smoothly
+          zIndexValue = [10, 20]
+          zIndexTimes = [0, 1.0]
+        } else if (prevSlotIdx === 1 && slotIdx === 2) {
+          // Front card moving forward: slide from 20 to 30 smoothly
+          zIndexValue = [20, 30]
+          zIndexTimes = [0, 1.0]
+        }
+
         return (
           <motion.div
             key={proj.id}
@@ -185,21 +180,32 @@ function ProjectCards() {
               top:    0,
               width:  CARD_W,
               height: CARD_H,
-              zIndex: cardZIndexes[proj.id], // State-driven z-index
-              // Ultra-clean minimal shadows: tight vertical Y-offset and low opacity for sleek premium UI
-              boxShadow: isFront
-                ? '0px 8px 24px rgba(0, 0, 0, 0.08)'
-                : '0px 4px 12px rgba(0, 0, 0, 0.04)',
+              // Fixed shadow definition for performance (prevents browser shadow re-rendering lag during movement)
+              boxShadow: '0px 8px 24px rgba(0, 0, 0, 0.06)',
               willChange: 'transform',
             }}
             animate={{
               y:       yValue,
               scale:   scaleValue,
               opacity: slot.opacity,
+              zIndex:  zIndexValue,
             }}
             transition={{
-              ...TWEEN_SWING,
-              ...(customTimes ? { times: customTimes } : {})
+              y: {
+                ...TWEEN_SWING,
+                ...(customTimes ? { times: customTimes } : {})
+              },
+              scale: {
+                ...TWEEN_SWING,
+                ...(customTimes ? { times: customTimes } : {})
+              },
+              zIndex: {
+                type: 'tween',
+                ease: 'linear',
+                duration: 0.6,
+                ...(zIndexTimes ? { times: zIndexTimes } : {})
+              },
+              opacity: TWEEN_SWING,
             }}
           >
             <div className="flex h-full">
@@ -262,7 +268,6 @@ function ProjectCards() {
 }
 
 /* ─── Section ─── */
-
 export default function Portfolio() {
   return (
     <section
