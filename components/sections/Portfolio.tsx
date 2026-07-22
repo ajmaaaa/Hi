@@ -58,10 +58,11 @@ const SLOTS = [
   { y: PEEK,       scale: 1.00, opacity: 1.00, zIndex: 30 }, // front — full size
 ]
 
+// Slowed down to 3.0 seconds duration for visual inspection/debugging
 const TWEEN_SWING = {
   type: 'tween' as const,
   ease: 'easeInOut' as const,
-  duration: 0.6,
+  duration: 3.0, 
 }
 
 /* ── Phone frame ── */
@@ -122,10 +123,10 @@ function ProjectCards() {
     setPrevOrder(order)
     setOrder([frontCardId, backCardId, midCardId]) // front → back, back → mid, mid → front
 
-    // Unlock clicks after animation finishes (600ms)
+    // Unlock clicks after animation finishes (3000ms slowed)
     setTimeout(() => {
       setIsAnimating(false)
-    }, 600)
+    }, 3000)
   }
 
   return (
@@ -203,22 +204,26 @@ function ProjectCards() {
               y: {
                 type: 'tween',
                 ease: easeConfig,
-                duration: 0.6,
+                duration: 3.0, // Slowed
                 ...(customTimes ? { times: customTimes } : {})
               },
               scale: {
                 type: 'tween',
                 ease: easeConfig,
-                duration: 0.6,
+                duration: 3.0, // Slowed
                 ...(customTimes ? { times: customTimes } : {})
               },
               zIndex: {
                 type: 'tween',
                 // Custom step ease: outputs 0 (start value) until 55% progress, then instantly outputs 1 (end value)
                 ease: (t: number) => (t < 0.55 ? 0 : 1),
-                duration: 0.6,
+                duration: 3.0, // Slowed
               },
-              opacity: TWEEN_SWING,
+              opacity: {
+                type: 'tween',
+                ease: 'easeInOut',
+                duration: 3.0, // Slowed
+              },
             }}
           >
             <div className="flex h-full">
