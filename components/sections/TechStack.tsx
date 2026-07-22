@@ -159,6 +159,7 @@ export default function TechStack() {
   const [order, setOrder] = useState(INITIAL_ORDER)
   const [isAnimating, setIsAnimating] = useState(false)
 
+  // Trigger left slide click
   function clickLeft() {
     if (isAnimating) return
     setIsAnimating(true)
@@ -170,6 +171,7 @@ export default function TechStack() {
     }, 500)
   }
 
+  // Trigger right slide click
   function clickRight() {
     if (isAnimating) return
     setIsAnimating(true)
@@ -185,7 +187,7 @@ export default function TechStack() {
   return (
     <section
       id="techstack"
-      className="relative z-10 min-h-screen flex flex-col items-center justify-center bg-white py-24 overflow-hidden"
+      className="relative z-10 min-h-screen flex flex-col items-center justify-center bg-white py-12 overflow-hidden"
     >
       <motion.h2
         className="font-[family-name:var(--font-fredericka)] text-4xl tracking-[8px] text-shadow-heading uppercase text-center mb-8"
