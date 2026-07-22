@@ -161,12 +161,6 @@ export default function HeroPortfolio() {
         </div>
       </div>
 
-      {/* Ticker - aligned perfectly with main content */}
-      <div className="relative z-10 pb-8 max-w-[1536px] mx-auto w-full px-8 lg:px-6 text-left flex-shrink-0">
-        <p className="font-[family-name:var(--font-imfell)] text-xs tracking-widest uppercase text-black/50">
-          INFORMATICS ENGINEERING STUDENT &nbsp;·&nbsp; WEB DEVELOPER & AUTOMATION ENTHUSIAST &nbsp;·&nbsp; © 2026
-        </p>
-      </div>
     </section>
   )
 }
