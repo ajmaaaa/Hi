@@ -162,9 +162,10 @@ export default function Certifications() {
               style={{
                 left: '50%',
                 zIndex: slot.zIndex,
+                // Enhanced shadow definitions for better depth visibility on white backgrounds
                 boxShadow: slot.isCenter
-                  ? '2px 4px 24px rgba(0,0,0,0.15)'
-                  : '0px 4px 8px rgba(0,0,0,0.08)',
+                  ? '0px 25px 50px -12px rgba(0, 0, 0, 0.15)'
+                  : '0px 10px 25px -5px rgba(0, 0, 0, 0.08)',
               }}
               animate={{
                 x:       xValue,
