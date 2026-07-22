@@ -52,7 +52,6 @@ const CARD_H = 500
 const PEEK   = 40  // how many px the back cards peek above the front card
 
 // slot 0 = back (top of stack, peeks at top), slot 2 = front (bottom of stack, in front)
-// Opacity set to 1.00 permanently to make cards solid and prevent ghosting
 const SLOTS = [
   { y: 0,          scale: 0.94, opacity: 1.00 }, // back  — peeks at top
   { y: PEEK / 2,   scale: 0.97, opacity: 1.00 }, // mid
@@ -63,7 +62,6 @@ const TWEEN_SWING = {
   type: 'tween' as const,
   ease: 'easeInOut' as const,
   duration: 0.6,
-   // Shortened to 0.6s for snappier, lighter rendering
 }
 
 /* ── Phone frame ── */
@@ -173,7 +171,6 @@ function ProjectCards() {
         let customTimes: number[] | undefined = undefined
 
         if (isSwingingToBack) {
-          // Slide downward by 540px to fully clear the 500px card height
           yValue = [PEEK, 540, 0]
           scaleValue = [1.00, 0.97, 0.94]
           customTimes = [0, 0.5, 1.0]
@@ -189,15 +186,13 @@ function ProjectCards() {
               width:  CARD_W,
               height: CARD_H,
               zIndex: cardZIndexes[proj.id], // State-driven z-index
-              // Optimized static shadow based on state (not animated in real-time) to prevent re-rasterization lags
               boxShadow: isFront
                 ? '0px 12px 36px rgba(0,0,0,0.12)'
                 : '0px 4px 16px rgba(0,0,0,0.06)',
-              // Force GPU acceleration to make rendering super fluid
               willChange: 'transform',
             }}
             animate={{
-              y:       yValue, // GPU-accelerated transform translateY
+              y:       yValue,
               scale:   scaleValue,
               opacity: slot.opacity,
             }}
@@ -271,13 +266,12 @@ export default function Portfolio() {
   return (
     <section
       id="portfolio"
-      className="relative z-30 min-h-screen flex flex-col justify-center bg-white py-24 px-8 lg:px-12"
+      className="relative z-30 min-h-screen flex flex-col bg-white overflow-hidden pb-12"
     >
-      <div className="max-w-[1440px] mx-auto w-full flex flex-col gap-14">
-
-        {/* Heading */}
+      {/* 1. Header Area — Placed statically at the top (pt-28) to match exactly with Certifications */}
+      <div className="w-full text-center pt-28 flex-shrink-0">
         <m2.h2
-          className="font-[family-name:var(--font-fredericka)] text-4xl tracking-[8px] text-shadow-heading uppercase text-center"
+          className="font-[family-name:var(--font-fredericka)] text-4xl tracking-[8px] text-shadow-heading uppercase"
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
@@ -285,10 +279,12 @@ export default function Portfolio() {
         >
           PORTFOLIO
         </m2.h2>
+      </div>
 
-        {/* Cards centered */}
+      {/* 2. Stage Area — Takes all remaining vertical space and centers the cards vertically */}
+      <div className="flex-1 flex items-center justify-center max-w-[1440px] mx-auto w-full px-8 lg:px-12 py-6 min-h-0">
         <m2.div
-          className="flex justify-center"
+          className="flex justify-center w-full"
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: '-80px' }}
@@ -296,7 +292,6 @@ export default function Portfolio() {
         >
           <ProjectCards />
         </m2.div>
-
       </div>
     </section>
   )
