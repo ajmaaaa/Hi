@@ -187,98 +187,107 @@ export default function TechStack() {
   return (
     <section
       id="techstack"
-      className="relative z-10 min-h-screen flex flex-col items-center justify-center bg-white py-24 overflow-hidden"
+      className="relative z-10 min-h-screen flex flex-col justify-between items-center bg-white py-0 overflow-hidden"
     >
-      <motion.h2
-        className="font-[family-name:var(--font-fredericka)] text-4xl tracking-[8px] text-shadow-heading uppercase text-center mb-8"
-        initial={{ opacity: 0, y: 20 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true }}
-        transition={{ duration: 0.6 }}
-      >
-        TECH STACK
-      </motion.h2>
+      {/* Top spacer to balance layout centering */}
+      <div className="h-12 flex-shrink-0" />
 
-      {/* Card stage — overflow-hidden removed to prevent card shadows from getting clipped at bottom/sides */}
-      <div
-        className="relative flex items-center justify-center w-full"
-        style={{ height: `${CENTER_H + 40}px` }}
-      >
-        {TECH_CARDS.map((card, cardIdx) => {
-          const posIdx = order.indexOf(cardIdx)
-          const pos = positions[posIdx]
-          const slot = getSlot(pos)
-          const isCenter = pos === 'center'
+      {/* Main centered container */}
+      <div className="flex-1 flex flex-col justify-center items-center w-full">
+        <motion.h2
+          className="font-[family-name:var(--font-fredericka)] text-4xl tracking-[8px] text-shadow-heading uppercase text-center mb-8"
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.6 }}
+        >
+          TECH STACK
+        </motion.h2>
 
-          return (
-            <motion.div
-              key={card.id}
-              className={[
-                'absolute rounded-[18px] border border-black/10 bg-white flex flex-col items-center p-6 select-none overflow-hidden transition-shadow duration-300',
-                !isCenter ? 'cursor-pointer hover:border-black/20' : '',
-              ].join(' ')}
-              style={{
-                // Ultra-clean minimal shadows: tight vertical Y-offset and low opacity for sleek premium UI
-                boxShadow: isCenter
-                  ? '0px 8px 24px rgba(0, 0, 0, 0.08)'
-                  : '0px 4px 12px rgba(0, 0, 0, 0.04)',
-              }}
-              animate={{
-                x: slot.x,
-                width: slot.width,
-                height: slot.height,
-                zIndex: slot.zIndex,
-                opacity: slot.opacity,
-                rotate: slot.rotate,
-              }}
-              transition={{ type: 'spring', stiffness: 220, damping: 24 }}
-              onClick={() => {
-                if (pos === 'left') clickLeft()
-                else if (pos === 'right') clickRight()
-              }}
-            >
-              {/* 1. Header Area — Structured and clean */}
-              <div className="flex flex-col items-center gap-1.5 w-full text-center mb-1 flex-shrink-0">
-                <span className="font-[family-name:var(--font-imfell)] text-[10px] tracking-[4.5px] uppercase text-black/35 font-medium">
-                  {card.subtitle}
-                </span>
-                {/* Fixed faux bold and text shadow: use font-normal and remove text-shadow-heading to keep original sketch transparency */}
-                <h3 className="font-[family-name:var(--font-fredericka)] text-xl lg:text-2xl tracking-[3px] uppercase text-black/80 font-normal">
-                  {card.title}
-                </h3>
-              </div>
+        {/* Card stage — overflow-hidden removed to prevent card shadows from getting clipped at bottom/sides */}
+        <div
+          className="relative flex items-center justify-center w-full"
+          style={{ height: `${CENTER_H + 40}px` }}
+        >
+          {TECH_CARDS.map((card, cardIdx) => {
+            const posIdx = order.indexOf(cardIdx)
+            const pos = positions[posIdx]
+            const slot = getSlot(pos)
+            const isCenter = pos === 'center'
 
-              {/* 2. Visual Illustration Box */}
-              <div
-                className="w-full rounded-[10px] bg-zinc-950 flex flex-col items-center justify-center relative overflow-hidden border border-black/15 shadow-inner flex-1 my-3"
-                style={{ minHeight: '110px' }}
+            return (
+              <motion.div
+                key={card.id}
+                className={[
+                  'absolute rounded-[18px] border border-black/10 bg-white flex flex-col items-center p-6 select-none overflow-hidden transition-shadow duration-300',
+                  !isCenter ? 'cursor-pointer hover:border-black/20' : '',
+                ].join(' ')}
+                style={{
+                  // Ultra-clean minimal shadows: tight vertical Y-offset and low opacity for sleek premium UI
+                  boxShadow: isCenter
+                    ? '0px 8px 24px rgba(0, 0, 0, 0.08)'
+                    : '0px 4px 12px rgba(0, 0, 0, 0.04)',
+                }}
+                animate={{
+                  x: slot.x,
+                  width: slot.width,
+                  height: slot.height,
+                  zIndex: slot.zIndex,
+                  opacity: slot.opacity,
+                  rotate: slot.rotate,
+                }}
+                transition={{ type: 'spring', stiffness: 220, damping: 24 }}
+                onClick={() => {
+                  if (pos === 'left') clickLeft()
+                  else if (pos === 'right') clickRight()
+                }}
               >
-                {card.illustration}
-              </div>
-
-              {/* 3. Footer Tools Area */}
-              <div className="w-full flex flex-col items-center mt-1 pt-3 border-t border-zinc-100 flex-shrink-0">
-                <span className="font-[family-name:var(--font-imfell)] text-[9px] tracking-[3px] text-zinc-400 uppercase font-semibold mb-3 self-start pl-1">
-                  TOOLS & SKILLS
-                </span>
-                
-                {/* Skill Pills Grid */}
-                <div className={`grid grid-cols-3 w-full ${isCenter ? 'gap-x-4 gap-y-3' : 'gap-x-2 gap-y-2'}`}>
-                  {card.skills.map((skill, i) => (
-                    <SkillPill
-                      key={i}
-                      label={skill.label}
-                      icon={skill.icon}
-                      size={isCenter ? 'md' : 'sm'}
-                    />
-                  ))}
+                {/* 1. Header Area — Structured and clean */}
+                <div className="flex flex-col items-center gap-1.5 w-full text-center mb-1 flex-shrink-0">
+                  <span className="font-[family-name:var(--font-imfell)] text-[10px] tracking-[4.5px] uppercase text-black/35 font-medium">
+                    {card.subtitle}
+                  </span>
+                  {/* Fixed faux bold and text shadow: use font-normal and remove text-shadow-heading to keep original sketch transparency */}
+                  <h3 className="font-[family-name:var(--font-fredericka)] text-xl lg:text-2xl tracking-[3px] uppercase text-black/80 font-normal">
+                    {card.title}
+                  </h3>
                 </div>
-              </div>
 
-            </motion.div>
-          )
-        })}
+                {/* 2. Visual Illustration Box */}
+                <div
+                  className="w-full rounded-[10px] bg-zinc-950 flex flex-col items-center justify-center relative overflow-hidden border border-black/15 shadow-inner flex-1 my-3"
+                  style={{ minHeight: '110px' }}
+                >
+                  {card.illustration}
+                </div>
+
+                {/* 3. Footer Tools Area */}
+                <div className="w-full flex flex-col items-center mt-1 pt-3 border-t border-zinc-100 flex-shrink-0">
+                  <span className="font-[family-name:var(--font-imfell)] text-[9px] tracking-[3px] text-zinc-400 uppercase font-semibold mb-3 self-start pl-1">
+                    TOOLS & SKILLS
+                  </span>
+                  
+                  {/* Skill Pills Grid */}
+                  <div className={`grid grid-cols-3 w-full ${isCenter ? 'gap-x-4 gap-y-3' : 'gap-x-2 gap-y-2'}`}>
+                    {card.skills.map((skill, i) => (
+                      <SkillPill
+                        key={i}
+                        label={skill.label}
+                        icon={skill.icon}
+                        size={isCenter ? 'md' : 'sm'}
+                      />
+                    ))}
+                  </div>
+                </div>
+
+              </motion.div>
+            )
+          })}
+        </div>
       </div>
+
+      {/* Bottom spacer for perfect vertical balance */}
+      <div className="h-12 flex-shrink-0" />
     </section>
   )
 }
