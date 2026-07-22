@@ -18,7 +18,7 @@ export default function Navbar() {
           onClick={() => scrollToId('hero')}
           className="font-[family-name:var(--font-fredericka)] text-lg text-black tracking-[4px] uppercase select-none hover:opacity-60 transition-opacity duration-200 bg-transparent border-0 cursor-pointer"
         >
-          MEYKY
+          PORTOFOLIO
         </button>
         <nav className="flex gap-8 lg:gap-14" aria-label="Main navigation">
           {NAV_ITEMS.map((item) => (
