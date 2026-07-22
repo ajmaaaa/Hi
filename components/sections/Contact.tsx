@@ -6,7 +6,7 @@ import { motion } from 'framer-motion'
  * Editorial-Minimalist Asymmetric Contact Section:
  *   - Perfectly aligned grid container (max-w-[1536px] px-8 lg:px-6) matching Hero and About Me.
  *   - Left column aligned exactly at lg:pl-[83px] (perfectly aligned with logo "Y" and other sections).
- *   - Natural flex flow layout (justify-between) replacing absolute positioning to prevent overlap.
+ *   - Natural height flow (no min-h-screen) combining Contact and Footer in one cohesive proportional block.
  *   - Moderate heading sizes to prevent overbearing layout proportions.
  *   - Clearer border divider lines for high-visibility.
  *   - Fixed, clean standard WhatsApp SVG icon.
@@ -49,16 +49,15 @@ export default function Contact() {
   return (
     <section
       id="contact"
-      className="relative min-h-screen bg-[#070707] flex flex-col justify-between overflow-hidden text-white z-30 pt-24 pb-8"
+      className="relative bg-[#070707] flex flex-col justify-between overflow-hidden text-white z-30 pt-24 pb-8"
     >
-      {/* Main container - centered vertically within the natural flex flow */}
-      <div className="relative z-10 w-full max-w-[1536px] mx-auto px-8 lg:px-6 py-6 my-auto">
+      {/* Main container - integrated with natural flow layout */}
+      <div className="relative z-10 w-full max-w-[1536px] mx-auto px-8 lg:px-6 py-6 mb-16">
         <div className="flex flex-col lg:flex-row items-start justify-between w-full gap-16">
           
           {/* Left Column — Title, Bio & Metadata (aligned at pl-[83px]) */}
           <div className="flex flex-col gap-6 max-w-[580px] text-left lg:pl-[83px]">
             <motion.h2
-              // Moderated from text-8xl to text-5xl/6xl/7xl to prevent oversized lettering
               className="font-[family-name:var(--font-fredericka)] text-5xl sm:text-6xl lg:text-7xl tracking-[8px] uppercase text-white leading-none"
               initial={{ opacity: 0, y: 30 }}
               whileInView={{ opacity: 1, y: 0 }}
@@ -187,8 +186,8 @@ export default function Contact() {
         </div>
       </div>
 
-      {/* Footer Area — Positioned naturally at the bottom flow to prevent overlap */}
-      <div className="w-full flex-shrink-0 mt-auto pb-8">
+      {/* Footer Area — Flowing naturally at the bottom, tight and proportional */}
+      <div className="w-full flex-shrink-0 pb-8">
         <div className="w-full max-w-[1536px] mx-auto flex flex-col sm:flex-row items-center justify-between gap-4 pt-6 border-t border-white/20 px-8 lg:px-[107px]">
           <p className="font-[family-name:var(--font-imfell)] text-[10px] text-white/45 tracking-[4px] uppercase">
             © 2026 Meyky Ajmariadi
