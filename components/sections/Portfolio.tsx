@@ -170,22 +170,14 @@ function ProjectCards() {
           easeConfig = ['linear', 'easeInOut']
         }
 
-        // Animate zIndex keyframes natively with precise step timings to prevent early clipping
-        let zIndexValue: number[] = [10, 10, 10, 10]
-        const zIndexTimes: number[] = [0, 0.54, 0.55, 1.0]
-
+        // Animate zIndex values using a custom step easing function to prevent interpolation
+        let zIndexValue: number[] = [slot.zIndex]
         if (isSwingingToBack) {
-          // Keep at zIndex 40 (highest front) for first 54%, then swap instantly to 10 (back) at 55%
-          zIndexValue = [40, 40, 10, 10]
+          zIndexValue = [40, 10]
         } else if (isBackToMid) {
-          zIndexValue = [10, 10, 20, 20]
+          zIndexValue = [10, 20]
         } else if (isMidToFront) {
-          zIndexValue = [20, 20, 30, 30]
-        } else {
-          // Static fallback mapping
-          if (slotIdx === 0) zIndexValue = [10, 10, 10, 10]
-          if (slotIdx === 1) zIndexValue = [20, 20, 20, 20]
-          if (slotIdx === 2) zIndexValue = [30, 30, 30, 30]
+          zIndexValue = [20, 30]
         }
 
         return (
@@ -222,9 +214,9 @@ function ProjectCards() {
               },
               zIndex: {
                 type: 'tween',
-                ease: 'linear',
+                // Custom step ease: outputs 0 (start value) until 55% progress, then instantly outputs 1 (end value)
+                ease: (t: number) => (t < 0.55 ? 0 : 1),
                 duration: 0.6,
-                times: zIndexTimes,
               },
               opacity: TWEEN_SWING,
             }}
