@@ -81,7 +81,7 @@ export default function AboutMe() {
       className="relative min-h-screen flex flex-col justify-between overflow-hidden bg-white"
     >
       {/* Spacer to balance navbar height */}
-      <div className="h-20 flex-shrink-0" />
+      <div className="h-[152px] flex-shrink-0" />
 
       {/* Main container - centered vertically */}
       <div className="relative z-10 flex-1 flex items-center justify-center max-w-[1536px] mx-auto w-full px-8 lg:px-6 py-6">
@@ -182,7 +182,7 @@ export default function AboutMe() {
       </div>
 
       {/* Spacer to balance bottom centering */}
-      <div className="h-20 flex-shrink-0" />
+      <div className="h-[80px] flex-shrink-0" />
     </section>
   )
 }
