@@ -186,9 +186,10 @@ function ProjectCards() {
               width:  CARD_W,
               height: CARD_H,
               zIndex: cardZIndexes[proj.id], // State-driven z-index
+              // Ultra-clean minimal shadows: tight vertical Y-offset and low opacity for sleek premium UI
               boxShadow: isFront
-                ? '0px 12px 36px rgba(0,0,0,0.12)'
-                : '0px 4px 16px rgba(0,0,0,0.06)',
+                ? '0px 8px 24px rgba(0, 0, 0, 0.08)'
+                : '0px 4px 12px rgba(0, 0, 0, 0.04)',
               willChange: 'transform',
             }}
             animate={{
@@ -261,7 +262,6 @@ function ProjectCards() {
 }
 
 /* ─── Section ─── */
-import { motion as m2 } from 'framer-motion'
 
 export default function Portfolio() {
   return (
@@ -269,7 +269,7 @@ export default function Portfolio() {
       id="portfolio"
       className="relative z-30 min-h-screen flex flex-col items-center justify-center bg-white py-12 overflow-hidden"
     >
-      <m2.h2
+      <motion.h2
         className="font-[family-name:var(--font-fredericka)] text-4xl tracking-[8px] text-shadow-heading uppercase text-center mb-8"
         initial={{ opacity: 0, y: 20 }}
         whileInView={{ opacity: 1, y: 0 }}
@@ -277,10 +277,10 @@ export default function Portfolio() {
         transition={{ duration: 0.6 }}
       >
         PORTFOLIO
-      </m2.h2>
+      </motion.h2>
 
       {/* Reverted wrapper to match natural 540px height for natural visual balance */}
-      <m2.div
+      <motion.div
         className="flex justify-center"
         initial={{ opacity: 0, y: 30 }}
         whileInView={{ opacity: 1, y: 0 }}
@@ -288,7 +288,7 @@ export default function Portfolio() {
         transition={{ duration: 0.7 }}
       >
         <ProjectCards />
-      </m2.div>
+      </motion.div>
     </section>
   )
 }
