@@ -161,6 +161,8 @@ export default function HeroPortfolio() {
         </div>
       </div>
 
+      {/* Bottom spacer to balance the top navbar spacer for perfect vertical centering */}
+      <div className="h-20 flex-shrink-0" />
     </section>
   )
 }
