@@ -8,10 +8,6 @@ import { motion } from 'framer-motion'
  *   Center card:     w-[830]  h-[500]  — front, full size (scaled proportionally from 1027x618 for viewport safety)
  *   Left peek card:  w-[716]  h-[400]  — smaller, centered vertically (scaled from 923x516)
  *   Right peek card: w-[716]  h-[400]  — smaller, centered vertically (scaled from 923x516)
- *
- * Layout:
- *   - mb-8 on H2 heading to reduce visual gap and pull heading closer to the cards.
- *   - Symmetric vertical spacers and flex-1 alignment for absolute viewport centering.
  */
 
 const CERTS = [
@@ -117,15 +113,12 @@ export default function Certifications() {
   return (
     <section
       id="certifications"
-      className="relative z-10 min-h-screen flex flex-col justify-between items-center bg-white py-0 overflow-hidden"
+      className="relative z-10 min-h-screen flex flex-col justify-center items-center bg-white py-0 pt-[72px] overflow-hidden"
     >
-      {/* 1. Top Navbar offset spacer (height of navbar) */}
-      <div className="h-[72px] flex-shrink-0" />
-
-      {/* 2. Header Area — Asymmetric spacing: pt-16 (64px) to navbar, pb-10 (40px) to cards (pushing heading down) */}
-      <div className="w-full flex-shrink-0 pt-16 pb-10 flex items-center justify-center">
+      {/* Main container - centered vertically in the viewport */}
+      <div className="relative z-10 w-full max-w-[1536px] mx-auto px-8 lg:px-6 py-6 flex flex-col items-center justify-center">
         <motion.h2
-          className="font-[family-name:var(--font-fredericka)] text-4xl tracking-[8px] text-shadow-heading uppercase text-center"
+          className="font-[family-name:var(--font-fredericka)] text-4xl tracking-[8px] text-shadow-heading uppercase text-center mb-10"
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
@@ -133,10 +126,7 @@ export default function Certifications() {
         >
           CERTIFICATIONS
         </motion.h2>
-      </div>
 
-      {/* 3. Card Stage Area — fills the remaining vertical space and centers the card stack vertically */}
-      <div className="flex-1 flex items-center justify-center w-full">
         {/* Stage — height = center card height */}
         <div className="relative w-full flex-shrink-0" style={{ height: CENTER_H }}>
           {CERTS.map((cert, i) => {
@@ -215,9 +205,6 @@ export default function Certifications() {
           })}
         </div>
       </div>
-
-      {/* 4. Bottom spacer to perfectly balance the 120px layout offset on top */}
-      <div className="h-[128px] flex-shrink-0" />
     </section>
   )
 }
