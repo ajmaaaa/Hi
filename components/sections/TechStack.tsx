@@ -187,7 +187,7 @@ export default function TechStack() {
   return (
     <section
       id="techstack"
-      className="relative z-10 min-h-screen flex flex-col items-center justify-center bg-white py-12 overflow-hidden"
+      className="relative z-10 min-h-screen flex flex-col items-center justify-center bg-white py-24 overflow-hidden"
     >
       <motion.h2
         className="font-[family-name:var(--font-fredericka)] text-4xl tracking-[8px] text-shadow-heading uppercase text-center mb-8"
@@ -199,88 +199,83 @@ export default function TechStack() {
         TECH STACK
       </motion.h2>
 
-      {/* Stage Wrapper - Height matching Certifications 618px container (cards centered inside) */}
-      <div className="w-full flex items-center justify-center flex-shrink-0" style={{ height: 618 }}>
-        <div className="w-full">
-          {/* Card stage */}
-          <div
-            className="relative flex items-center justify-center overflow-hidden"
-            style={{ height: `${CENTER_H + 40}px` }}
-          >
-            {TECH_CARDS.map((card, cardIdx) => {
-              const posIdx = order.indexOf(cardIdx)
-              const pos = positions[posIdx]
-              const slot = getSlot(pos)
-              const isCenter = pos === 'center'
+      {/* Card stage — Reverted to natural 540px height for natural visual balance */}
+      <div
+        className="relative flex items-center justify-center overflow-hidden w-full"
+        style={{ height: `${CENTER_H + 40}px` }}
+      >
+        {TECH_CARDS.map((card, cardIdx) => {
+          const posIdx = order.indexOf(cardIdx)
+          const pos = positions[posIdx]
+          const slot = getSlot(pos)
+          const isCenter = pos === 'center'
 
-              return (
-                <motion.div
-                  key={card.id}
-                  className={[
-                    'absolute rounded-[16px] border border-black/10 bg-white flex flex-col items-center p-6 select-none overflow-hidden transition-shadow duration-300',
-                    !isCenter ? 'cursor-pointer hover:border-black/20' : '',
-                  ].join(' ')}
-                  style={{
-                    boxShadow: isCenter
-                      ? '0px 20px 48px rgba(0,0,0,0.12)'
-                      : '0px 4px 16px rgba(0,0,0,0.06)',
-                  }}
-                  animate={{
-                    x: slot.x,
-                    width: slot.width,
-                    height: slot.height,
-                    zIndex: slot.zIndex,
-                    opacity: slot.opacity,
-                    rotate: slot.rotate,
-                  }}
-                  transition={{ type: 'spring', stiffness: 220, damping: 24 }}
-                  onClick={() => {
-                    if (pos === 'left') clickLeft()
-                    else if (pos === 'right') clickRight()
-                  }}
-                >
-                  {/* 1. Header Area — Structured and clean */}
-                  <div className="flex flex-col items-center gap-1.5 w-full text-center mb-1 flex-shrink-0">
-                    <span className="font-[family-name:var(--font-imfell)] text-[10px] tracking-[4.5px] uppercase text-black/35 font-medium">
-                      {card.subtitle}
-                    </span>
-                    <h3 className="font-[family-name:var(--font-fredericka)] text-xl lg:text-2xl tracking-[3px] text-shadow-heading uppercase text-black font-semibold">
-                      {card.title}
-                    </h3>
-                  </div>
+          return (
+            <motion.div
+              key={card.id}
+              className={[
+                'absolute rounded-[16px] border border-black/10 bg-white flex flex-col items-center p-6 select-none overflow-hidden transition-shadow duration-300',
+                !isCenter ? 'cursor-pointer hover:border-black/20' : '',
+              ].join(' ')}
+              style={{
+                boxShadow: isCenter
+                  ? '0px 20px 48px rgba(0,0,0,0.12)'
+                  : '0px 4px 16px rgba(0,0,0,0.06)',
+              }}
+              animate={{
+                x: slot.x,
+                width: slot.width,
+                height: slot.height,
+                zIndex: slot.zIndex,
+                opacity: slot.opacity,
+                rotate: slot.rotate,
+              }}
+              transition={{ type: 'spring', stiffness: 220, damping: 24 }}
+              onClick={() => {
+                if (pos === 'left') clickLeft()
+                else if (pos === 'right') clickRight()
+              }}
+            >
+              {/* 1. Header Area — Structured and clean */}
+              <div className="flex flex-col items-center gap-1.5 w-full text-center mb-1 flex-shrink-0">
+                <span className="font-[family-name:var(--font-imfell)] text-[10px] tracking-[4.5px] uppercase text-black/35 font-medium">
+                  {card.subtitle}
+                </span>
+                <h3 className="font-[family-name:var(--font-fredericka)] text-xl lg:text-2xl tracking-[3px] text-shadow-heading uppercase text-black font-semibold">
+                  {card.title}
+                </h3>
+              </div>
 
-                  {/* 2. Visual Illustration Box */}
-                  <div
-                    className="w-full rounded-[10px] bg-zinc-950 flex flex-col items-center justify-center relative overflow-hidden border border-black/15 shadow-inner flex-1 my-3"
-                    style={{ minHeight: '110px' }}
-                  >
-                    {card.illustration}
-                  </div>
+              {/* 2. Visual Illustration Box */}
+              <div
+                className="w-full rounded-[10px] bg-zinc-950 flex flex-col items-center justify-center relative overflow-hidden border border-black/15 shadow-inner flex-1 my-3"
+                style={{ minHeight: '110px' }}
+              >
+                {card.illustration}
+              </div>
 
-                  {/* 3. Footer Tools Area */}
-                  <div className="w-full flex flex-col items-center mt-1 pt-3 border-t border-zinc-100 flex-shrink-0">
-                    <span className="font-[family-name:var(--font-imfell)] text-[9px] tracking-[3px] text-zinc-400 uppercase font-semibold mb-3 self-start pl-1">
-                      TOOLS & SKILLS
-                    </span>
-                    
-                    {/* Skill Pills Grid */}
-                    <div className={`grid grid-cols-3 w-full ${isCenter ? 'gap-x-4 gap-y-3' : 'gap-x-2 gap-y-2'}`}>
-                      {card.skills.map((skill, i) => (
-                        <SkillPill
-                          key={i}
-                          label={skill.label}
-                          icon={skill.icon}
-                          size={isCenter ? 'md' : 'sm'}
-                        />
-                      ))}
-                    </div>
-                  </div>
+              {/* 3. Footer Tools Area */}
+              <div className="w-full flex flex-col items-center mt-1 pt-3 border-t border-zinc-100 flex-shrink-0">
+                <span className="font-[family-name:var(--font-imfell)] text-[9px] tracking-[3px] text-zinc-400 uppercase font-semibold mb-3 self-start pl-1">
+                  TOOLS & SKILLS
+                </span>
+                
+                {/* Skill Pills Grid */}
+                <div className={`grid grid-cols-3 w-full ${isCenter ? 'gap-x-4 gap-y-3' : 'gap-x-2 gap-y-2'}`}>
+                  {card.skills.map((skill, i) => (
+                    <SkillPill
+                      key={i}
+                      label={skill.label}
+                      icon={skill.icon}
+                      size={isCenter ? 'md' : 'sm'}
+                    />
+                  ))}
+                </div>
+              </div>
 
-                </motion.div>
-              )
-            })}
-          </div>
-        </div>
+            </motion.div>
+          )
+        })}
       </div>
     </section>
   )
