@@ -127,8 +127,8 @@ export default function Certifications() {
           CERTIFICATIONS
         </motion.h2>
 
-        {/* Stage — height = center card height */}
-        <div className="relative w-full flex-shrink-0" style={{ height: CENTER_H }}>
+        {/* Stage — matching TechStack & Portfolio stage height (540px) for identical heading spacing */}
+        <div className="relative flex items-center justify-center w-full flex-shrink-0" style={{ height: `${CENTER_H + 40}px` }}>
           {CERTS.map((cert, i) => {
             const slotIdx = (i - active + N) % N
             const prevSlotIdx = (i - prevActive + N) % N
@@ -167,7 +167,7 @@ export default function Certifications() {
                 }}
                 animate={{
                   x:       xValue,
-                  y:       (CENTER_H - slot.height) / 2, // Centered vertically on stage
+                  y:       (CENTER_H + 40 - slot.height) / 2, // Centered vertically on 540px stage
                   width:   slot.width,
                   height:  slot.height,
                   opacity: slot.opacity,
