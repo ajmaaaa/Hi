@@ -97,7 +97,7 @@ export default function HeroPortfolio() {
           <div className="relative flex-shrink-0 hidden lg:block" style={{ width: '588px', height: '433px' }}>
             {/* Card B — back, +15° (zIndex: 20 to overlap on top) */}
             <motion.div
-              className="absolute rounded-[10px] border border-black/10 bg-white"
+              className="absolute rounded-[18px] border border-black/10 bg-white"
               style={{
                 width: '224px', height: '320px',
                 left: '243px', top: '113px',
@@ -115,7 +115,7 @@ export default function HeroPortfolio() {
 
             {/* Card A — front, -13° (zIndex: 10, shifted to left: -70px to prevent overlapping) */}
             <motion.div
-              className="absolute rounded-[10px] border border-black/10 bg-white"
+              className="absolute rounded-[18px] border border-black/10 bg-white"
               style={{
                 width: '224px', height: '320px',
                 left: '-70px', top: '0px',
@@ -135,7 +135,7 @@ export default function HeroPortfolio() {
           {/* Mobile simplified polaroid list */}
           <div className="relative lg:hidden" style={{ width: '260px', height: '300px' }}>
             <motion.div
-              className="absolute rounded-[10px] border border-black/10 bg-white"
+              className="absolute rounded-[18px] border border-black/10 bg-white"
               style={{ width: '190px', height: '270px', right: 0, top: '30px', zIndex: 10, boxShadow: '0px 4px 4px rgba(0,0,0,0.25)', rotate: 12 }}
               initial={{ y: -400, opacity: 0 }}
               animate={{ y: [0, -6, 0] }}
@@ -146,7 +146,7 @@ export default function HeroPortfolio() {
               </div>
             </motion.div>
             <motion.div
-              className="absolute rounded-[10px] border border-black/10 bg-white"
+              className="absolute rounded-[18px] border border-black/10 bg-white"
               style={{ width: '190px', height: '270px', left: 0, top: 0, zIndex: 20, boxShadow: '0px 4px 4px rgba(0,0,0,0.25)', rotate: -10 }}
               initial={{ y: -400, opacity: 0 }}
               animate={{ y: [0, -8, 0] }}
