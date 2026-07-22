@@ -193,7 +193,7 @@ export default function Certifications() {
                   </span>
                 </div>
                 <div className="flex flex-col gap-2">
-                  <p className="font-[family-name:var(--font-fredericka)] text-2xl tracking-[4px] uppercase text-black">
+                  <p className="font-[family-name:var(--font-fredericka)] text-2xl tracking-[4px] uppercase text-black/80">
                     {cert.title}
                   </p>
                   <p className="font-[family-name:var(--font-libertinus)] text-base text-black/55">
