@@ -2,12 +2,12 @@ import type { Metadata } from 'next'
 import './globals.css'
 
 export const metadata: Metadata = {
-  title: 'Meyky Ajmariadi — Portfolio',
+  title: 'Meyky Ajmariadi - Portfolio',
   description:
-    'Portfolio personal Meyky Ajmariadi — Mahasiswa teknik informatika yang ingin mencapai tujuan nya.',
+    'Portfolio personal Meyky Ajmariadi, Mahasiswa teknik informatika yang ingin mencapai tujuan nya.',
   keywords: ['portfolio', 'meyky ajmariadi', 'teknik informatika', 'design', 'automation'],
   openGraph: {
-    title: 'Meyky Ajmariadi — Portfolio',
+    title: 'Meyky Ajmariadi - Portfolio',
     description: 'Mahasiswa teknik informatika yang ingin mencapai tujuan nya.',
     type: 'website',
   },
