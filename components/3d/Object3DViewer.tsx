@@ -90,7 +90,7 @@ export default function Object3DViewer() {
   return (
     <div
       ref={containerRef}
-      className={`relative w-full max-w-[880px] h-[520px] sm:h-[640px] lg:h-[720px] flex items-center justify-center select-none touch-none ${
+      className={`relative w-full max-w-[1020px] h-[580px] sm:h-[700px] lg:h-[820px] flex items-center justify-center select-none touch-none ${
         isDragging ? 'cursor-grabbing' : 'cursor-grab'
       }`}
       onPointerDown={handlePointerDown}
