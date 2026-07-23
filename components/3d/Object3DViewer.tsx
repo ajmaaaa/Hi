@@ -1,7 +1,6 @@
 'use client'
 
 import React, { useState, useEffect, useRef, useCallback } from 'react'
-import Image from 'next/image'
 import { FRAME_IMAGES } from './images'
 
 const TOTAL_FRAMES = FRAME_IMAGES.length
@@ -15,7 +14,7 @@ export default function Object3DViewer() {
   const dragStartFrameRef = useRef<number>(0)
   const containerRef = useRef<HTMLDivElement>(null)
 
-  // Preload all frame images into browser memory to eliminate flicker
+  // Preload all frame images into browser memory to eliminate any loading delay
   useEffect(() => {
     FRAME_IMAGES.forEach((imgObj) => {
       const img = new window.Image()
@@ -77,25 +76,17 @@ export default function Object3DViewer() {
       onPointerUp={handlePointerUp}
       onPointerCancel={handlePointerUp}
     >
-      {/* Raw 3D Object image sequence display */}
+      {/* Instantaneous 0ms frame switching without opacity transitions or flicker */}
       <div className="relative w-full h-full flex items-center justify-center">
         {FRAME_IMAGES.map((imgObj, idx) => (
-          <div
+          <img
             key={idx}
-            className={`absolute inset-0 flex items-center justify-center transition-opacity duration-75 ${
-              idx === currentFrame ? 'opacity-100 z-10' : 'opacity-0 z-0 pointer-events-none'
-            }`}
-          >
-            <Image
-              src={imgObj}
-              alt={`3D Object Frame ${idx + 1}`}
-              fill
-              sizes="(max-width: 768px) 100vw, 760px"
-              priority={idx === 0}
-              className="object-contain pointer-events-none select-none"
-              draggable={false}
-            />
-          </div>
+            src={imgObj.src}
+            alt={`3D Object Frame ${idx + 1}`}
+            className="absolute inset-0 w-full h-full object-contain pointer-events-none select-none"
+            draggable={false}
+            style={{ display: idx === currentFrame ? 'block' : 'none' }}
+          />
         ))}
       </div>
     </div>
