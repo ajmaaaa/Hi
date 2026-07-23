@@ -42,7 +42,8 @@ export default function Object3DViewer() {
       const deltaX = e.clientX - dragStartXRef.current
       const frameOffset = Math.round(deltaX / PIXELS_PER_FRAME)
       const rawFrame = dragStartFrameRef.current - frameOffset
-      const nextFrame = ((rawFrame % TOTAL_FRAMES) + TOTAL_FRAMES) % TOTAL_FRAMES
+      // Clamp frame between 0 and TOTAL_FRAMES - 1 (no 360 loop)
+      const nextFrame = Math.max(0, Math.min(TOTAL_FRAMES - 1, rawFrame))
       setCurrentFrame(nextFrame)
     },
     [isDragging]
