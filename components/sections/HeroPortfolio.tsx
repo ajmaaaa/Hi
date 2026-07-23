@@ -81,7 +81,7 @@ export default function HeroPortfolio() {
 
           {/* Right — 3D Object Viewer */}
           <motion.div
-            className="flex items-center justify-center w-full max-w-[760px] flex-shrink-0 lg:mr-[100px] lg:-ml-[60px]"
+            className="flex items-center justify-center w-full max-w-[880px] flex-shrink-0 lg:mr-[100px] lg:-ml-[80px]"
             initial={{ opacity: 0, scale: 0.9 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ duration: 0.8, delay: 0.2 }}

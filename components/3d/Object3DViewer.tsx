@@ -7,12 +7,15 @@ const TOTAL_FRAMES = FRAME_IMAGES.length
 const PIXELS_PER_FRAME = 7 // Adjust sensitivity: lower number = faster rotation on drag
 
 export default function Object3DViewer() {
-  const [currentFrame, setCurrentFrame] = useState(0)
   const [isDragging, setIsDragging] = useState(false)
 
+  const activeFrameRef = useRef<number>(0)
+  const targetFrameRef = useRef<number>(0)
   const dragStartXRef = useRef<number>(0)
   const dragStartFrameRef = useRef<number>(0)
   const containerRef = useRef<HTMLDivElement>(null)
+  const imgRefs = useRef<(HTMLImageElement | null)[]>([])
+  const rafPendingRef = useRef<number | null>(null)
 
   // Preload all frame images into browser memory to eliminate any loading delay
   useEffect(() => {
@@ -22,17 +25,36 @@ export default function Object3DViewer() {
     })
   }, [])
 
+  // Direct DOM frame switcher synced with display refresh rate (RAF) for 120 FPS buttery smoothness
+  const updateFrameDOM = useCallback((newFrame: number) => {
+    targetFrameRef.current = newFrame
+    if (rafPendingRef.current !== null) return
+
+    rafPendingRef.current = requestAnimationFrame(() => {
+      rafPendingRef.current = null
+      const target = targetFrameRef.current
+      const current = activeFrameRef.current
+      if (target !== current) {
+        const prevImg = imgRefs.current[current]
+        const nextImg = imgRefs.current[target]
+        if (prevImg) prevImg.style.display = 'none'
+        if (nextImg) nextImg.style.display = 'block'
+        activeFrameRef.current = target
+      }
+    })
+  }, [])
+
   // Drag handlers
   const handlePointerDown = useCallback(
     (e: React.PointerEvent<HTMLDivElement>) => {
       setIsDragging(true)
       dragStartXRef.current = e.clientX
-      dragStartFrameRef.current = currentFrame
+      dragStartFrameRef.current = activeFrameRef.current
       if (containerRef.current) {
         containerRef.current.setPointerCapture(e.pointerId)
       }
     },
-    [currentFrame]
+    []
   )
 
   const handlePointerMove = useCallback(
@@ -44,9 +66,9 @@ export default function Object3DViewer() {
       const rawFrame = dragStartFrameRef.current + frameOffset
       // Clamp frame between 0 and TOTAL_FRAMES - 1 (no 360 loop)
       const nextFrame = Math.max(0, Math.min(TOTAL_FRAMES - 1, rawFrame))
-      setCurrentFrame(nextFrame)
+      updateFrameDOM(nextFrame)
     },
-    [isDragging]
+    [isDragging, updateFrameDOM]
   )
 
   const handlePointerUp = useCallback(
@@ -68,7 +90,7 @@ export default function Object3DViewer() {
   return (
     <div
       ref={containerRef}
-      className={`relative w-full max-w-[760px] h-[480px] sm:h-[580px] lg:h-[660px] flex items-center justify-center select-none touch-none ${
+      className={`relative w-full max-w-[880px] h-[520px] sm:h-[640px] lg:h-[720px] flex items-center justify-center select-none touch-none ${
         isDragging ? 'cursor-grabbing' : 'cursor-grab'
       }`}
       onPointerDown={handlePointerDown}
@@ -76,16 +98,19 @@ export default function Object3DViewer() {
       onPointerUp={handlePointerUp}
       onPointerCancel={handlePointerUp}
     >
-      {/* Instantaneous 0ms frame switching without opacity transitions or flicker */}
+      {/* 120 FPS Direct DOM GPU-accelerated frame switching without React re-render bottleneck */}
       <div className="relative w-full h-full flex items-center justify-center">
         {FRAME_IMAGES.map((imgObj, idx) => (
           <img
             key={idx}
+            ref={(el) => {
+              imgRefs.current[idx] = el
+            }}
             src={imgObj.src}
             alt={`3D Object Frame ${idx + 1}`}
             className="absolute inset-0 w-full h-full object-contain pointer-events-none select-none"
             draggable={false}
-            style={{ display: idx === currentFrame ? 'block' : 'none' }}
+            style={{ display: idx === 0 ? 'block' : 'none' }}
           />
         ))}
       </div>
