@@ -41,7 +41,8 @@ export default function Object3DViewer() {
       if (!isDragging) return
       const deltaX = e.clientX - dragStartXRef.current
       const frameOffset = Math.round(deltaX / PIXELS_PER_FRAME)
-      const rawFrame = dragStartFrameRef.current - frameOffset
+      // Inverted direction: + frameOffset so dragging right advances frames in the natural direction
+      const rawFrame = dragStartFrameRef.current + frameOffset
       // Clamp frame between 0 and TOTAL_FRAMES - 1 (no 360 loop)
       const nextFrame = Math.max(0, Math.min(TOTAL_FRAMES - 1, rawFrame))
       setCurrentFrame(nextFrame)
@@ -68,7 +69,7 @@ export default function Object3DViewer() {
   return (
     <div
       ref={containerRef}
-      className={`relative w-full max-w-[480px] h-[380px] sm:h-[420px] lg:h-[450px] flex items-center justify-center select-none touch-none ${
+      className={`relative w-full max-w-[620px] h-[420px] sm:h-[500px] lg:h-[560px] flex items-center justify-center select-none touch-none ${
         isDragging ? 'cursor-grabbing' : 'cursor-grab'
       }`}
       onPointerDown={handlePointerDown}
@@ -89,7 +90,7 @@ export default function Object3DViewer() {
               src={imgObj}
               alt={`3D Object Frame ${idx + 1}`}
               fill
-              sizes="(max-width: 768px) 100vw, 480px"
+              sizes="(max-width: 768px) 100vw, 620px"
               priority={idx === 0}
               className="object-contain pointer-events-none select-none"
               draggable={false}
