@@ -10,7 +10,6 @@ const PIXELS_PER_FRAME = 7 // Adjust sensitivity: lower number = faster rotation
 export default function Object3DViewer() {
   const [currentFrame, setCurrentFrame] = useState(0)
   const [isDragging, setIsDragging] = useState(false)
-  const [isHovered, setIsHovered] = useState(false)
 
   const dragStartXRef = useRef<number>(0)
   const dragStartFrameRef = useRef<number>(0)
@@ -23,17 +22,6 @@ export default function Object3DViewer() {
       img.src = imgObj.src
     })
   }, [])
-
-  // Auto-spin animation when user is idle (not dragging and not hovering)
-  useEffect(() => {
-    if (isDragging || isHovered) return
-
-    const interval = setInterval(() => {
-      setCurrentFrame((prev) => (prev + 1) % TOTAL_FRAMES)
-    }, 90)
-
-    return () => clearInterval(interval)
-  }, [isDragging, isHovered])
 
   // Drag handlers
   const handlePointerDown = useCallback(
@@ -86,8 +74,6 @@ export default function Object3DViewer() {
       onPointerMove={handlePointerMove}
       onPointerUp={handlePointerUp}
       onPointerCancel={handlePointerUp}
-      onMouseEnter={() => setIsHovered(true)}
-      onMouseLeave={() => setIsHovered(false)}
     >
       {/* Raw 3D Object image sequence display */}
       <div className="relative w-full h-full flex items-center justify-center">
