@@ -4,6 +4,7 @@ import { useEffect } from 'react'
 import { motion, useAnimation } from 'framer-motion'
 import Button from '@/components/ui/Button'
 import { fadeInUp, staggerContainer } from '@/lib/animationVariants'
+import Object3DViewer from '@/components/3d/Object3DViewer'
 
 /**
  * Hero section: Perfectly aligned with the navbar grid, centering vertically excluding navbar.
@@ -78,70 +79,80 @@ export default function HeroPortfolio() {
             </motion.div>
           </motion.div>
 
-          {/* Right — two polaroid cards with corrected spacing offset */}
-          <div className="relative flex-shrink-0 hidden lg:block" style={{ width: '588px', height: '433px' }}>
-            {/* Card B — back, +15° (zIndex: 20 to overlap on top) */}
-            <motion.div
-              className="absolute rounded-[18px] border border-black/10 bg-white"
-              style={{
-                width: '224px', height: '320px',
-                left: '243px', top: '113px',
-                zIndex: 20,
-                boxShadow: '0px 4px 4px rgba(0,0,0,0.25)',
-                rotate: 15,
-              }}
-              initial={{ y: -700, opacity: 0 }}
-              animate={controlsB}
-            >
-              <div className="flex items-start justify-center pt-5 h-full">
-                <div className="w-44 h-64 border border-black rounded-lg bg-zinc-200" />
-              </div>
-            </motion.div>
+          {/* Right — 3D Object Viewer */}
+          <motion.div
+            className="flex items-center justify-center w-full max-w-[500px] flex-shrink-0"
+            initial={{ opacity: 0, scale: 0.9 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ duration: 0.8, delay: 0.2 }}
+          >
+            <Object3DViewer />
+          </motion.div>
 
-            {/* Card A — front, -13° (zIndex: 10, shifted to left: -70px to prevent overlapping) */}
-            <motion.div
-              className="absolute rounded-[18px] border border-black/10 bg-white"
-              style={{
-                width: '224px', height: '320px',
-                left: '-70px', top: '0px',
-                zIndex: 10,
-                boxShadow: '0px 4px 4px rgba(0,0,0,0.25)',
-                rotate: -13,
-              }}
-              initial={{ y: -700, opacity: 0 }}
-              animate={controlsA}
-            >
-              <div className="flex items-start justify-center pt-5 h-full">
-                <div className="w-44 h-64 border border-black rounded-lg bg-zinc-200" />
-              </div>
-            </motion.div>
-          </div>
+          {/* 
+            OLD FLOATING POLAROID CARDS (COMMENTED OUT AS REQUESTED):
+            
+            <div className="relative flex-shrink-0 hidden lg:block" style={{ width: '588px', height: '433px' }}>
+              <motion.div
+                className="absolute rounded-[18px] border border-black/10 bg-white"
+                style={{
+                  width: '224px', height: '320px',
+                  left: '243px', top: '113px',
+                  zIndex: 20,
+                  boxShadow: '0px 4px 4px rgba(0,0,0,0.25)',
+                  rotate: 15,
+                }}
+                initial={{ y: -700, opacity: 0 }}
+                animate={controlsB}
+              >
+                <div className="flex items-start justify-center pt-5 h-full">
+                  <div className="w-44 h-64 border border-black rounded-lg bg-zinc-200" />
+                </div>
+              </motion.div>
 
-          {/* Mobile simplified polaroid list */}
-          <div className="relative lg:hidden" style={{ width: '260px', height: '300px' }}>
-            <motion.div
-              className="absolute rounded-[18px] border border-black/10 bg-white"
-              style={{ width: '190px', height: '270px', right: 0, top: '30px', zIndex: 10, boxShadow: '0px 4px 4px rgba(0,0,0,0.25)', rotate: 12 }}
-              initial={{ y: -400, opacity: 0 }}
-              animate={{ y: [0, -6, 0] }}
-              transition={{ delay: 1.2, duration: 4, repeat: Infinity, repeatType: 'mirror', ease: 'easeInOut' }}
-            >
-              <div className="flex items-start justify-center pt-4 h-full">
-                <div className="w-36 h-52 border border-black rounded-lg bg-zinc-200" />
-              </div>
-            </motion.div>
-            <motion.div
-              className="absolute rounded-[18px] border border-black/10 bg-white"
-              style={{ width: '190px', height: '270px', left: 0, top: 0, zIndex: 20, boxShadow: '0px 4px 4px rgba(0,0,0,0.25)', rotate: -10 }}
-              initial={{ y: -400, opacity: 0 }}
-              animate={{ y: [0, -8, 0] }}
-              transition={{ delay: 1, duration: 3.5, repeat: Infinity, repeatType: 'mirror', ease: 'easeInOut' }}
-            >
-              <div className="flex items-start justify-center pt-4 h-full">
-                <div className="w-36 h-52 border border-black rounded-lg bg-zinc-200" />
-              </div>
-            </motion.div>
-          </div>
+              <motion.div
+                className="absolute rounded-[18px] border border-black/10 bg-white"
+                style={{
+                  width: '224px', height: '320px',
+                  left: '-70px', top: '0px',
+                  zIndex: 10,
+                  boxShadow: '0px 4px 4px rgba(0,0,0,0.25)',
+                  rotate: -13,
+                }}
+                initial={{ y: -700, opacity: 0 }}
+                animate={controlsA}
+              >
+                <div className="flex items-start justify-center pt-5 h-full">
+                  <div className="w-44 h-64 border border-black rounded-lg bg-zinc-200" />
+                </div>
+              </motion.div>
+            </div>
+
+            <div className="relative lg:hidden" style={{ width: '260px', height: '300px' }}>
+              <motion.div
+                className="absolute rounded-[18px] border border-black/10 bg-white"
+                style={{ width: '190px', height: '270px', right: 0, top: '30px', zIndex: 10, boxShadow: '0px 4px 4px rgba(0,0,0,0.25)', rotate: 12 }}
+                initial={{ y: -400, opacity: 0 }}
+                animate={{ y: [0, -6, 0] }}
+                transition={{ delay: 1.2, duration: 4, repeat: Infinity, repeatType: 'mirror', ease: 'easeInOut' }}
+              >
+                <div className="flex items-start justify-center pt-4 h-full">
+                  <div className="w-36 h-52 border border-black rounded-lg bg-zinc-200" />
+                </div>
+              </motion.div>
+              <motion.div
+                className="absolute rounded-[18px] border border-black/10 bg-white"
+                style={{ width: '190px', height: '270px', left: 0, top: 0, zIndex: 20, boxShadow: '0px 4px 4px rgba(0,0,0,0.25)', rotate: -10 }}
+                initial={{ y: -400, opacity: 0 }}
+                animate={{ y: [0, -8, 0] }}
+                transition={{ delay: 1, duration: 3.5, repeat: Infinity, repeatType: 'mirror', ease: 'easeInOut' }}
+              >
+                <div className="flex items-start justify-center pt-4 h-full">
+                  <div className="w-36 h-52 border border-black rounded-lg bg-zinc-200" />
+                </div>
+              </motion.div>
+            </div>
+          */}
 
         </div>
       </div>
