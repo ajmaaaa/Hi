@@ -69,7 +69,7 @@ export default function Object3DViewer() {
   return (
     <div
       ref={containerRef}
-      className={`relative w-full max-w-[620px] h-[420px] sm:h-[500px] lg:h-[560px] flex items-center justify-center select-none touch-none ${
+      className={`relative w-full max-w-[760px] h-[480px] sm:h-[580px] lg:h-[660px] flex items-center justify-center select-none touch-none ${
         isDragging ? 'cursor-grabbing' : 'cursor-grab'
       }`}
       onPointerDown={handlePointerDown}
@@ -90,7 +90,7 @@ export default function Object3DViewer() {
               src={imgObj}
               alt={`3D Object Frame ${idx + 1}`}
               fill
-              sizes="(max-width: 768px) 100vw, 620px"
+              sizes="(max-width: 768px) 100vw, 760px"
               priority={idx === 0}
               className="object-contain pointer-events-none select-none"
               draggable={false}
