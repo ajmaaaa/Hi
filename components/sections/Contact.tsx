@@ -135,7 +135,7 @@ export default function Contact() {
 
                 {/* WhatsApp Option with Fixed Clean SVG Icon */}
                 <a
-                  href="https://wa.me/6285117381344"
+                  href="https://wa.me/6281266846453"
                   id="contact-whatsapp"
                   target="_blank"
                   rel="noopener noreferrer"
@@ -147,7 +147,7 @@ export default function Contact() {
                     </svg>
                   </span>
                   <span className="font-[family-name:var(--font-libertinus)] text-xl sm:text-2xl text-white/70 group-hover:text-white transition-colors duration-300 border-b border-transparent group-hover:border-white/30 pb-0.5">
-                    +62 851 1738 1344
+                    081266846453
                   </span>
                 </a>
               </div>
