@@ -5,6 +5,7 @@ import { FRAME_IMAGES } from './images'
 
 const TOTAL_FRAMES = FRAME_IMAGES.length
 const PIXELS_PER_FRAME = 7 // Adjust sensitivity: lower number = faster rotation on drag
+const DRAG_THRESHOLD = 8
 
 export default function Object3DViewer() {
   const [isDragging, setIsDragging] = useState(false)
@@ -15,11 +16,14 @@ export default function Object3DViewer() {
   const isDraggingRef = useRef(false)
   const hasManualInteractionRef = useRef(false)
   const dragStartXRef = useRef<number>(0)
+  const dragStartYRef = useRef<number>(0)
   const dragStartFrameRef = useRef<number>(0)
+  const gestureAxisRef = useRef<'pending' | 'horizontal' | 'vertical' | null>(null)
   const containerRef = useRef<HTMLDivElement>(null)
   const canvasRef = useRef<HTMLCanvasElement>(null)
   const imagesRef = useRef<HTMLImageElement[]>([])
   const rafPendingRef = useRef<number | null>(null)
+  const loadFrameRef = useRef<(index: number) => void>(() => {})
 
   // Draw a specific frame onto the HTML5 Canvas with aspect-ratio contain math
   const drawFrame = useCallback((index: number) => {
@@ -29,7 +33,7 @@ export default function Object3DViewer() {
     const img = imagesRef.current[index]
     if (!ctx || !img || !img.complete || img.naturalWidth === 0) return
 
-    const dpr = window.devicePixelRatio || 1
+    const dpr = Math.min(window.devicePixelRatio || 1, 1.5)
     const displayWidth = canvas.clientWidth
     const displayHeight = canvas.clientHeight
 
@@ -62,6 +66,11 @@ export default function Object3DViewer() {
   const updateFrameRAF = useCallback(
     (newFrame: number) => {
       targetFrameRef.current = newFrame
+      loadFrameRef.current(newFrame)
+      for (let offset = 1; offset <= 3; offset++) {
+        loadFrameRef.current(Math.max(0, newFrame - offset))
+        loadFrameRef.current(Math.min(TOTAL_FRAMES - 1, newFrame + offset))
+      }
       if (rafPendingRef.current !== null) return
 
       rafPendingRef.current = requestAnimationFrame(() => {
@@ -76,26 +85,41 @@ export default function Object3DViewer() {
     [drawFrame]
   )
 
-  // Preload all 74 frame images into JS memory objects & render initial frame
+  // Load only the first frames up front; nearby frames are fetched on demand.
   useEffect(() => {
-    let loadedCount = 0
-    const totalCount = FRAME_IMAGES.length
+    if (window.innerWidth < 1024) return
 
-    FRAME_IMAGES.forEach((imgObj, i) => {
+    let cancelled = false
+    const loadFrame = (i: number) => {
+      if (i < 0 || i >= TOTAL_FRAMES || imagesRef.current[i]) return
       const img = new window.Image()
-      img.src = imgObj.src
+      img.decoding = 'async'
+      imagesRef.current[i] = img
+      img.src = FRAME_IMAGES[i].src
       img.onload = () => {
-        loadedCount++
-        if (i === 0 || loadedCount === 1) {
-          drawFrame(0)
-        }
-        if (loadedCount === totalCount) {
+        if (cancelled) return
+        if (i === 0) {
           setIsLoaded(true)
           drawFrame(0)
         }
+        if (targetFrameRef.current === i) {
+          drawFrame(i)
+        }
       }
-      imagesRef.current[i] = img
-    })
+    }
+
+    loadFrameRef.current = loadFrame
+    loadFrame(0)
+    const warmupTimer = window.setTimeout(() => {
+      for (let i = 1; i <= 8; i++) loadFrame(i)
+    }, 500)
+
+    return () => {
+      cancelled = true
+      window.clearTimeout(warmupTimer)
+      loadFrameRef.current = () => {}
+      if (rafPendingRef.current !== null) cancelAnimationFrame(rafPendingRef.current)
+    }
   }, [drawFrame])
 
   // Handle window resize to re-render canvas cleanly
@@ -135,22 +159,37 @@ export default function Object3DViewer() {
   // Drag handlers
   const handlePointerDown = useCallback(
     (e: React.PointerEvent<HTMLDivElement>) => {
-      isDraggingRef.current = true
-      hasManualInteractionRef.current = true
-      setIsDragging(true)
+      if (window.innerWidth < 1024) return
       dragStartXRef.current = e.clientX
+      dragStartYRef.current = e.clientY
       dragStartFrameRef.current = activeFrameRef.current
-      if (containerRef.current) {
-        containerRef.current.setPointerCapture(e.pointerId)
-      }
+      gestureAxisRef.current = 'pending'
     },
     []
   )
 
   const handlePointerMove = useCallback(
     (e: React.PointerEvent<HTMLDivElement>) => {
-      if (!isDragging) return
+      if (window.innerWidth < 1024) return
       const deltaX = e.clientX - dragStartXRef.current
+      const deltaY = e.clientY - dragStartYRef.current
+
+      if (gestureAxisRef.current === 'pending') {
+        if (Math.max(Math.abs(deltaX), Math.abs(deltaY)) < DRAG_THRESHOLD) return
+        if (Math.abs(deltaY) >= Math.abs(deltaX)) {
+          gestureAxisRef.current = 'vertical'
+          return
+        }
+
+        gestureAxisRef.current = 'horizontal'
+        isDraggingRef.current = true
+        hasManualInteractionRef.current = true
+        setIsDragging(true)
+        containerRef.current?.setPointerCapture(e.pointerId)
+      }
+
+      if (gestureAxisRef.current !== 'horizontal') return
+      e.preventDefault()
       const frameOffset = Math.round(deltaX / PIXELS_PER_FRAME)
       // Inverted direction: + frameOffset so dragging right advances frames in the natural direction
       const rawFrame = dragStartFrameRef.current + frameOffset
@@ -158,13 +197,14 @@ export default function Object3DViewer() {
       const nextFrame = Math.max(0, Math.min(TOTAL_FRAMES - 1, rawFrame))
       updateFrameRAF(nextFrame)
     },
-    [isDragging, updateFrameRAF]
+    [updateFrameRAF]
   )
 
   const handlePointerUp = useCallback(
     (e: React.PointerEvent<HTMLDivElement>) => {
       isDraggingRef.current = false
-      if (isDragging) {
+      gestureAxisRef.current = null
+      if (isDraggingRef.current || isDragging) {
         setIsDragging(false)
         if (containerRef.current) {
           try {
@@ -181,7 +221,7 @@ export default function Object3DViewer() {
   return (
     <div
       ref={containerRef}
-      className={`relative h-[360px] w-full max-w-[1020px] sm:h-[520px] lg:h-[820px] flex items-center justify-center select-none touch-none ${
+      className={`relative h-[360px] w-full max-w-[1020px] sm:h-[520px] lg:h-[820px] flex items-center justify-center select-none touch-auto lg:touch-pan-y ${
         isDragging ? 'cursor-grabbing' : 'cursor-grab'
       }`}
       onPointerDown={handlePointerDown}
@@ -190,7 +230,26 @@ export default function Object3DViewer() {
       onPointerCancel={handlePointerUp}
     >
       {/* High-performance HTML5 Canvas: 0ms texture eviction, 100% flicker-free 120 FPS GPU rendering */}
-      <canvas ref={canvasRef} className="w-full h-full object-contain pointer-events-none select-none" />
+      <div
+        data-native-frame-viewer
+        data-frame-urls={JSON.stringify(FRAME_IMAGES.map((frame) => frame.src))}
+        className="h-full w-full touch-pan-y lg:hidden"
+        aria-label="Swipe character horizontally to change frames"
+      >
+        <img
+          data-frame-image
+          src={FRAME_IMAGES[0].src}
+          alt="Meyky character illustration"
+          draggable={false}
+          className="h-full w-full translate-y-10 object-contain sm:translate-y-6"
+        />
+      </div>
+      <img
+        src={FRAME_IMAGES[0].src}
+        alt="Meyky character illustration"
+        className={`absolute inset-0 hidden h-full w-full object-contain transition-opacity lg:block ${isLoaded ? 'opacity-0' : 'opacity-100'}`}
+      />
+      <canvas ref={canvasRef} className={`hidden w-full h-full object-contain pointer-events-none select-none transition-opacity lg:block ${isLoaded ? 'opacity-100' : 'opacity-0'}`} />
     </div>
   )
 }

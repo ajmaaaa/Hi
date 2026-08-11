@@ -56,7 +56,7 @@ export default function HeroPortfolio() {
           <motion.div
             className="relative flex flex-col gap-6 max-w-[600px] items-start text-left w-full lg:pl-[83px]"
             variants={staggerContainer}
-            initial="hidden"
+            initial={false}
             animate="visible"
           >
             <motion.span
@@ -82,7 +82,7 @@ export default function HeroPortfolio() {
           {/* Right — 3D Object Viewer */}
           <motion.div
             className="flex items-center justify-center w-full max-w-[1020px] flex-shrink-0"
-            initial={{ opacity: 0, scale: 0.9 }}
+            initial={false}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ duration: 0.8, delay: 0.2 }}
           >

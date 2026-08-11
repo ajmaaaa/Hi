@@ -111,7 +111,7 @@ export default function StackCard({
           }}
           onDragEnd={handleDragEnd}
           onTap={handleTap}
-          className={`rounded-[10px] border border-black/10 bg-white shadow-[var(--shadow-card)] ${
+          className={`touch-pan-y rounded-[10px] border border-black/10 bg-white shadow-[var(--shadow-card)] ${
             isFront ? 'cursor-grab active:cursor-grabbing' : 'cursor-pointer'
           }`}
           whileTap={isFront ? { scale: 0.98 } : {}}

@@ -57,6 +57,7 @@ export default function AboutMe() {
   })
 
   function cycle() {
+    if (window.innerWidth < 1024) return
     if (isAnimating) return // Ignore click if transition is in progress
     setIsAnimating(true)
 
@@ -106,8 +107,8 @@ export default function AboutMe() {
           <motion.div
             className="flex flex-col gap-6 max-w-[600px] lg:pl-[83px] lg:-translate-y-8"
             variants={staggerContainer}
-            initial="hidden"
-            whileInView="visible"
+            initial={false}
+            animate="visible"
             viewport={{ once: true, margin: '-100px' }}
           >
             <motion.h2
@@ -126,15 +127,16 @@ export default function AboutMe() {
 
           {/* Right — card stack, clickable */}
           <motion.div
-            className="lg:mr-[260px] lg:-translate-y-6"
-            initial={{ opacity: 0, x: 40 }}
-            whileInView={{ opacity: 1, x: 0 }}
+            className="h-[400px] w-[295px] sm:h-[480px] sm:w-[360px] lg:mr-[260px] lg:-translate-y-6"
+            initial={false}
+            animate={{ opacity: 1, x: 0 }}
             viewport={{ once: true, margin: '-100px' }}
             transition={{ duration: 0.7 }}
           >
             {/* Container sized to fit all 3 card positions */}
             <div
-              className="relative cursor-pointer select-none"
+              data-native-about-stack
+              className="relative origin-top-left scale-[0.82] cursor-pointer select-none sm:scale-100"
               style={{ width: '360px', height: '480px' }}
               onClick={cycle}
             >
@@ -166,7 +168,14 @@ export default function AboutMe() {
                 return (
                   <motion.div
                     key={cardIdx}
+                    data-about-card={cardIdx}
                     className="absolute w-[280px] h-[400px] rounded-sm bg-white p-3 flex flex-col border border-gray-100"
+                    initial={{
+                      left: slot.left,
+                      top: slot.top,
+                      scale: slot.scale,
+                      opacity: slot.opacity,
+                    }}
                     animate={{
                       left: leftValue,
                       top: topValue,
@@ -185,7 +194,7 @@ export default function AboutMe() {
                     }}
                     whileHover={isFront ? { y: -6, boxShadow: '0px 16px 40px rgba(0,0,0,0.2)' } : undefined}
                   >
-                    <div className="relative w-full h-[325px] bg-gray-50 overflow-hidden">
+                    <div className="relative w-full h-[325px] overflow-hidden">
                       <Image
                         src={ABOUT_CARDS[cardIdx].image}
                         alt={ABOUT_CARDS[cardIdx].title}

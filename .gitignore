@@ -3,7 +3,12 @@ node_modules/
 
 # Next.js Build Output
 .next/
+.open-next/
+.wrangler/
 out/
+
+# Generated Cloudflare binding types
+cloudflare-env.d.ts
 
 # TypeScript Cache
 tsconfig.tsbuildinfo
@@ -16,5 +21,6 @@ tsconfig.tsbuildinfo
 
 # System/IDE Files
 .DS_Store
+.playwright-mcp/
 .vscode/
 .idea/

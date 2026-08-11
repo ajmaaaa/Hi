@@ -18,7 +18,7 @@ export default function SkillPill({ label, icon, size = 'sm' }: SkillPillProps) 
         className={`${boxSize} rounded-[10px] bg-zinc-50 border border-black/10 flex items-center justify-center font-bold text-zinc-700 shadow-sm group-hover:bg-zinc-900 group-hover:text-white group-hover:border-black transition-all duration-200 overflow-hidden`}
       >
         {isUrl ? (
-          <img src={icon as string} alt={label} className="w-[60%] h-[60%] object-contain" />
+          <img src={icon as string} alt={label} loading="lazy" decoding="async" className="w-[60%] h-[60%] object-contain" />
         ) : (
           icon || label.slice(0, 2).toUpperCase()
         )}

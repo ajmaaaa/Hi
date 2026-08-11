@@ -64,7 +64,7 @@ const TECH_CARDS = [
       { label: 'GIT', icon: Logos.Git },
       { label: 'GITHUB', icon: Logos.Github },
     ],
-    illustration: <img src={ImageUrls.WebDev} alt="Web Development" className="w-full h-full object-cover" />
+    illustration: <img src={ImageUrls.WebDev} alt="Web Development" loading="lazy" decoding="async" className="w-full h-full object-cover" />
   },
   {
     id: 'tc-uiux',
@@ -74,7 +74,7 @@ const TECH_CARDS = [
       { label: 'FIGMA', icon: Logos.Figma },
       { label: 'CANVA', icon: Logos.Canva },
     ],
-    illustration: <img src={ImageUrls.UiUx} alt="UI/UX Design" className="w-full h-full object-cover" />
+    illustration: <img src={ImageUrls.UiUx} alt="UI/UX Design" loading="lazy" decoding="async" className="w-full h-full object-cover" />
   },
   {
     id: 'tc-os',
@@ -89,7 +89,7 @@ const TECH_CARDS = [
       { label: 'HYPRLAND', icon: Logos.Hyprland },
       { label: 'SWAYFX', icon: Logos.Swayfx },
     ],
-    illustration: <img src={ImageUrls.OsEnv} alt="OS and Environment" className="w-full h-full object-cover" />
+    illustration: <img src={ImageUrls.OsEnv} alt="OS and Environment" loading="lazy" decoding="async" className="w-full h-full object-cover" />
   },
   {
     id: 'tc-auto',
@@ -102,7 +102,7 @@ const TECH_CARDS = [
       { label: 'OPENCLAW', icon: Logos.Openclaw },
       { label: 'OBSIDIAN', icon: Logos.Obsidian },
     ],
-    illustration: <img src={ImageUrls.Automation} alt="Automation" className="w-full h-full object-cover" />
+    illustration: <img src={ImageUrls.Automation} alt="Automation" loading="lazy" decoding="async" className="w-full h-full object-cover" />
   },
   {
     id: 'tc-app',
@@ -115,7 +115,7 @@ const TECH_CARDS = [
       { label: 'ANDROID', icon: Logos.AndroidStudio },
       { label: 'UNITY', icon: Logos.Unity },
     ],
-    illustration: <img src={ImageUrls.AppDev} alt="App Development" className="w-full h-full object-cover" />
+    illustration: <img src={ImageUrls.AppDev} alt="App Development" loading="lazy" decoding="async" className="w-full h-full object-cover" />
   }
 ]
 
@@ -123,13 +123,9 @@ const TECH_CARDS = [
 const SIDE_OFFSET_X = 392 // px from center
 const CENTER_W = 340
 const CENTER_H = 500
-const SIDE_W = 270
-const SIDE_H = 400
 
 interface CardSlot {
   x: number
-  width: number
-  height: number
   scale: number
   zIndex: number
   opacity: number
@@ -140,32 +136,32 @@ function getSlot(position: 'left' | 'center' | 'right' | 'hidden', compact: bool
   if (compact) {
     switch (position) {
       case 'center':
-        return { x: 0, width: 260, height: 430, scale: 1, zIndex: 30, opacity: 1, rotate: 0 }
+        return { x: 0, scale: 1, zIndex: 30, opacity: 1, rotate: 0 }
       case 'left':
-        return { x: -230, width: 180, height: 340, scale: 0.9, zIndex: 10, opacity: 0, rotate: 0 }
+        return { x: -230, scale: 0.9, zIndex: 10, opacity: 0, rotate: 0 }
       case 'right':
-        return { x: 230, width: 180, height: 340, scale: 0.9, zIndex: 10, opacity: 0, rotate: 0 }
+        return { x: 230, scale: 0.9, zIndex: 10, opacity: 0, rotate: 0 }
       case 'hidden':
-        return { x: 0, width: 180, height: 340, scale: 0.8, zIndex: 0, opacity: 0, rotate: 0 }
+        return { x: 0, scale: 0.8, zIndex: 0, opacity: 0, rotate: 0 }
     }
   }
 
   switch (position) {
     case 'center':
-      return { x: 0, width: CENTER_W, height: CENTER_H, scale: 1, zIndex: 30, opacity: 1, rotate: 0 }
+      return { x: 0, scale: 1, zIndex: 30, opacity: 1, rotate: 0 }
     case 'left':
-      return { x: -SIDE_OFFSET_X, width: SIDE_W, height: SIDE_H, scale: 1, zIndex: 10, opacity: 1, rotate: 0 }
+      return { x: -SIDE_OFFSET_X, scale: 0.8, zIndex: 10, opacity: 1, rotate: 0 }
     case 'right':
-      return { x: SIDE_OFFSET_X, width: SIDE_W, height: SIDE_H, scale: 1, zIndex: 10, opacity: 1, rotate: 0 }
+      return { x: SIDE_OFFSET_X, scale: 0.8, zIndex: 10, opacity: 1, rotate: 0 }
     case 'hidden':
-      return { x: 0, width: SIDE_W, height: SIDE_H, scale: 0.8, zIndex: 0, opacity: 0, rotate: 0 }
+      return { x: 0, scale: 0.8, zIndex: 0, opacity: 0, rotate: 0 }
   }
 }
 
 export default function TechStack() {
   const [activeIndex, setActiveIndex] = useState(3) // Start with AUTOMATION (index 3) in center
   const [isAnimating, setIsAnimating] = useState(false)
-  const [compact, setCompact] = useState(false)
+  const [compact, setCompact] = useState(true)
   const n = TECH_CARDS.length
 
   useEffect(() => {
@@ -204,16 +200,38 @@ export default function TechStack() {
       <div className="relative z-30 w-full max-w-[1536px] mx-auto px-8 lg:px-6 py-6 flex flex-col items-center justify-center">
         <motion.h2
           className="font-[family-name:var(--font-fredericka)] text-4xl tracking-[8px] text-shadow-heading uppercase text-center mb-10"
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
+          initial={false}
+          animate={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.6 }}
         >
           TECH STACK
         </motion.h2>
 
+        <div data-native-carousel data-default-index="3" className={`${compact ? 'flex' : 'hidden'} w-screen max-w-none snap-x snap-mandatory gap-2 overflow-x-auto py-6 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden`}>
+          {TECH_CARDS.map((card) => (
+            <article key={`mobile-${card.id}`} data-carousel-card className="responsive-carousel-card flex h-[480px] w-[min(70vw,300px)] flex-none snap-center flex-col items-center overflow-hidden rounded-[18px] border border-black/10 bg-white p-5 shadow-[0_6px_18px_rgba(0,0,0,0.10)] first:ml-[15vw] last:mr-[15vw]">
+              <div className="mb-1 flex w-full flex-shrink-0 flex-col items-center gap-1.5 text-center">
+                <span className="font-[family-name:var(--font-imfell)] text-[10px] font-medium uppercase tracking-[4.5px] text-black/35">{card.subtitle}</span>
+                <h3 className="font-[family-name:var(--font-fredericka)] text-xl font-normal uppercase tracking-[3px] text-black/80">{card.title}</h3>
+              </div>
+              <div className="relative my-3 flex min-h-[170px] w-full flex-1 flex-shrink-0 items-center justify-center overflow-hidden rounded-[10px] border border-black/15 bg-zinc-100">
+                {card.illustration}
+              </div>
+              <div className="mt-1 flex w-full flex-1 flex-col items-center overflow-hidden border-t border-zinc-100 pt-3">
+                <span className="mb-3 self-start pl-1 font-[family-name:var(--font-imfell)] text-[9px] font-semibold uppercase tracking-[3px] text-zinc-400">TOOLS & SKILLS</span>
+                <div className="custom-scrollbar grid max-h-[180px] w-full grid-cols-3 gap-x-4 gap-y-3 overflow-y-auto pr-1 pb-2">
+                  {card.skills.map((skill) => (
+                    <SkillPill key={skill.label} label={skill.label} icon={skill.icon} size="md" />
+                  ))}
+                </div>
+              </div>
+            </article>
+          ))}
+        </div>
+
         <div
-          className="relative flex items-center justify-center w-full"
+          className={`relative ${compact ? 'hidden' : 'flex'} items-center justify-center w-full`}
           style={{ height: `${compact ? 470 : CENTER_H + 40}px` }}
         >
           <motion.button
@@ -245,6 +263,8 @@ export default function TechStack() {
             const isHidden = pos === 'hidden'
             const isCompactSide = compact && !isCenter
 
+            if (isHidden || isCompactSide) return null
+
             return (
               <motion.div
                 key={card.id}
@@ -254,6 +274,8 @@ export default function TechStack() {
                   isHidden || isCompactSide ? 'pointer-events-none' : ''
                 ].join(' ')}
                 style={{
+                  width: compact ? 260 : CENTER_W,
+                  height: compact ? 430 : CENTER_H,
                   boxShadow: isCenter
                     ? '0px 8px 24px rgba(0, 0, 0, 0.08)'
                     : isHidden || isCompactSide
@@ -262,14 +284,12 @@ export default function TechStack() {
                 }}
                 animate={{
                   x: slot.x,
-                  width: slot.width,
-                  height: slot.height,
                   zIndex: slot.zIndex,
                   opacity: slot.opacity,
                   scale: slot.scale,
                   rotate: slot.rotate,
                 }}
-                transition={{ type: 'spring', stiffness: 220, damping: 24 }}
+                transition={{ type: 'tween', duration: 0.32, ease: 'easeOut' }}
                 onClick={() => {
                   if (pos === 'left') clickLeft()
                   else if (pos === 'right') clickRight()

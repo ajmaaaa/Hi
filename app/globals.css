@@ -21,6 +21,47 @@ body {
   overflow-x: hidden; /* prevent horizontal scroll from large cert cards */
 }
 
+.responsive-carousel-card {
+  transform: scale(0.86);
+  transition: transform 300ms ease;
+}
+
+.responsive-carousel-card:first-child {
+  transform: scale(1);
+}
+
+@supports (animation-timeline: view(inline)) {
+  .responsive-carousel-card {
+    animation: carousel-card-focus linear both;
+    animation-timeline: view(inline);
+    animation-range: cover 10% cover 90%;
+  }
+}
+
+@keyframes carousel-card-focus {
+  0%, 100% {
+    transform: scale(0.86);
+  }
+
+  45%, 55% {
+    transform: scale(1);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;

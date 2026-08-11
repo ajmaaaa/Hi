@@ -72,6 +72,8 @@ const PROJECTS: ProjectItem[] = [
   },
 ]
 
+const MOBILE_PROJECTS = [PROJECTS[2], PROJECTS[0], PROJECTS[1]]
+
 const CARD_W = 1200
 const CARD_H = 675
 const PEEK   = 60  // how many px the back cards peek above the front card
@@ -84,11 +86,114 @@ const SLOTS = [
   { y: PEEK,       scale: 1.00, opacity: 1.00, zIndex: 30 }, // front — full size
 ]
 
-// Normalized back to 0.6 seconds duration for fast responsive UX
-const TWEEN_SWING = {
-  type: 'tween' as const,
-  ease: 'easeInOut' as const,
-  duration: 0.6, 
+function MobilePhoneMockup({ src, alt, className = '' }: { src: string; alt: string; className?: string }) {
+  return (
+    <div className={`relative aspect-[9/19] w-[43%] max-w-[135px] overflow-hidden rounded-[24px] border-[5px] border-zinc-900 bg-transparent ${className}`}>
+      <div className="absolute left-1/2 top-0 z-10 h-4 w-14 -translate-x-1/2 rounded-b-xl bg-zinc-900" />
+      <img src={src} alt={alt} loading="lazy" decoding="async" className="h-full w-full object-cover" />
+    </div>
+  )
+}
+
+function MobileBookVisual() {
+  return (
+    <div className="flex h-[330px] w-full items-center justify-center overflow-visible">
+      <div className="relative h-[310px] w-[217px] rotate-[3deg] drop-shadow-[0_24px_22px_rgba(0,0,0,0.25)]">
+        <div className="absolute inset-0 translate-x-4 translate-y-1 rotate-[2deg] rounded-r-md border border-stone-300 bg-stone-200" />
+        <div className="absolute inset-0 translate-x-3 rotate-[1deg] rounded-r-md border border-stone-200 bg-stone-100" />
+        <div className="absolute inset-0 translate-x-1.5 rounded-r-md border border-stone-100 bg-white" />
+        <div className="absolute inset-0 z-10 overflow-hidden rounded-r-md border-r border-stone-200 bg-white shadow-[0_18px_38px_rgba(0,0,0,0.30)]">
+          <img src="/flipbook-user.jpg" alt="Digital Flipbook cover" width="217" height="310" loading="lazy" decoding="async" className="h-full w-full object-cover object-left" />
+          <div className="pointer-events-none absolute bottom-0 left-0 top-0 w-2 bg-gradient-to-r from-black/15 to-transparent mix-blend-overlay" />
+          <div className="pointer-events-none absolute inset-0 bg-gradient-to-tr from-white/0 via-white/5 to-white/20" />
+        </div>
+      </div>
+    </div>
+  )
+}
+
+function MobileProjectCard({ project }: { project: ProjectItem }) {
+  return (
+    <article className={`relative isolate h-[820px] w-full rounded-3xl ${project.isScretor ? 'overflow-hidden border border-indigo-200/80 bg-transparent text-black shadow-[0_7px_20px_rgba(67,56,202,0.10)]' : project.isNalara ? 'overflow-hidden border border-zinc-800 bg-zinc-950 text-white shadow-[0_7px_20px_rgba(0,0,0,0.12)]' : 'overflow-hidden border border-black/10 bg-white text-black shadow-[0_7px_20px_rgba(0,0,0,0.10)]'}`}>
+        {project.isScretor ? (
+          <div className="relative isolate flex h-full flex-col p-5 sm:p-7">
+            <div className="pointer-events-none absolute -left-[10%] top-10 -z-10 h-[350px] w-[68%] rounded-full bg-indigo-200/30 blur-[90px]" />
+            <div className="pointer-events-none absolute -right-[12%] top-24 -z-10 h-[360px] w-[70%] rounded-full bg-purple-200/30 blur-[100px]" />
+            <div className="flex h-[300px] flex-shrink-0 items-center justify-center gap-3 overflow-visible">
+              <MobilePhoneMockup src="/projects/scretor/01-Scretor.png" alt="Scretor interface" className="translate-y-3 -rotate-3" />
+              <MobilePhoneMockup src="/projects/scretor/03-manhwa.png" alt="Scretor translation" className="-translate-y-2 rotate-3" />
+            </div>
+            <div className="mt-3 flex items-start justify-between gap-4">
+              <div>
+                <span className="font-[family-name:var(--font-imfell)] text-xs font-bold uppercase tracking-[4px] text-indigo-700">{project.category}</span>
+                <h3 className="mt-2 font-[family-name:var(--font-fredericka)] text-3xl uppercase tracking-[3px] sm:text-4xl sm:tracking-[4px]">Scretor</h3>
+              </div>
+              <img src="/projects/scretor/icon.png" alt="Scretor icon" width="64" height="64" loading="lazy" decoding="async" className="h-16 w-16 rounded-2xl border border-white bg-white p-1 shadow-lg" />
+            </div>
+            <p className="mt-4 font-[family-name:var(--font-libertinus)] text-base leading-relaxed text-zinc-600">{project.desc}</p>
+            <div className="mt-4 flex flex-wrap gap-2">
+              {project.tags.map((tag) => (
+                <span key={tag} className="rounded-full border border-indigo-200 bg-white/70 px-3 py-1 text-[10px] uppercase tracking-[2px] text-indigo-800">{tag}</span>
+              ))}
+            </div>
+            <div className="mt-5 rounded-2xl border border-indigo-200 bg-white/80 px-4 py-3 text-center font-[family-name:var(--font-imfell)] text-xs font-semibold uppercase tracking-[2px] text-indigo-800">
+              Coming soon on Google Play in the next few days
+            </div>
+          </div>
+        ) : project.isNalara ? (
+          <div className="flex h-full flex-col p-5 sm:p-7">
+            <div className="flex h-[300px] flex-shrink-0 items-center justify-center gap-3 overflow-visible">
+              <MobilePhoneMockup src="/projects/nalara/nalara_loading.png" alt="Nalara loading screen" className="translate-y-3 -rotate-3 opacity-90" />
+              <MobilePhoneMockup src="/projects/nalara/progress.png" alt="Nalara progress screen" className="-translate-y-2 rotate-3" />
+            </div>
+            <div className="mt-3 flex items-start justify-between gap-4">
+              <div>
+                <span className="font-[family-name:var(--font-imfell)] text-xs font-semibold uppercase tracking-[4px] text-teal-400">{project.category}</span>
+                <h3 className="mt-2 font-[family-name:var(--font-fredericka)] text-3xl uppercase tracking-[3px] text-white sm:text-4xl sm:tracking-[4px]">{project.title}</h3>
+              </div>
+              <img src="/projects/nalara/nalara.png" alt="Nalara icon" width="64" height="64" loading="lazy" decoding="async" className="h-16 w-16 rounded-2xl border border-teal-500/30 object-cover" />
+            </div>
+            <p className="mt-5 font-[family-name:var(--font-libertinus)] text-lg leading-relaxed text-zinc-400">{project.desc}</p>
+            <div className="mt-5 flex flex-wrap gap-2">
+              {project.tags.map((tag) => (
+                <span key={tag} className="rounded-full border border-zinc-700 bg-zinc-900 px-3 py-1 text-[10px] uppercase tracking-[2px] text-zinc-300">{tag}</span>
+              ))}
+            </div>
+            <div className="mt-6 flex items-center justify-center gap-2 rounded-2xl border border-zinc-800 bg-zinc-900 px-4 py-3 text-sm font-semibold text-teal-400">
+              <span className="h-2.5 w-2.5 rounded-full bg-teal-500" />
+              Development in progress
+            </div>
+          </div>
+        ) : (
+          <div className="flex h-full flex-col p-5 sm:p-7">
+            <MobileBookVisual />
+            <span className="font-[family-name:var(--font-imfell)] text-xs font-bold uppercase tracking-[4px] text-rose-500">{project.category}</span>
+            <h3 className="mt-3 font-[family-name:var(--font-fredericka)] text-3xl uppercase tracking-[3px] sm:text-4xl sm:tracking-[4px]" style={{ whiteSpace: 'pre-line' }}>{project.title}</h3>
+            <p className="mt-4 font-[family-name:var(--font-libertinus)] text-lg leading-relaxed text-zinc-600">{project.desc}</p>
+            <div className="mt-5 flex flex-wrap gap-2">
+              {project.tags.map((tag) => (
+                <span key={tag} className="rounded-full border border-rose-200 bg-rose-50 px-3 py-1 text-[10px] uppercase tracking-[2px] text-rose-700">{tag}</span>
+              ))}
+            </div>
+            {project.web && (
+              <a href={project.web} className="mt-6 font-[family-name:var(--font-imfell)] text-sm uppercase tracking-[3px] text-rose-700 underline underline-offset-4">View Flipbook</a>
+            )}
+          </div>
+        )}
+    </article>
+  )
+}
+
+function MobileProjectCards() {
+  return (
+    <div data-native-carousel data-default-index="1" className="flex w-screen max-w-none snap-x snap-mandatory gap-2 overflow-x-auto py-7 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+      {MOBILE_PROJECTS.map((project) => (
+        <div key={project.id} data-carousel-card className="responsive-carousel-card w-[min(72vw,370px)] flex-none snap-center first:ml-[14vw] last:mr-[14vw]">
+          <MobileProjectCard project={project} />
+        </div>
+      ))}
+    </div>
+  )
 }
 
 /* ── Phone frame ── */
@@ -137,12 +242,14 @@ function ProjectCards() {
   const [prevOrder, setPrevOrder] = useState([2, 1, 0])
   const [isAnimating, setIsAnimating] = useState(false)
   const [scale, setScale] = useState(1)
+  const [compact, setCompact] = useState(true)
   const wrapperRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
     const updateScale = () => {
       const availableWidth = Math.max(280, window.innerWidth - 32)
       setScale(Math.min(1, availableWidth / CARD_W))
+      setCompact(window.innerWidth < 768)
     }
 
     updateScale()
@@ -176,20 +283,22 @@ function ProjectCards() {
     setPrevOrder(order)
     setOrder([frontCardId, backCardId, midCardId]) // front → back, back → mid, mid → front
 
-    // 3. Swap layers at exactly 55% of the animation progress (330ms of 0.6s)
+    // Swap layers once the departing card clears the stack.
     setTimeout(() => {
       setCardZIndexes({
         [frontCardId]: 10, // swing card slips behind
         [midCardId]: 30,   // mid card takes front position
         [backCardId]: 20,  // back card takes mid position
       })
-    }, 330)
+    }, 250)
 
-    // 4. Unlock clicks after animation finishes (600ms normalized)
+    // Unlock clicks after the animation finishes.
     setTimeout(() => {
       setIsAnimating(false)
-    }, 600)
+    }, 450)
   }
+
+  if (compact) return <MobileProjectCards />
 
   return (
     <div
@@ -260,7 +369,6 @@ function ProjectCards() {
                   : '0px 9px 26px rgba(0, 0, 0, 0.10)',
               backfaceVisibility: 'hidden',
               WebkitBackfaceVisibility: 'hidden',
-              willChange: 'transform',
             }}
             animate={{
               y:       yValue,
@@ -271,91 +379,67 @@ function ProjectCards() {
               y: {
                 type: 'tween',
                 ease: easeConfig,
-                duration: 0.6, // Normalized
+                duration: 0.45,
                 ...(customTimes ? { times: customTimes } : {})
               },
               scale: {
                 type: 'tween',
                 ease: easeConfig,
-                duration: 0.6, // Normalized
+                duration: 0.45,
                 ...(customTimes ? { times: customTimes } : {})
               },
               opacity: {
                 type: 'tween',
                 ease: 'easeInOut',
-                duration: 0.6, // Normalized
+                duration: 0.45,
               },
             }}
           >
             {proj.isScretor ? (
-              <div className="w-full h-full bg-gradient-to-br from-indigo-50 via-white to-purple-50 flex items-center justify-between p-16 overflow-hidden relative">
-                
-                {/* Decorative background blobs */}
-                <div className="absolute top-[-20%] left-[-10%] w-[50%] h-[70%] bg-indigo-200/40 blur-[100px] rounded-full pointer-events-none" />
-                <div className="absolute bottom-[-20%] right-[-10%] w-[60%] h-[80%] bg-purple-200/40 blur-[120px] rounded-full pointer-events-none" />
+              <div className="relative flex h-full w-full items-center justify-between overflow-hidden bg-gradient-to-br from-indigo-50 via-white to-purple-50 p-16">
+                <div className="pointer-events-none absolute left-[-10%] top-[-20%] h-[70%] w-[50%] rounded-full bg-indigo-200/40 blur-[100px]" />
+                <div className="pointer-events-none absolute bottom-[-20%] right-[-10%] h-[80%] w-[60%] rounded-full bg-purple-200/40 blur-[120px]" />
 
-                {/* Custom Scretor Text Content */}
-                <div className="flex flex-col gap-6 z-10 max-w-[450px]">
-                  
-                  <div className="flex gap-6 items-start mt-2">
+                <div className="z-10 flex max-w-[450px] flex-col gap-6">
+                  <div className="mt-2 flex items-start gap-6">
                     <div className="flex flex-col gap-1">
-                      <span className="font-[family-name:var(--font-imfell)] text-[14px] tracking-[6px] uppercase text-slate-500 font-bold">
-                        {proj.category}
-                      </span>
-                      <h4 className="font-[family-name:var(--font-fredericka)] text-[54px] tracking-[4px] uppercase text-slate-900 font-normal leading-none" style={{ whiteSpace: 'pre-line' }}>
-                        Scretor
-                      </h4>
+                      <span className="font-[family-name:var(--font-imfell)] text-[14px] font-bold uppercase tracking-[6px] text-slate-500">{proj.category}</span>
+                      <h4 className="font-[family-name:var(--font-fredericka)] text-[54px] font-normal uppercase leading-none tracking-[4px] text-slate-900">Scretor</h4>
                     </div>
-                    <img src="/projects/scretor/icon.png" alt="Scretor Icon" className="w-20 h-20 rounded-[18px] shadow-lg border border-white/60 bg-white/50 backdrop-blur-sm p-1" />
+                    <img src="/projects/scretor/icon.png" alt="Scretor icon" loading="lazy" decoding="async" className="h-20 w-20 rounded-[18px] border border-white/60 bg-white/50 p-1 shadow-lg" />
                   </div>
-                  
-                  <p className="font-[family-name:var(--font-libertinus)] text-lg text-slate-600 leading-relaxed">
-                    {proj.desc}
-                  </p>
-                  
-                  <div className="flex flex-wrap gap-3 mt-2">
+
+                  <p className="font-[family-name:var(--font-libertinus)] text-lg leading-relaxed text-slate-600">{proj.desc}</p>
+
+                  <div className="mt-2 flex flex-wrap gap-3">
                     {proj.tags.map((tag) => (
-                      <span key={tag} className="font-[family-name:var(--font-imfell)] text-[12px] tracking-[4px] uppercase border border-slate-300 rounded-full px-4 py-1.5 text-slate-700 bg-white/60 shadow-sm">
-                        {tag}
-                      </span>
+                      <span key={tag} className="rounded-full border border-slate-300 bg-white/60 px-4 py-1.5 font-[family-name:var(--font-imfell)] text-[12px] uppercase tracking-[4px] text-slate-700 shadow-sm">{tag}</span>
                     ))}
                   </div>
-                  
-                  <div className="flex gap-4 mt-2" onClick={(e) => e.stopPropagation()}>
-                    {proj.download && (
-                       <Button variant="solid" id={`btn-download-${proj.id}`} href={proj.download}>Download</Button>
-                    )}
-                    {proj.web && (
-                       <Button variant="outline" id={`btn-visit-${proj.id}`} href={proj.web} className="border-slate-300 text-slate-800 hover:bg-slate-100 shadow-sm">Visit</Button>
-                    )}
+
+                  <div className="mt-2 rounded-full border border-indigo-200 bg-white/75 px-6 py-3 text-center font-[family-name:var(--font-imfell)] text-[12px] font-semibold uppercase tracking-[3px] text-indigo-800">
+                    Coming soon on Google Play in the next few days
                   </div>
                 </div>
 
-                {/* 3D Tilted Mobile Frames Composition */}
-                <div className="absolute right-[20px] top-[54.5%] -translate-y-1/2 w-[600px] h-[650px] flex items-center justify-center pointer-events-none">
-                   
-                   {/* Back Phone (01-Scretor.png) */}
-                   <div className="absolute right-[220px] top-[15%] w-[270px] h-[580px] transform -rotate-[8deg] translate-y-10 scale-90 opacity-90 transition-transform duration-700 hover:rotate-0 hover:translate-y-0 hover:scale-100 hover:z-30">
-                     <div className="w-full h-full bg-[#1c1c1c] rounded-[36px] p-2.5 shadow-[0_20px_40px_rgba(0,0,0,0.15)] ring-1 ring-white/10 relative overflow-hidden flex-shrink-0">
-                       {/* Notch */}
-                       <div className="absolute z-10 bg-[#1c1c1c] top-2.5 left-1/2 transform -translate-x-1/2 w-20 h-6 rounded-b-[14px]"></div>
-                       <div className="w-full h-full bg-black rounded-[28px] overflow-hidden">
-                          <img src="/projects/scretor/01-Scretor.png" alt="Scretor UI" className="h-full w-full object-cover" />
-                       </div>
-                     </div>
-                   </div>
-                   
-                   {/* Front Phone (03-manhwa.png) */}
-                   <div className="absolute right-[40px] top-[15%] w-[270px] h-[580px] transform rotate-[6deg] -translate-y-2 transition-transform duration-700 hover:rotate-0 hover:-translate-y-6 hover:scale-105 z-20">
-                     <div className="w-full h-full bg-[#1c1c1c] rounded-[36px] p-2.5 shadow-[0_30px_60px_rgba(0,0,0,0.25)] ring-1 ring-white/10 relative overflow-hidden flex-shrink-0">
-                       {/* Notch */}
-                       <div className="absolute z-10 bg-[#1c1c1c] top-2.5 left-1/2 transform -translate-x-1/2 w-20 h-6 rounded-b-[14px]"></div>
-                        <div className="w-full h-full bg-black rounded-[28px] overflow-hidden">
-                          <img src="/projects/scretor/03-manhwa.png" alt="Scretor Translation" className="h-full w-full object-cover" />
-                       </div>
-                     </div>
-                   </div>
+                <div className="pointer-events-none absolute right-[20px] top-1/2 flex h-[650px] w-[600px] -translate-y-1/2 items-center justify-center">
+                  <div className="absolute right-[225px] top-[8%] h-[560px] w-[260px] translate-y-5 -rotate-[8deg] scale-90 opacity-90">
+                    <div className="relative h-full w-full overflow-hidden rounded-[36px] bg-[#1c1c1c] p-2.5 shadow-[0_20px_40px_rgba(0,0,0,0.15)] ring-1 ring-white/10">
+                      <div className="absolute left-1/2 top-2.5 z-10 h-6 w-20 -translate-x-1/2 rounded-b-[14px] bg-[#1c1c1c]" />
+                      <div className="h-full w-full overflow-hidden rounded-[28px] bg-black">
+                        <img src="/projects/scretor/01-Scretor.png" alt="Scretor interface" loading="lazy" decoding="async" className="h-full w-full object-cover" />
+                      </div>
+                    </div>
+                  </div>
 
+                  <div className="absolute right-[45px] top-[8%] z-20 h-[560px] w-[260px] -translate-y-2 rotate-[6deg]">
+                    <div className="relative h-full w-full overflow-hidden rounded-[36px] bg-[#1c1c1c] p-2.5 shadow-[0_30px_60px_rgba(0,0,0,0.25)] ring-1 ring-white/10">
+                      <div className="absolute left-1/2 top-2.5 z-10 h-6 w-20 -translate-x-1/2 rounded-b-[14px] bg-[#1c1c1c]" />
+                      <div className="h-full w-full overflow-hidden rounded-[28px] bg-black">
+                        <img src="/projects/scretor/03-manhwa.png" alt="Scretor translation" loading="lazy" decoding="async" className="h-full w-full object-cover" />
+                      </div>
+                    </div>
+                  </div>
                 </div>
               </div>
             ) : proj.isNalara ? (
@@ -370,7 +454,7 @@ function ProjectCards() {
                      <div className="w-full h-full bg-[#2a2a2a] rounded-[34px] p-2.5 shadow-[0_15px_35px_rgba(0,0,0,0.5)] ring-1 ring-white/10 relative overflow-hidden flex-shrink-0">
                        <div className="absolute z-10 bg-[#2a2a2a] top-2.5 left-1/2 transform -translate-x-1/2 w-20 h-6 rounded-b-[14px]"></div>
                        <div className="w-full h-full bg-black rounded-[26px] overflow-hidden">
-                          <img src="/projects/nalara/nalara_loading.png" alt="Nalara Loading" className="h-full w-full object-cover" />
+                           <img src="/projects/nalara/nalara_loading.png" alt="Nalara Loading" loading="lazy" decoding="async" className="h-full w-full object-cover" />
                        </div>
                      </div>
                    </div>
@@ -384,8 +468,10 @@ function ProjectCards() {
                           style={{ clipPath: 'inset(0 round 26px)' }}
                         >
                           <img
-                            src="/projects/nalara/progress.png"
-                            alt="Nalara Progress"
+                             src="/projects/nalara/progress.png"
+                             alt="Nalara Progress"
+                             loading="lazy"
+                             decoding="async"
                             className="absolute inset-[2px] h-[calc(100%-4px)] w-[calc(100%-4px)] rounded-[24px] bg-black object-contain object-top"
                             style={{ clipPath: 'inset(0 round 24px)' }}
                           />
@@ -406,7 +492,7 @@ function ProjectCards() {
                          {proj.title}
                        </h4>
                      </div>
-                     <img src="/projects/nalara/nalara.png" alt="Nalara Icon" className="w-20 h-20 rounded-[18px] shadow-[0_0_30px_rgba(20,184,166,0.3)] border border-teal-500/30 object-cover bg-zinc-900" />
+                      <img src="/projects/nalara/nalara.png" alt="Nalara Icon" loading="lazy" decoding="async" className="w-20 h-20 rounded-[18px] shadow-[0_0_30px_rgba(20,184,166,0.3)] border border-teal-500/30 object-cover bg-zinc-900" />
                    </div>
                    
                    <p className="font-[family-name:var(--font-libertinus)] text-lg text-zinc-400 leading-relaxed text-left">
@@ -488,7 +574,7 @@ function ProjectCards() {
                      
                      {/* Front Cover (The Image) */}
                      <div className="absolute inset-0 bg-white shadow-[0_24px_60px_rgba(0,0,0,0.38)] border-r border-stone-200 transform rounded-r-md overflow-hidden z-10">
-                       <img src="/flipbook-user.jpg" alt="Flipbook Cover" className="w-full h-full object-cover object-left" />
+                        <img src="/flipbook-user.jpg" alt="Flipbook Cover" loading="lazy" decoding="async" className="w-full h-full object-cover object-left" />
                        
                        {/* Spine crease/shadow effect on the left */}
                        <div className="absolute top-0 bottom-0 left-0 w-3 bg-gradient-to-r from-black/15 to-transparent mix-blend-overlay pointer-events-none" />
@@ -565,16 +651,14 @@ function ProjectCards() {
         })}
       </div>
 
-      <motion.div
+      <div
         className="absolute bottom-0 left-1/2 z-50 flex -translate-x-1/2 flex-col items-center gap-2 text-black/80"
-        animate={{ y: [0, 5, 0] }}
-        transition={{ duration: 1.5, repeat: Infinity, ease: 'easeInOut' }}
       >
         <ChevronIcon className="h-8 w-8 rotate-90 stroke-[2.5]" />
         <span className="font-[family-name:var(--font-imfell)] text-[11px] font-semibold uppercase tracking-[4px]">
           Next Project
         </span>
-      </motion.div>
+      </div>
     </div>
   )
 }
@@ -587,11 +671,11 @@ export default function Portfolio() {
       className="relative z-30 min-h-screen flex flex-col justify-center items-center bg-white py-0 overflow-hidden"
     >
       {/* Main container - centered vertically in the viewport */}
-      <div className="relative z-10 w-full max-w-[1536px] mx-auto px-8 lg:px-6 py-6 flex flex-col items-center justify-center">
+      <div className="relative z-10 w-full max-w-[1536px] mx-auto px-4 sm:px-8 lg:px-6 py-6 flex flex-col items-center justify-center">
         <motion.h2
           className="font-[family-name:var(--font-fredericka)] text-4xl tracking-[8px] text-shadow-heading uppercase text-center mb-10"
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
+          initial={false}
+          animate={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.6 }}
         >
@@ -600,8 +684,8 @@ export default function Portfolio() {
 
         <motion.div
           className="flex justify-center"
-          initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
+          initial={false}
+          animate={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: '-80px' }}
           transition={{ duration: 0.7 }}
         >

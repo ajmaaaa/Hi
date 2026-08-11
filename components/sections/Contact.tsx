@@ -61,8 +61,8 @@ export default function Contact() {
           <div className="flex flex-col gap-6 max-w-[580px] text-left lg:pl-[83px]">
             <motion.h2
               className="font-[family-name:var(--font-fredericka)] text-5xl sm:text-6xl lg:text-7xl tracking-[8px] uppercase text-white leading-none"
-              initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
+              initial={false}
+              animate={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.7 }}
             >
@@ -73,8 +73,8 @@ export default function Contact() {
 
             <motion.p
               className="font-[family-name:var(--font-libertinus)] text-lg sm:text-xl text-white/40 leading-relaxed max-w-[460px]"
-              initial={{ opacity: 0 }}
-              whileInView={{ opacity: 1 }}
+              initial={false}
+              animate={{ opacity: 1 }}
               viewport={{ once: true }}
               transition={{ duration: 0.7, delay: 0.2 }}
             >
@@ -84,8 +84,8 @@ export default function Contact() {
             {/* Location & Timezone metadata — Brightened border-t (border-white/15) */}
             <motion.div
               className="flex items-center gap-6 mt-4 pt-6 border-t border-white/15 w-full"
-              initial={{ opacity: 0 }}
-              whileInView={{ opacity: 1 }}
+              initial={false}
+              animate={{ opacity: 1 }}
               viewport={{ once: true }}
               transition={{ duration: 0.7, delay: 0.3 }}
             >
@@ -106,8 +106,8 @@ export default function Contact() {
             {/* Say Hello Area */}
             <motion.div
               className="flex flex-col gap-5"
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
+              initial={false}
+              animate={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.6, delay: 0.2 }}
             >
@@ -147,7 +147,7 @@ export default function Contact() {
                     </svg>
                   </span>
                   <span className="font-[family-name:var(--font-libertinus)] text-xl sm:text-2xl text-white/70 group-hover:text-white transition-colors duration-300 border-b border-transparent group-hover:border-white/30 pb-0.5">
-                    081266846453
+                    0812-6684-6453
                   </span>
                 </a>
               </div>
@@ -156,8 +156,8 @@ export default function Contact() {
             {/* Social Channels Area */}
             <motion.div
               className="flex flex-col gap-4"
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
+              initial={false}
+              animate={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.6, delay: 0.3 }}
             >
