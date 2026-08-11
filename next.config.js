@@ -3,6 +3,15 @@ const path = require('path')
 
 const nextConfig = {
   reactStrictMode: true,
+  async redirects() {
+    return [
+      {
+        source: '/documents/forest-motion.pdf',
+        destination: '/documents/flipbook.pdf',
+        permanent: true,
+      },
+    ]
+  },
   webpack: (config) => {
     config.resolve.alias = {
       ...config.resolve.alias,

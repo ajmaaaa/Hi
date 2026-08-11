@@ -57,7 +57,7 @@ const PROJECTS: ProjectItem[] = [
     desc: 'An interactive digital flipbook design featuring aesthetic visual layouts tailored for engaging presentations and digital publications.',
     tags: ['Canva', 'Layout', 'Typography', 'Visual Design'],
     github: null,
-    web: '/documents/forest-motion.pdf',
+    web: '/documents/flipbook.pdf',
     image: '/flipbook-user.jpg',
     layout: 'right',
     isFlipbook: true,
@@ -246,7 +246,7 @@ function ProjectCards() {
         return (
           <motion.div
             key={proj.id}
-            className="absolute rounded-[18px] bg-white border border-black/8 overflow-hidden"
+            className="absolute isolate overflow-hidden rounded-[18px] bg-transparent"
             style={{
               left:   0,
               top:    0,
@@ -258,6 +258,8 @@ function ProjectCards() {
                 : slotIdx === 1
                   ? '0px 14px 36px rgba(0, 0, 0, 0.13)'
                   : '0px 9px 26px rgba(0, 0, 0, 0.10)',
+              backfaceVisibility: 'hidden',
+              WebkitBackfaceVisibility: 'hidden',
               willChange: 'transform',
             }}
             animate={{
@@ -472,7 +474,7 @@ function ProjectCards() {
                 <div className="absolute right-12 top-0 bottom-0 w-[500px] flex items-center justify-center pointer-events-none">
                    
                    {/* Book Container */}
-                   <div className="relative w-[350px] h-[500px] transform rotate-[3deg] transition-transform duration-700 hover:rotate-0 hover:scale-105">
+                   <div className="relative w-[350px] h-[500px] transform rotate-[3deg] drop-shadow-[0_32px_28px_rgba(0,0,0,0.28)] transition-transform duration-700 hover:rotate-0 hover:scale-105 hover:drop-shadow-[0_38px_34px_rgba(0,0,0,0.32)]">
                      
                      {/* Stacked Pages (Sticking out to the right) */}
                      {/* Page 3 (furthest) */}
@@ -485,7 +487,7 @@ function ProjectCards() {
                      <div className="absolute inset-0 bg-white border border-stone-100 shadow-sm transform translate-x-2 rotate-[0.5deg] rounded-r-md" />
                      
                      {/* Front Cover (The Image) */}
-                     <div className="absolute inset-0 bg-white shadow-[0_20px_50px_rgba(0,0,0,0.3)] border-r border-stone-200 transform rounded-r-md overflow-hidden z-10">
+                     <div className="absolute inset-0 bg-white shadow-[0_24px_60px_rgba(0,0,0,0.38)] border-r border-stone-200 transform rounded-r-md overflow-hidden z-10">
                        <img src="/flipbook-user.jpg" alt="Flipbook Cover" className="w-full h-full object-cover object-left" />
                        
                        {/* Spine crease/shadow effect on the left */}
