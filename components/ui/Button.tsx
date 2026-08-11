@@ -20,13 +20,12 @@ export default function Button({ variant = 'solid', id, children, onClick, href,
   }
 
   if (href) {
-    const isExternal = href.startsWith('http')
     return (
       <motion.a
         id={id}
         href={href}
-        target={isExternal ? '_blank' : undefined}
-        rel={isExternal ? 'noopener noreferrer' : undefined}
+        target="_blank"
+        rel="noopener noreferrer"
         className={`${base} ${styles[variant]} px-7 py-3 ${className}`}
         whileHover={{ y: -2 }}
         whileTap={{ scale: 0.97 }}

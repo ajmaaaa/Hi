@@ -6,6 +6,9 @@ export const metadata: Metadata = {
   description:
     'Portfolio of Meyky Ajmariadi, a Computer Science undergraduate building mobile applications, interactive web experiences, and automation workflows.',
   keywords: ['portfolio', 'Meyky Ajmariadi', 'digital product builder', 'mobile development', 'web development', 'product prototyping', 'automation'],
+  icons: {
+    icon: '/favicon.svg',
+  },
   openGraph: {
     title: 'Meyky Ajmariadi - Digital Product Builder',
     description: 'Mobile applications, interactive web experiences, and automation workflows built from original ideas.',

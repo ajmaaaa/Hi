@@ -57,7 +57,7 @@ const PROJECTS: ProjectItem[] = [
     desc: 'An interactive digital flipbook design featuring aesthetic visual layouts tailored for engaging presentations and digital publications.',
     tags: ['Canva', 'Layout', 'Typography', 'Visual Design'],
     github: null,
-    web: '/forest-motion-flipbook.pdf',
+    web: '/documents/forest-motion.pdf',
     image: '/flipbook-user.jpg',
     layout: 'right',
     isFlipbook: true,
