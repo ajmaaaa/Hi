@@ -3,6 +3,7 @@
 import { useState } from 'react'
 import { motion } from 'framer-motion'
 import { fadeInUp, staggerContainer } from '@/lib/animationVariants'
+import Image from 'next/image'
 
 /**
  * About Me card stack — Original style with perfectly aligned spacing:
@@ -15,9 +16,24 @@ import { fadeInUp, staggerContainer } from '@/lib/animationVariants'
  * Opacity di-set 1.00 konstan pada semua kartu agar 100% solid dan tidak ada efek transparan.
  */
 const SLOTS = [
-  { left: 0,  top: 64, scale: 0.90, opacity: 1.00 }, // back (slot 0)
-  { left: 64, top: 32, scale: 0.95, opacity: 1.00 }, // mid (slot 1)
-  { left: 32, top: 0,  scale: 1.00, opacity: 1.00 }, // front (slot 2)
+  { left: 0,  top: 80, scale: 0.90, opacity: 1.00 }, // back (slot 0)
+  { left: 80, top: 40, scale: 0.95, opacity: 1.00 }, // mid (slot 1)
+  { left: 40, top: 0,  scale: 1.00, opacity: 1.00 }, // front (slot 2)
+]
+
+const ABOUT_CARDS = [
+  {
+    image: '/about_me/01-Book.png',
+    title: 'Explore Horizons'
+  },
+  {
+    image: '/about_me/02-Public Speaking.png',
+    title: 'Make an Impact'
+  },
+  {
+    image: '/about_me/03-Practice.png',
+    title: 'Realize Visions'
+  },
 ]
 
 // Normal visual speed (0.7s) for a snappy and premium user experience
@@ -28,16 +44,16 @@ const TWEEN_SWING = {
 }
 
 export default function AboutMe() {
-  const [order, setOrder] = useState([0, 1, 2]) // order[slotIdx] = cardIdx
-  const [prevOrder, setPrevOrder] = useState([0, 1, 2])
+  const [order, setOrder] = useState([1, 2, 0]) // order[slotIdx] = cardIdx
+  const [prevOrder, setPrevOrder] = useState([1, 2, 0])
   // Throttle state to prevent spam clicking and visual bugs
   const [isAnimating, setIsAnimating] = useState(false)
 
   // Track discrete z-index states dynamically to avoid Framer Motion keyframe snap bugs
   const [cardZIndexes, setCardZIndexes] = useState<{ [key: number]: number }>({
-    0: 10, // card 0 starts at Back
-    1: 20, // card 1 starts at Mid
-    2: 30, // card 2 starts at Front
+    0: 30, // card 0 starts at Front
+    1: 10, // card 1 starts at Back
+    2: 20, // card 2 starts at Mid
   })
 
   function cycle() {
@@ -77,15 +93,18 @@ export default function AboutMe() {
   return (
     <section
       id="about"
-      className="relative min-h-screen flex flex-col justify-center items-center overflow-hidden bg-white py-0"
+      className="relative min-h-screen flex flex-col justify-between overflow-hidden bg-white"
     >
+      {/* Spacer to balance navbar height */}
+      <div className="h-20 flex-shrink-0" />
+
       {/* Main container - centered vertically */}
-      <div className="relative z-10 w-full max-w-[1536px] mx-auto px-8 lg:px-6 py-6">
+      <div className="relative z-10 flex-1 flex items-center justify-center max-w-[1536px] mx-auto w-full px-8 lg:px-6 py-6">
         <div className="flex flex-col lg:flex-row items-center justify-between w-full gap-16">
 
           {/* Left — text */}
           <motion.div
-            className="flex flex-col gap-6 max-w-[600px] lg:pl-[83px]"
+            className="flex flex-col gap-6 max-w-[600px] lg:pl-[83px] lg:-translate-y-8"
             variants={staggerContainer}
             initial="hidden"
             whileInView="visible"
@@ -101,16 +120,13 @@ export default function AboutMe() {
               variants={fadeInUp}
               className="font-[family-name:var(--font-libertinus)] text-xl text-black leading-relaxed text-shadow-heading"
             >
-              Mahasiswa teknik informatika yang ingin mencapai tujuan nya. Dia
-              tak ingin kalah dari kemalasannya. Ia ingin menjadi orang yang
-              berbeda dengan orang biasa. Menurutnya berbeda tersebut adalah
-              sebuah pencapaian baginya
+              I am a Computer Science undergraduate focused on turning original ideas into functional mobile applications, interactive web experiences, and automation workflows. I enjoy combining product thinking, interface design, and iterative implementation to explore new technologies and build practical digital products.
             </motion.p>
           </motion.div>
 
           {/* Right — card stack, clickable */}
           <motion.div
-            className="lg:mr-[260px]"
+            className="lg:mr-[260px] lg:-translate-y-6"
             initial={{ opacity: 0, x: 40 }}
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true, margin: '-100px' }}
@@ -119,7 +135,7 @@ export default function AboutMe() {
             {/* Container sized to fit all 3 card positions */}
             <div
               className="relative cursor-pointer select-none"
-              style={{ width: '288px', height: '385px' }}
+              style={{ width: '360px', height: '480px' }}
               onClick={cycle}
             >
               {[0, 1, 2].map((cardIdx) => {
@@ -141,8 +157,8 @@ export default function AboutMe() {
 
                 if (isSwingingToBack) {
                   // Swing card follows a continuous curved motion: left/top keyframes
-                  leftValue = [32, -190, 0]
-                  topValue = [0, 32, 64]
+                  leftValue = [40, -240, 0]
+                  topValue = [0, 40, 80]
                   scaleValue = [1.00, 0.95, 0.90]
                   customTimes = [0, 0.5, 1.0]
                 }
@@ -150,7 +166,7 @@ export default function AboutMe() {
                 return (
                   <motion.div
                     key={cardIdx}
-                    className="absolute w-56 h-80 rounded-[18px] border border-black/10 bg-white"
+                    className="absolute w-[280px] h-[400px] rounded-sm bg-white p-3 flex flex-col border border-gray-100"
                     animate={{
                       left: leftValue,
                       top: topValue,
@@ -164,18 +180,35 @@ export default function AboutMe() {
                     style={{
                       zIndex: cardZIndexes[cardIdx], // Controlled by delayed React state
                       boxShadow: isFront
-                        ? '0px 8px 24px rgba(0,0,0,0.08)'
-                        : '0px 4px 12px rgba(0,0,0,0.04)',
+                        ? '0px 10px 30px rgba(0,0,0,0.15)'
+                        : '0px 4px 12px rgba(0,0,0,0.05)',
                     }}
-                    whileHover={isFront ? { y: -6, boxShadow: '0px 12px 28px rgba(0,0,0,0.12)' } : undefined}
-                  />
+                    whileHover={isFront ? { y: -6, boxShadow: '0px 16px 40px rgba(0,0,0,0.2)' } : undefined}
+                  >
+                    <div className="relative w-full h-[325px] bg-gray-50 overflow-hidden">
+                      <Image
+                        src={ABOUT_CARDS[cardIdx].image}
+                        alt={ABOUT_CARDS[cardIdx].title}
+                        fill
+                        className="object-cover"
+                        sizes="(max-width: 768px) 100vw, 280px"
+                      />
+                    </div>
+                    <div className="flex-1 flex items-center justify-center pt-1">
+                      <h3 className="font-[family-name:var(--font-libertinus)] text-black font-semibold text-[19px] text-center leading-tight">
+                        {ABOUT_CARDS[cardIdx].title}
+                      </h3>
+                    </div>
+                  </motion.div>
                 )
               })}
             </div>
           </motion.div>
-
         </div>
       </div>
+
+      {/* Spacer to balance bottom centering */}
+      <div className="h-20 flex-shrink-0" />
     </section>
   )
 }

@@ -18,7 +18,7 @@ const SOCIALS = [
   {
     id: 'c-github',
     label: 'GitHub',
-    href: 'https://github.com/meyky',
+    href: 'https://github.com/ajmaaaa',
     icon: (
       <svg className="w-4 h-4 text-white/40 group-hover:text-white transition-colors duration-300" viewBox="0 0 24 24" fill="currentColor">
         <path d="M12 2A10 10 0 0 0 2 12c0 4.42 2.87 8.17 6.84 9.5.5.08.66-.23.66-.5v-1.69c-2.77.6-3.36-1.34-3.36-1.34-.46-1.16-1.11-1.47-1.11-1.47-.9-.62.07-.6.07-.6 1 .07 1.53 1.03 1.53 1.03.9 1.52 2.34 1.07 2.91.83.09-.65.35-1.09.63-1.34-2.22-.25-4.55-1.11-4.55-4.92 0-1.11.38-2 1.03-2.71-.1-.25-.45-1.29.1-2.64 0 0 .84-.27 2.75 1.02.79-.22 1.65-.33 2.5-.33.85 0 1.71.11 2.5.33 1.91-1.29 2.75-1.02 2.75-1.02.55 1.35.2 2.39.1 2.64.65.71 1.03 1.6 1.03 2.71 0 3.82-2.34 4.66-4.57 4.91.36.31.69.92.69 1.85V21c0 .27.16.59.67.5C19.14 20.16 22 16.42 22 12A10 10 0 0 0 12 2z"/>
@@ -28,7 +28,7 @@ const SOCIALS = [
   {
     id: 'c-linkedin',
     label: 'LinkedIn',
-    href: 'https://linkedin.com',
+    href: 'https://www.linkedin.com/in/meyky-ajmariadi-61802233b/',
     icon: (
       <svg className="w-4 h-4 text-white/40 group-hover:text-white transition-colors duration-300" viewBox="0 0 24 24" fill="currentColor">
         <path d="M19 3a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h14m-.5 15.5v-5.3a3.26 3.26 0 0 0-3.26-3.26c-.85 0-1.84.52-2.32 1.3v-1.11h-2.79v8.37h2.79v-4.93c0-.77.62-1.4 1.39-1.4a1.4 1.4 0 0 1 1.4 1.4v4.93h2.79M6.88 8.56a1.68 1.68 0 0 0 1.68-1.68c0-.93-.75-1.69-1.68-1.69a1.69 1.69 0 0 0-1.69 1.69c0 .93.76 1.68 1.69 1.68m1.39 9.94v-8.37H5.5v8.37h2.77z"/>
@@ -38,7 +38,7 @@ const SOCIALS = [
   {
     id: 'c-instagram',
     label: 'Instagram',
-    href: 'https://instagram.com/meyky.ajm',
+    href: 'https://www.instagram.com/ajmaaa._/',
     icon: (
       <svg className="w-4 h-4 text-white/40 group-hover:text-white transition-colors duration-300" viewBox="0 0 24 24" fill="currentColor">
         <path d="M7.8 2h8.4C19.4 2 22 4.6 22 7.8v8.4a5.8 5.8 0 0 1-5.8 5.8H7.8C4.6 22 2 19.4 2 16.2V7.8A5.8 5.8 0 0 1 7.8 2m-.2 2A3.6 3.6 0 0 0 4 7.6v8.8A3.6 3.6 0 0 0 7.6 20h8.8a3.6 3.6 0 0 0 3.6-3.6V7.6A3.6 3.6 0 0 0 16.4 4H7.6m9.65 1.5a1.25 1.25 0 1 1 0 2.5 1.25 1.25 0 0 1 0-2.5M12 7a5 5 0 0 1 5 5 5 5 0 0 1-5 5 5 5 0 0 1-5-5 5 5 0 0 1 5-5m0 2a3 3 0 0 0-3 3 3 3 0 0 0 3 3 3 3 0 0 0 3-3 3 3 0 0 0-3-3z"/>
@@ -78,7 +78,7 @@ export default function Contact() {
               viewport={{ once: true }}
               transition={{ duration: 0.7, delay: 0.2 }}
             >
-              Mahasiswa teknik informatika yang ingin mencapai tujuan nya. Dia tak ingin kalah dari kemalasannya. Terbuka untuk kolaborasi dan proyek baru.
+              An Informatics Engineering student passionate about creating innovative digital experiences. Always enthusiastic about learning new technologies, solving complex problems, and open to exciting collaborations.
             </motion.p>
 
             {/* Location & Timezone metadata — Brightened border-t (border-white/15) */}
@@ -91,7 +91,7 @@ export default function Contact() {
             >
               <div className="flex flex-col">
                 <span className="font-[family-name:var(--font-imfell)] text-[9px] tracking-[3px] uppercase text-white/20">LOCATION</span>
-                <span className="font-[family-name:var(--font-libertinus)] text-sm text-white/55 mt-0.5">Yogyakarta, ID</span>
+                <span className="font-[family-name:var(--font-libertinus)] text-sm text-white/55 mt-0.5">Tanjung Pinang, ID</span>
               </div>
               <div className="flex flex-col">
                 <span className="font-[family-name:var(--font-imfell)] text-[9px] tracking-[3px] uppercase text-white/20">TIMEZONE</span>
@@ -117,7 +117,9 @@ export default function Contact() {
               <div className="flex flex-col gap-4">
                 {/* Email Option with Envelope Icon */}
                 <a
-                  href="mailto:meyky@example.com"
+                  href="https://mail.google.com/mail/?view=cm&fs=1&to=ajmaaa.dev@gmail.com"
+                  target="_blank"
+                  rel="noopener noreferrer"
                   id="contact-email"
                   className="group flex items-center gap-3.5 self-start"
                 >
@@ -127,13 +129,13 @@ export default function Contact() {
                     </svg>
                   </span>
                   <span className="font-[family-name:var(--font-libertinus)] text-xl sm:text-2xl text-white/70 group-hover:text-white transition-colors duration-300 border-b border-transparent group-hover:border-white/30 pb-0.5 break-all">
-                    meyky@example.com
+                    ajmaaa.dev@gmail.com
                   </span>
                 </a>
 
                 {/* WhatsApp Option with Fixed Clean SVG Icon */}
                 <a
-                  href="https://wa.me/6281234567890"
+                  href="https://wa.me/6285117381344"
                   id="contact-whatsapp"
                   target="_blank"
                   rel="noopener noreferrer"
@@ -145,7 +147,7 @@ export default function Contact() {
                     </svg>
                   </span>
                   <span className="font-[family-name:var(--font-libertinus)] text-xl sm:text-2xl text-white/70 group-hover:text-white transition-colors duration-300 border-b border-transparent group-hover:border-white/30 pb-0.5">
-                    +62 812 3456 7890
+                    +62 851 1738 1344
                   </span>
                 </a>
               </div>

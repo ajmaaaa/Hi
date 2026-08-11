@@ -1,127 +1,122 @@
 'use client'
 
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { motion } from 'framer-motion'
 import SkillPill from '@/components/ui/SkillPill'
 
-/**
- * Desktop 5 Figma reference (1440×1024):
- * Enhanced TechStack card layout with editorial design hierarchy.
- */
+const ChevronIcon = ({ className }: { className?: string }) => (
+  <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+    <path d="m9 18 6-6-6-6" />
+  </svg>
+)
+
+const Logos = {
+  NextJs: 'https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/nextjs/nextjs-original.svg',
+  React: 'https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/react/react-original.svg',
+  Typescript: 'https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/typescript/typescript-original.svg',
+  Tailwind: 'https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/tailwindcss/tailwindcss-original.svg',
+  Node: 'https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/nodejs/nodejs-original.svg',
+  Postgres: 'https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/postgresql/postgresql-original.svg',
+  Docker: 'https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/docker/docker-original.svg',
+  Git: 'https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/git/git-original.svg',
+  Github: 'https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/github/github-original.svg',
+  Figma: 'https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/figma/figma-original.svg',
+  Canva: 'https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/canva/canva-original.svg',
+  Flutter: 'https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/flutter/flutter-original.svg',
+  Expo: 'https://cdn.simpleicons.org/expo/000020',
+  AndroidStudio: 'https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/androidstudio/androidstudio-original.svg',
+  Unity: 'https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/unity/unity-original.svg',
+  Python: 'https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/python/python-original.svg',
+  N8n: 'https://cdn.simpleicons.org/n8n/FF6D5A',
+  Obsidian: 'https://cdn.simpleicons.org/obsidian/483699',
+  Hermes: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQhTpaIGWxHnvMbfygiOtqbYivM-LykIvb5pMKdtmFy9w&s=10',
+  Openclaw: 'https://taalenta.id/wp-content/uploads/2026/05/openclaw-official-logo.png',
+  Arch: 'https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/archlinux/archlinux-original.svg',
+  Linux: 'https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/linux/linux-original.svg',
+  Debian: 'https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/debian/debian-original.svg',
+  Ubuntu: 'https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/ubuntu/ubuntu-original.svg',
+  Fedora: 'https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/fedora/fedora-original.svg',
+  Hyprland: 'https://cdn.jsdelivr.net/gh/homarr-labs/dashboard-icons/png/hyprland.png',
+  Swayfx: 'https://github.com/wlrfx/swayfx/raw/master/assets/swayfx_logo.svg'
+}
+
+const ImageUrls = {
+  WebDev: 'https://images.unsplash.com/photo-1555066931-4365d14bab8c?auto=format&fit=crop&q=80&w=600',
+  AppDev: 'https://images.unsplash.com/photo-1512941937669-90a1b58e7e9c?auto=format&fit=crop&q=80&w=600',
+  UiUx: 'https://images.unsplash.com/photo-1561070791-2526d30994b5?auto=format&fit=crop&q=80&w=600',
+  Automation: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQCr7MHWDr04mmkve0oUQ2Zn5G_5wyXgobEh8KgdkT5VA&s=10',
+  OsEnv: 'https://images.unsplash.com/photo-1629654297299-c8506221ca97?auto=format&fit=crop&q=80&w=600'
+}
 
 const TECH_CARDS = [
   {
-    id: 'tc-dev',
-    title: 'DEVELOPMENT',
-    subtitle: 'WEB & BACKEND',
+    id: 'tc-web',
+    title: 'WEB DEV',
+    subtitle: 'FRONTEND & BACKEND',
     skills: [
-      { label: 'NEXT.JS', icon: 'Nx' },
-      { label: 'REACT', icon: 'Re' },
-      { label: 'TYPESCRIPT', icon: 'TS' },
-      { label: 'TAILWIND', icon: 'TW' },
-      { label: 'NODE.JS', icon: 'No' },
-      { label: 'POSTGRES', icon: 'PG' },
+      { label: 'NEXT.JS', icon: Logos.NextJs },
+      { label: 'REACT', icon: Logos.React },
+      { label: 'TYPESCRIPT', icon: Logos.Typescript },
+      { label: 'TAILWIND', icon: Logos.Tailwind },
+      { label: 'NODE.JS', icon: Logos.Node },
+      { label: 'POSTGRES', icon: Logos.Postgres },
+      { label: 'DOCKER', icon: Logos.Docker },
+      { label: 'GIT', icon: Logos.Git },
+      { label: 'GITHUB', icon: Logos.Github },
     ],
-    illustration: (
-      <svg className="w-full h-full" viewBox="0 0 300 180" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <defs>
-          <linearGradient id="grad-dev" x1="0%" y1="0%" x2="100%" y2="100%">
-            <stop offset="0%" stopColor="#0d1117" />
-            <stop offset="100%" stopColor="#161b22" />
-          </linearGradient>
-          <linearGradient id="glow-dev" x1="0%" y1="0%" x2="100%" y2="0%">
-            <stop offset="0%" stopColor="#4f46e5" stopOpacity="0.8" />
-            <stop offset="50%" stopColor="#06b6d4" stopOpacity="0.8" />
-            <stop offset="100%" stopColor="#10b981" stopOpacity="0.8" />
-          </linearGradient>
-        </defs>
-        <rect width="300" height="180" fill="url(#grad-dev)" />
-        <path d="M 0,30 L 300,30 M 0,60 L 300,60 M 0,90 L 300,90 M 0,120 L 300,120 M 0,150 L 300,150" stroke="#30363d" strokeWidth="0.5" />
-        <path d="M 50,0 L 50,180 M 100,0 L 100,180 M 150,0 L 150,180 M 200,0 L 200,180 M 250,0 L 250,180" stroke="#30363d" strokeWidth="0.5" />
-        <path d="M -20,130 Q 60,70 150,110 T 320,50" stroke="url(#glow-dev)" strokeWidth="3" strokeLinecap="round" className="opacity-90" />
-        <path d="M -20,140 Q 60,80 150,120 T 320,60" stroke="url(#glow-dev)" strokeWidth="1" strokeLinecap="round" className="opacity-40" />
-        <g transform="translate(125, 65)">
-          <rect width="50" height="50" rx="12" fill="#1f2937" stroke="#374151" strokeWidth="1" />
-          <path d="M 18,20 L 12,25 L 18,30 M 32,20 L 38,25 L 32,30 M 27,17 L 23,33" stroke="#06b6d4" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" />
-        </g>
-      </svg>
-    )
+    illustration: <img src={ImageUrls.WebDev} alt="Web Development" className="w-full h-full object-cover" />
+  },
+  {
+    id: 'tc-uiux',
+    title: 'UI/UX DESIGN',
+    subtitle: 'PROTOTYPE & BRAND',
+    skills: [
+      { label: 'FIGMA', icon: Logos.Figma },
+      { label: 'CANVA', icon: Logos.Canva },
+    ],
+    illustration: <img src={ImageUrls.UiUx} alt="UI/UX Design" className="w-full h-full object-cover" />
+  },
+  {
+    id: 'tc-os',
+    title: 'OS & ENV',
+    subtitle: 'SYSTEM & TOOLS',
+    skills: [
+      { label: 'ARCH', icon: Logos.Arch },
+      { label: 'LINUX', icon: Logos.Linux },
+      { label: 'DEBIAN', icon: Logos.Debian },
+      { label: 'UBUNTU', icon: Logos.Ubuntu },
+      { label: 'FEDORA', icon: Logos.Fedora },
+      { label: 'HYPRLAND', icon: Logos.Hyprland },
+      { label: 'SWAYFX', icon: Logos.Swayfx },
+    ],
+    illustration: <img src={ImageUrls.OsEnv} alt="OS and Environment" className="w-full h-full object-cover" />
   },
   {
     id: 'tc-auto',
     title: 'AUTOMATION',
-    subtitle: 'WORKFLOW & API',
+    subtitle: 'WORKFLOWS',
     skills: [
-      { label: 'N8N', icon: 'N8' },
-      { label: 'PYTHON', icon: 'Py' },
-      { label: 'WEBHOOKS', icon: 'Wh' },
-      { label: 'REST API', icon: 'API' },
-      { label: 'DOCKER', icon: 'Dk' },
-      { label: 'GIT', icon: 'Git' },
+      { label: 'N8N', icon: Logos.N8n },
+      { label: 'PYTHON', icon: Logos.Python },
+      { label: 'HERMES', icon: Logos.Hermes },
+      { label: 'OPENCLAW', icon: Logos.Openclaw },
+      { label: 'OBSIDIAN', icon: Logos.Obsidian },
     ],
-    illustration: (
-      <svg className="w-full h-full" viewBox="0 0 300 180" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <defs>
-          <linearGradient id="grad-auto" x1="0%" y1="0%" x2="100%" y2="100%">
-            <stop offset="0%" stopColor="#0b0f19" />
-            <stop offset="100%" stopColor="#111827" />
-          </linearGradient>
-          <linearGradient id="glow-auto" x1="0%" y1="0%" x2="100%" y2="100%">
-            <stop offset="0%" stopColor="#f59e0b" stopOpacity="0.8" />
-            <stop offset="100%" stopColor="#ef4444" stopOpacity="0.8" />
-          </linearGradient>
-        </defs>
-        <rect width="300" height="180" fill="url(#grad-auto)" />
-        <circle cx="50" cy="90" r="30" stroke="#1f2937" strokeWidth="1" />
-        <circle cx="250" cy="90" r="30" stroke="#1f2937" strokeWidth="1" />
-        <path d="M 50,90 C 100,40 200,140 250,90" stroke="#374151" strokeWidth="1.5" strokeDasharray="4 4" />
-        <path d="M 50,90 C 100,140 200,40 250,90" stroke="url(#glow-auto)" strokeWidth="2.5" strokeLinecap="round" />
-        <g transform="translate(125, 65)">
-          <rect width="50" height="50" rx="12" fill="#1f2937" stroke="#374151" strokeWidth="1" />
-          <path d="M 27,15 L 18,27 L 25,27 L 23,35 L 32,23 L 25,23 Z" fill="url(#glow-auto)" stroke="#f59e0b" strokeWidth="1" strokeLinejoin="round" />
-        </g>
-      </svg>
-    )
+    illustration: <img src={ImageUrls.Automation} alt="Automation" className="w-full h-full object-cover" />
   },
   {
-    id: 'tc-design',
-    title: 'UI/UX DESIGN',
-    subtitle: 'PROTOTYPE & BRAND',
+    id: 'tc-app',
+    title: 'APP DEV',
+    subtitle: 'MOBILE PLATFORMS',
     skills: [
-      { label: 'FIGMA', icon: 'Fg' },
-      { label: 'CANVA', icon: 'Cn' },
-      { label: 'PHOTOSHOP', icon: 'Ps' },
-      { label: 'WIREFRAME', icon: 'Wf' },
-      { label: 'PROTOTYPE', icon: 'Pr' },
-      { label: 'SYSTEMS', icon: 'Sys' },
+      { label: 'REACT NATIVE', icon: Logos.React },
+      { label: 'FLUTTER', icon: Logos.Flutter },
+      { label: 'EXPO', icon: Logos.Expo },
+      { label: 'ANDROID', icon: Logos.AndroidStudio },
+      { label: 'UNITY', icon: Logos.Unity },
     ],
-    illustration: (
-      <svg className="w-full h-full" viewBox="0 0 300 180" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <defs>
-          <linearGradient id="grad-design" x1="0%" y1="0%" x2="100%" y2="100%">
-            <stop offset="0%" stopColor="#0f0b15" />
-            <stop offset="100%" stopColor="#1e1b4b" />
-          </linearGradient>
-          <linearGradient id="glow-design" x1="0%" y1="0%" x2="100%" y2="0%">
-            <stop offset="0%" stopColor="#ec4899" stopOpacity="0.75" />
-            <stop offset="100%" stopColor="#8b5cf6" stopOpacity="0.75" />
-          </linearGradient>
-        </defs>
-        <rect width="300" height="180" fill="url(#grad-design)" />
-        <circle cx="110" cy="90" r="45" fill="url(#glow-design)" className="opacity-20" />
-        <circle cx="190" cy="90" r="45" fill="#8b5cf6" className="opacity-15" />
-        <path d="M 60,130 L 240,50" stroke="#312e81" strokeWidth="1" />
-        <path d="M 60,50 L 240,130" stroke="#312e81" strokeWidth="1" />
-        <g transform="translate(125, 65)">
-          <rect width="50" height="50" rx="12" fill="#1f2937" stroke="#374151" strokeWidth="1" />
-          <path d="M 25,14 C 18.9,14 14,18.9 14,25 C 14,31.1 18.9,36 25,36 C 26.4,36 27.5,34.9 27.5,33.5 C 27.5,32.8 27.2,32.2 26.8,31.7 C 26.3,31.2 26,30.5 26,29.8 C 26,28.4 27.1,27.3 28.5,27.3 H 30.5 C 33.5,27.3 36,24.8 36,21.8 C 36,17.5 31.1,14 25,14 Z" fill="none" stroke="#ec4899" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
-          <circle cx="20.5" cy="20.5" r="2" fill="#8b5cf6" />
-          <circle cx="29.5" cy="20.5" r="2" fill="#ec4899" />
-          <circle cx="20.5" cy="29.5" r="2" fill="#10b981" />
-        </g>
-      </svg>
-    )
-  },
+    illustration: <img src={ImageUrls.AppDev} alt="App Development" className="w-full h-full object-cover" />
+  }
 ]
 
 // Slot geometry derived from Figma
@@ -141,56 +136,72 @@ interface CardSlot {
   rotate: number
 }
 
-function getSlot(position: 'left' | 'center' | 'right'): CardSlot {
+function getSlot(position: 'left' | 'center' | 'right' | 'hidden', compact: boolean): CardSlot {
+  if (compact) {
+    switch (position) {
+      case 'center':
+        return { x: 0, width: 260, height: 430, scale: 1, zIndex: 30, opacity: 1, rotate: 0 }
+      case 'left':
+        return { x: -230, width: 180, height: 340, scale: 0.9, zIndex: 10, opacity: 0, rotate: 0 }
+      case 'right':
+        return { x: 230, width: 180, height: 340, scale: 0.9, zIndex: 10, opacity: 0, rotate: 0 }
+      case 'hidden':
+        return { x: 0, width: 180, height: 340, scale: 0.8, zIndex: 0, opacity: 0, rotate: 0 }
+    }
+  }
+
   switch (position) {
     case 'center':
       return { x: 0, width: CENTER_W, height: CENTER_H, scale: 1, zIndex: 30, opacity: 1, rotate: 0 }
     case 'left':
-      return { x: -SIDE_OFFSET_X, width: SIDE_W, height: SIDE_H, scale: 1, zIndex: 10, opacity: 1.00, rotate: 0 }
+      return { x: -SIDE_OFFSET_X, width: SIDE_W, height: SIDE_H, scale: 1, zIndex: 10, opacity: 1, rotate: 0 }
     case 'right':
-      return { x: SIDE_OFFSET_X, width: SIDE_W, height: SIDE_H, scale: 1, zIndex: 10, opacity: 1.00, rotate: 0 }
+      return { x: SIDE_OFFSET_X, width: SIDE_W, height: SIDE_H, scale: 1, zIndex: 10, opacity: 1, rotate: 0 }
+    case 'hidden':
+      return { x: 0, width: SIDE_W, height: SIDE_H, scale: 0.8, zIndex: 0, opacity: 0, rotate: 0 }
   }
 }
 
-// Initial order: DEVELOPMENT=left, AUTOMATION=center, DESIGN=right
-const INITIAL_ORDER = [0, 1, 2]
-
 export default function TechStack() {
-  const [order, setOrder] = useState(INITIAL_ORDER)
+  const [activeIndex, setActiveIndex] = useState(3) // Start with AUTOMATION (index 3) in center
   const [isAnimating, setIsAnimating] = useState(false)
+  const [compact, setCompact] = useState(false)
+  const n = TECH_CARDS.length
 
-  // Trigger left slide click
+  useEffect(() => {
+    const updateLayout = () => setCompact(window.innerWidth < 640)
+    updateLayout()
+    window.addEventListener('resize', updateLayout)
+    return () => window.removeEventListener('resize', updateLayout)
+  }, [])
+
   function clickLeft() {
     if (isAnimating) return
     setIsAnimating(true)
-    setOrder((prev) => [prev[2], prev[0], prev[1]])
-    
-    // Unlock clicks after the spring animation settles (approx 500ms)
-    setTimeout(() => {
-      setIsAnimating(false)
-    }, 500)
+    setActiveIndex((prev) => (prev - 1 + n) % n)
+    setTimeout(() => setIsAnimating(false), 500)
   }
 
-  // Trigger right slide click
   function clickRight() {
     if (isAnimating) return
     setIsAnimating(true)
-    setOrder((prev) => [prev[1], prev[2], prev[0]])
-    
-    setTimeout(() => {
-      setIsAnimating(false)
-    }, 500)
+    setActiveIndex((prev) => (prev + 1) % n)
+    setTimeout(() => setIsAnimating(false), 500)
   }
 
-  const positions: Array<'left' | 'center' | 'right'> = ['left', 'center', 'right']
+  function getPosition(cardIdx: number): 'left' | 'center' | 'right' | 'hidden' {
+    if (cardIdx === activeIndex) return 'center'
+    if (cardIdx === (activeIndex - 1 + n) % n) return 'left'
+    if (cardIdx === (activeIndex + 1) % n) return 'right'
+    return 'hidden'
+  }
 
   return (
     <section
       id="techstack"
-      className="relative z-10 min-h-screen flex flex-col justify-center items-center bg-white py-0 overflow-hidden"
+      className="relative z-30 min-h-screen flex flex-col justify-center items-center bg-transparent py-0 overflow-hidden"
     >
-      {/* Main container - centered vertically in the viewport */}
-      <div className="relative z-10 w-full max-w-[1536px] mx-auto px-8 lg:px-6 py-6 flex flex-col items-center justify-center">
+      <div className="relative z-30 w-full max-w-[1536px] mx-auto px-8 lg:px-6 py-6 flex flex-col items-center justify-center">
         <motion.h2
           className="font-[family-name:var(--font-fredericka)] text-4xl tracking-[8px] text-shadow-heading uppercase text-center mb-10"
           initial={{ opacity: 0, y: 20 }}
@@ -201,29 +212,53 @@ export default function TechStack() {
           TECH STACK
         </motion.h2>
 
-        {/* Card stage — overflow-hidden removed to prevent card shadows from getting clipped at bottom/sides */}
         <div
           className="relative flex items-center justify-center w-full"
-          style={{ height: `${CENTER_H + 40}px` }}
+          style={{ height: `${compact ? 470 : CENTER_H + 40}px` }}
         >
+          <motion.button
+            type="button"
+            aria-label="Previous tech stack"
+            className="absolute left-1 top-1/2 z-40 flex h-10 w-10 -translate-y-1/2 items-center justify-center rounded-full border border-black/10 bg-white text-black/80 shadow-[0_10px_30px_rgba(0,0,0,0.16)] transition-colors hover:text-black sm:left-3 lg:left-[calc(50%_-_620px)] lg:h-14 lg:w-14"
+            onClick={clickLeft}
+            whileHover={{ x: -4 }}
+            whileTap={{ scale: 0.92 }}
+          >
+            <ChevronIcon className="h-5 w-5 rotate-180 stroke-[2.5] lg:h-7 lg:w-7" />
+          </motion.button>
+
+          <motion.button
+            type="button"
+            aria-label="Next tech stack"
+            className="absolute right-1 top-1/2 z-40 flex h-10 w-10 -translate-y-1/2 items-center justify-center rounded-full border border-black/10 bg-white text-black/80 shadow-[0_10px_30px_rgba(0,0,0,0.16)] transition-colors hover:text-black sm:right-3 lg:right-[calc(50%_-_620px)] lg:h-14 lg:w-14"
+            onClick={clickRight}
+            whileHover={{ x: 4 }}
+            whileTap={{ scale: 0.92 }}
+          >
+            <ChevronIcon className="h-5 w-5 stroke-[2.5] lg:h-7 lg:w-7" />
+          </motion.button>
+
           {TECH_CARDS.map((card, cardIdx) => {
-            const posIdx = order.indexOf(cardIdx)
-            const pos = positions[posIdx]
-            const slot = getSlot(pos)
+            const pos = getPosition(cardIdx)
+            const slot = getSlot(pos, compact)
             const isCenter = pos === 'center'
+            const isHidden = pos === 'hidden'
+            const isCompactSide = compact && !isCenter
 
             return (
               <motion.div
                 key={card.id}
                 className={[
-                  'absolute rounded-[18px] border border-black/10 bg-white flex flex-col items-center p-6 select-none overflow-hidden transition-shadow duration-300',
-                  !isCenter ? 'cursor-pointer hover:border-black/20' : '',
+                  'absolute rounded-[18px] border border-black/10 bg-white flex flex-col items-center p-6 overflow-hidden transition-shadow duration-300',
+                  !isCenter && !isHidden ? 'cursor-pointer hover:border-black/20' : '',
+                  isHidden || isCompactSide ? 'pointer-events-none' : ''
                 ].join(' ')}
                 style={{
-                  // Ultra-clean minimal shadows: tight vertical Y-offset and low opacity for sleek premium UI
                   boxShadow: isCenter
                     ? '0px 8px 24px rgba(0, 0, 0, 0.08)'
-                    : '0px 4px 12px rgba(0, 0, 0, 0.04)',
+                    : isHidden || isCompactSide
+                      ? 'none' 
+                      : '0px 4px 12px rgba(0, 0, 0, 0.04)',
                 }}
                 animate={{
                   x: slot.x,
@@ -231,6 +266,7 @@ export default function TechStack() {
                   height: slot.height,
                   zIndex: slot.zIndex,
                   opacity: slot.opacity,
+                  scale: slot.scale,
                   rotate: slot.rotate,
                 }}
                 transition={{ type: 'spring', stiffness: 220, damping: 24 }}
@@ -239,33 +275,32 @@ export default function TechStack() {
                   else if (pos === 'right') clickRight()
                 }}
               >
-                {/* 1. Header Area — Structured and clean */}
+                {/* 1. Header Area */}
                 <div className="flex flex-col items-center gap-1.5 w-full text-center mb-1 flex-shrink-0">
                   <span className="font-[family-name:var(--font-imfell)] text-[10px] tracking-[4.5px] uppercase text-black/35 font-medium">
                     {card.subtitle}
                   </span>
-                  {/* Fixed faux bold and text shadow: use font-normal and remove text-shadow-heading to keep original sketch transparency */}
                   <h3 className="font-[family-name:var(--font-fredericka)] text-xl lg:text-2xl tracking-[3px] uppercase text-black/80 font-normal">
                     {card.title}
                   </h3>
                 </div>
 
-                {/* 2. Visual Illustration Box */}
+                {/* 2. Visual Illustration Box - using Unsplash images */}
                 <div
-                  className="w-full rounded-[10px] bg-zinc-950 flex flex-col items-center justify-center relative overflow-hidden border border-black/15 shadow-inner flex-1 my-3"
-                  style={{ minHeight: '110px' }}
+                  className="w-full rounded-[10px] bg-zinc-100 flex flex-col items-center justify-center relative overflow-hidden border border-black/15 shadow-inner flex-1 my-3 flex-shrink-0"
+                  style={{ minHeight: '170px' }}
                 >
                   {card.illustration}
                 </div>
 
-                {/* 3. Footer Tools Area */}
-                <div className="w-full flex flex-col items-center mt-1 pt-3 border-t border-zinc-100 flex-shrink-0">
-                  <span className="font-[family-name:var(--font-imfell)] text-[9px] tracking-[3px] text-zinc-400 uppercase font-semibold mb-3 self-start pl-1">
+                {/* 3. Footer Tools Area - With custom scrollbar */}
+                <div className="w-full flex flex-col items-center mt-1 pt-3 border-t border-zinc-100 flex-1 overflow-hidden">
+                  <span className="font-[family-name:var(--font-imfell)] text-[9px] tracking-[3px] text-zinc-400 uppercase font-semibold mb-3 self-start pl-1 flex-shrink-0">
                     TOOLS & SKILLS
                   </span>
                   
-                  {/* Skill Pills Grid */}
-                  <div className={`grid grid-cols-3 w-full ${isCenter ? 'gap-x-4 gap-y-3' : 'gap-x-2 gap-y-2'}`}>
+                  {/* Skill Pills Grid - Scrollable Container */}
+                  <div className={`grid grid-cols-3 w-full overflow-y-auto custom-scrollbar pr-1 pb-2 ${isCenter ? 'gap-x-4 gap-y-3' : 'gap-x-2 gap-y-2'}`} style={{ maxHeight: '180px' }}>
                     {card.skills.map((skill, i) => (
                       <SkillPill
                         key={i}

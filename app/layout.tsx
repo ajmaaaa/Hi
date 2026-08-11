@@ -2,13 +2,13 @@ import type { Metadata } from 'next'
 import './globals.css'
 
 export const metadata: Metadata = {
-  title: 'Meyky Ajmariadi - Portfolio',
+  title: 'Meyky Ajmariadi - Digital Product Builder',
   description:
-    'Portfolio personal Meyky Ajmariadi, Mahasiswa teknik informatika yang ingin mencapai tujuan nya.',
-  keywords: ['portfolio', 'meyky ajmariadi', 'teknik informatika', 'design', 'automation'],
+    'Portfolio of Meyky Ajmariadi, a Computer Science undergraduate building mobile applications, interactive web experiences, and automation workflows.',
+  keywords: ['portfolio', 'Meyky Ajmariadi', 'digital product builder', 'mobile development', 'web development', 'product prototyping', 'automation'],
   openGraph: {
-    title: 'Meyky Ajmariadi - Portfolio',
-    description: 'Mahasiswa teknik informatika yang ingin mencapai tujuan nya.',
+    title: 'Meyky Ajmariadi - Digital Product Builder',
+    description: 'Mobile applications, interactive web experiences, and automation workflows built from original ideas.',
     type: 'website',
   },
 }
@@ -19,7 +19,7 @@ export default function RootLayout({
   children: React.ReactNode
 }) {
   return (
-    <html lang="id">
+    <html lang="en">
       <head>
         {/* Google Fonts — loaded at runtime, no build-time network call */}
         <link rel="preconnect" href="https://fonts.googleapis.com" />

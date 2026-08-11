@@ -12,6 +12,8 @@ export default function Object3DViewer() {
 
   const activeFrameRef = useRef<number>(0)
   const targetFrameRef = useRef<number>(0)
+  const isDraggingRef = useRef(false)
+  const hasManualInteractionRef = useRef(false)
   const dragStartXRef = useRef<number>(0)
   const dragStartFrameRef = useRef<number>(0)
   const containerRef = useRef<HTMLDivElement>(null)
@@ -105,9 +107,36 @@ export default function Object3DViewer() {
     return () => window.removeEventListener('resize', handleResize)
   }, [drawFrame])
 
+  // Rotate through the frame sequence while scrolling from Hero to the end of About Me.
+  useEffect(() => {
+    const updateFromScroll = () => {
+      if (isDraggingRef.current || hasManualInteractionRef.current || !isLoaded) return
+
+      const hero = document.getElementById('hero')
+      const about = document.getElementById('about')
+      if (!hero || !about) return
+
+      const start = hero.offsetTop
+      const fullRangeEnd = about.offsetTop + about.offsetHeight
+      const end = start + (fullRangeEnd - start) / 5
+      const progress = Math.max(0, Math.min(1, (window.scrollY - start) / Math.max(1, end - start)))
+      updateFrameRAF(Math.round(progress * (TOTAL_FRAMES - 1)))
+    }
+
+    updateFromScroll()
+    window.addEventListener('scroll', updateFromScroll, { passive: true })
+    window.addEventListener('resize', updateFromScroll)
+    return () => {
+      window.removeEventListener('scroll', updateFromScroll)
+      window.removeEventListener('resize', updateFromScroll)
+    }
+  }, [isLoaded, updateFrameRAF])
+
   // Drag handlers
   const handlePointerDown = useCallback(
     (e: React.PointerEvent<HTMLDivElement>) => {
+      isDraggingRef.current = true
+      hasManualInteractionRef.current = true
       setIsDragging(true)
       dragStartXRef.current = e.clientX
       dragStartFrameRef.current = activeFrameRef.current
@@ -134,6 +163,7 @@ export default function Object3DViewer() {
 
   const handlePointerUp = useCallback(
     (e: React.PointerEvent<HTMLDivElement>) => {
+      isDraggingRef.current = false
       if (isDragging) {
         setIsDragging(false)
         if (containerRef.current) {
@@ -151,7 +181,7 @@ export default function Object3DViewer() {
   return (
     <div
       ref={containerRef}
-      className={`relative w-full max-w-[1020px] h-[580px] sm:h-[700px] lg:h-[820px] flex items-center justify-center select-none touch-none ${
+      className={`relative h-[360px] w-full max-w-[1020px] sm:h-[520px] lg:h-[820px] flex items-center justify-center select-none touch-none ${
         isDragging ? 'cursor-grabbing' : 'cursor-grab'
       }`}
       onPointerDown={handlePointerDown}

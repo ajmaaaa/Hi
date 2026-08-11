@@ -8,9 +8,10 @@ interface ButtonProps {
   children: React.ReactNode
   onClick?: () => void
   href?: string
+  className?: string
 }
 
-export default function Button({ variant = 'solid', id, children, onClick, href }: ButtonProps) {
+export default function Button({ variant = 'solid', id, children, onClick, href, className = '' }: ButtonProps) {
   const base =
     'inline-flex items-center justify-center font-[family-name:var(--font-libertinus)] text-base tracking-wide rounded-lg transition-all duration-200 select-none cursor-pointer'
   const styles = {
@@ -26,7 +27,7 @@ export default function Button({ variant = 'solid', id, children, onClick, href 
         href={href}
         target={isExternal ? '_blank' : undefined}
         rel={isExternal ? 'noopener noreferrer' : undefined}
-        className={`${base} ${styles[variant]} px-7 py-3`}
+        className={`${base} ${styles[variant]} px-7 py-3 ${className}`}
         whileHover={{ y: -2 }}
         whileTap={{ scale: 0.97 }}
       >
@@ -39,7 +40,7 @@ export default function Button({ variant = 'solid', id, children, onClick, href 
     <motion.button
       id={id}
       onClick={onClick}
-      className={`${base} ${styles[variant]} px-7 py-3`}
+      className={`${base} ${styles[variant]} px-7 py-3 ${className}`}
       whileHover={{ y: -2 }}
       whileTap={{ scale: 0.97 }}
     >

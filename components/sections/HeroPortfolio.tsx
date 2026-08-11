@@ -46,11 +46,11 @@ export default function HeroPortfolio() {
   return (
     <section
       id="hero"
-      className="relative min-h-screen flex flex-col justify-center items-center overflow-hidden bg-white py-0"
+      className="relative min-h-screen flex flex-col justify-center items-center overflow-hidden bg-white pb-10 pt-24 lg:py-0"
     >
       {/* Main content - centered vertically in viewport */}
-      <div className="relative z-10 w-full max-w-[1536px] mx-auto px-8 lg:px-6 py-6">
-        <div className="flex flex-col lg:flex-row items-center justify-between w-full gap-12 lg:gap-0">
+      <div className="relative z-10 w-full max-w-[1536px] mx-auto px-4 sm:px-8 lg:px-6 py-6">
+        <div className="flex flex-col lg:flex-row items-center justify-between w-full gap-4 lg:gap-0">
 
           {/* Left — text (Shifted slightly inward to align precisely under the center of the 'Y' in MEYKY logo) */}
           <motion.div
@@ -61,20 +61,20 @@ export default function HeroPortfolio() {
           >
             <motion.span
               variants={fadeInUp}
-              className="font-[family-name:var(--font-fredericka)] text-2xl tracking-[8px] text-shadow-heading uppercase"
+              className="font-[family-name:var(--font-fredericka)] text-lg tracking-[5px] text-shadow-heading uppercase sm:text-2xl sm:tracking-[8px]"
             >
               HI, I AM MEYKY
             </motion.span>
 
             <motion.h1
               variants={fadeInUp}
-              className="font-[family-name:var(--font-fredericka)] text-5xl lg:text-6xl leading-tight tracking-[6px] text-shadow-heading uppercase"
+              className="font-[family-name:var(--font-fredericka)] text-4xl sm:text-5xl lg:text-6xl leading-tight tracking-[4px] sm:tracking-[6px] text-shadow-heading uppercase"
             >
-              CREATIVE<br />DEVELOPER
+              DIGITAL PRODUCT<br />BUILDER
             </motion.h1>
 
             <motion.div variants={fadeInUp} className="flex gap-4 flex-wrap">
-              <Button variant="solid" id="btn-hire-me">Hire Me</Button>
+              <Button variant="solid" id="btn-hire-me" href="https://mail.google.com/mail/?view=cm&fs=1&to=ajmaaa.dev@gmail.com">Hire Me</Button>
               <Button variant="outline" id="btn-download-cv" href="/cv.pdf">Download CV</Button>
             </motion.div>
           </motion.div>
