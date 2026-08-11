@@ -6,9 +6,6 @@ import TechStack from '@/components/sections/TechStack'
 // import Certifications from '@/components/sections/Certifications' // TODO: aktifkan kembali saat section ini siap digunakan
 import Contact from '@/components/sections/Contact'
 
-// Force dynamic rendering — prevents static generation crash from client-only hooks
-export const dynamic = 'force-dynamic'
-
 export default function Home() {
   return (
     <main>
