@@ -136,8 +136,19 @@ function MobileProjectCard({ project }: { project: ProjectItem }) {
                 <span key={tag} className="rounded-full border border-indigo-200 bg-white/70 px-3 py-1 text-[10px] uppercase tracking-[2px] text-indigo-800">{tag}</span>
               ))}
             </div>
-            <div className="mt-5 rounded-2xl border border-indigo-200 bg-white/80 px-4 py-3 text-center font-[family-name:var(--font-imfell)] text-xs font-semibold uppercase tracking-[2px] text-indigo-800">
-              Coming soon on Google Play in the next few days
+            <div className="mt-5 flex flex-col gap-2" onClick={(e) => e.stopPropagation()}>
+              {project.web && (
+                <a href={project.web} target="_blank" rel="noopener noreferrer">
+                  <button className="w-full rounded-2xl border border-indigo-300 bg-white px-4 py-3 font-[family-name:var(--font-imfell)] text-[11px] font-semibold uppercase tracking-[2px] text-indigo-700 shadow-sm transition-colors hover:bg-indigo-50">
+                    Visit Website
+                  </button>
+                </a>
+              )}
+              {project.download && (
+                <button disabled className="w-full cursor-not-allowed rounded-2xl bg-indigo-600/70 px-4 py-3 font-[family-name:var(--font-imfell)] text-[11px] font-semibold uppercase tracking-[2px] text-white shadow-sm">
+                  Coming in ~20 Days
+                </button>
+              )}
             </div>
           </div>
         ) : project.isNalara ? (
@@ -417,8 +428,19 @@ function ProjectCards() {
                     ))}
                   </div>
 
-                  <div className="mt-2 rounded-full border border-indigo-200 bg-white/75 px-6 py-3 text-center font-[family-name:var(--font-imfell)] text-[12px] font-semibold uppercase tracking-[3px] text-indigo-800">
-                    Coming soon on Google Play in the next few days
+                  <div className="mt-2 flex gap-4" onClick={(e) => e.stopPropagation()}>
+                    {proj.web && (
+                      <a href={proj.web} target="_blank" rel="noopener noreferrer">
+                        <button className="rounded-full border border-indigo-300 bg-white px-8 py-3 font-[family-name:var(--font-imfell)] text-xs font-semibold uppercase tracking-widest text-indigo-700 shadow-sm transition-colors hover:bg-indigo-50">
+                          Visit Website
+                        </button>
+                      </a>
+                    )}
+                    {proj.download && (
+                      <button disabled className="cursor-not-allowed rounded-full bg-indigo-600/70 px-8 py-3 font-[family-name:var(--font-imfell)] text-xs font-semibold uppercase tracking-widest text-white shadow-sm">
+                        Coming in ~20 Days
+                      </button>
+                    )}
                   </div>
                 </div>
 
